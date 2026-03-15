@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrive Lights Partner Progress Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #5fad56;
+            --primary-dark: #4a8b43;
+            --secondary: #ffc000;
+            --accent: #2B9EB3;
+            --danger: #d7252c;
+            --bg: #fafbfc;
+            --surface: #ffffff;
+            --border: #e1e8ed;
+            --text: #1a1f36;
+            --text-light: #697386;
+            --shadow: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #5fad56 0%, #7bc96f 100%);
+            color: white;
+            padding: 48px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 42px;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+        
+        .header p {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: -40px auto 40px;
+            padding: 0 32px;
+        }
+        
+        .partner-info-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 32px;
+            border: 1px solid var(--border);
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-group label {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .input-group input {
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(95, 173, 86, 0.1);
+        }
+        
+        .data-entry-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 32px;
+            border: 1px solid var(--border);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .section-icon {
+            font-size: 28px;
+        }
+        
+        .section-header h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 28px;
+            font-weight: 400;
+            color: var(--text);
+        }
+        
+        .timepoint-entry {
+            background: #f8faf9;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .timepoint-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .timepoint-label {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text);
+        }
+        
+        .remove-btn {
+            background: transparent;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 20px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .remove-btn:hover {
+            background: rgba(215, 37, 44, 0.1);
+        }
+        
+        .score-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .score-input {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .score-input label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+        
+        .score-input input {
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        .score-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .add-timepoint-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .add-timepoint-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(95, 173, 86, 0.3);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+        
+        .btn {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #5fad56 0%, #7bc96f 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(95, 173, 86, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(95, 173, 86, 0.05);
+        }
+        
+        .dashboard {
+            display: none;
+        }
+        
+        .dashboard.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .metric-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .metric-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .metric-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        
+        .metric-change {
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .metric-change.positive {
+            color: var(--primary);
+        }
+        
+        .metric-change.negative {
+            color: var(--danger);
+        }
+        
+        .metric-change.neutral {
+            color: var(--text-light);
+        }
+        
+        .chart-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+        
+        .chart-header {
+            margin-bottom: 24px;
+        }
+        
+        .chart-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        
+        .chart-subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        canvas {
+            max-width: 100%;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .comparison-item {
+            background: #f8faf9;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid var(--border);
+        }
+        
+        .comparison-dimension {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        
+        .comparison-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .comparison-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .comparison-bar-label {
+            font-size: 11px;
+            color: var(--text-light);
+            width: 60px;
+            flex-shrink: 0;
+        }
+        
+        .comparison-bar-container {
+            flex: 1;
+            height: 24px;
+            background: #e8ebe9;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .comparison-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, #7bc96f 100%);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 6px;
+        }
+        
+        .comparison-bar-value {
+            font-size: 11px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .traffic-light-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .traffic-light-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .traffic-light {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .traffic-light.green {
+            background: var(--primary);
+        }
+        
+        .traffic-light.yellow {
+            background: var(--secondary);
+        }
+        
+        .traffic-light.red {
+            background: var(--danger);
+        }
+        
+        .traffic-light.gray {
+            background: #d1d5db;
+        }
+        
+        .traffic-light-label {
+            font-size: 13px;
+            color: var(--text);
+        }
+        
+        .narrative-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 1px solid #bae6fd;
+        }
+        
+        .narrative-section h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 24px;
+            font-weight: 400;
+            color: #0c4a6e;
+            margin-bottom: 16px;
+        }
+        
+        .narrative-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #0c4a6e;
+        }
+        
+        .narrative-content p {
+            margin-bottom: 12px;
+        }
+        
+        .narrative-content strong {
+            font-weight: 600;
+        }
+        
+        @media print {
+            body { background: white; }
+            .header { background: var(--primary); }
+            .action-buttons, .data-entry-section { display: none !important; }
+            .dashboard { display: block !important; }
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .header { padding: 32px 16px; }
+            .header h1 { font-size: 32px; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .chart-container { height: 250px; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>Partner Progress Dashboard</h1>
+            <p>Track your Thrive Lights implementation journey over time</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Partner Information -->
+        <div class="partner-info-card">
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="partnerName">Organization Name</label>
+                    <input type="text" id="partnerName" placeholder="Enter organization name">
+                </div>
+                <div class="input-group">
+                    <label for="startDate">Implementation Start Date</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="input-group">
+                    <label for="preparedBy">Dashboard Prepared By</label>
+                    <input type="text" id="preparedBy" placeholder="Your name">
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Entry Section -->
+        <div class="data-entry-section">
+            <div class="section-header">
+                <span class="section-icon">📊</span>
+                <h2>Enter Assessment Scores Over Time</h2>
+            </div>
+            
+            <div id="timepointsContainer"></div>
+            
+            <button class="add-timepoint-btn" onclick="addTimepoint()">
+                <span>+</span> Add Another Assessment
+            </button>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="generateDashboard()">Generate Dashboard</button>
+                <button class="btn btn-secondary" onclick="resetForm()">Reset All Data</button>
+            </div>
+        </div>
+
+        <!-- Dashboard Results -->
+        <div class="dashboard" id="dashboardResults">
+            <!-- Summary Metrics -->
+            <div class="dashboard-grid" id="metricsGrid"></div>
+            
+            <!-- Progress Over Time Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Implementation Progress Over Time</div>
+                    <div class="chart-subtitle">Track how your scores have changed across all dimensions</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Baseline vs Current Comparison -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Baseline vs. Current State</div>
+                    <div class="chart-subtitle">See how far you've come</div>
+                </div>
+                <div class="comparison-grid" id="comparisonGrid"></div>
+            </div>
+            
+            <!-- Dimension Breakdown -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Current Dimension Scores</div>
+                    <div class="chart-subtitle">Where you stand today</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="dimensionChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Traffic Light Status -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Implementation Health Status</div>
+                    <div class="chart-subtitle">Based on most recent assessment</div>
+                </div>
+                <div class="traffic-light-grid" id="trafficLightGrid"></div>
+            </div>
+            
+            <!-- Narrative Summary -->
+            <div class="narrative-section">
+                <h3>Your Implementation Story</h3>
+                <div class="narrative-content" id="narrativeContent"></div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="window.print()">Export Dashboard as PDF</button>
+                <button class="btn btn-secondary" onclick="saveData()">Save Progress to Browser</button>
+                <button class="btn btn-secondary" onclick="backToEntry()">← Back to Data Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timepointCount = 0;
+        let chartInstances = {};
+        
+        const dimensions = [
+            { id: 'staff', label: 'Staff & Facilitators' },
+            { id: 'adaptation', label: 'Adaptation Quality' },
+            { id: 'training', label: 'Training Effectiveness' },
+            { id: 'engagement', label: 'Community Engagement' },
+            { id: 'operations', label: 'Operations & Quality' },
+            { id: 'sustainability', label: 'Sustainability & Growth' }
+        ];
+        
+        function initializeDashboard() {
+            loadSavedData();
+            if (timepointCount === 0) {
+                addTimepoint();
+            }
+        }
+        
+        function addTimepoint() {
+            timepointCount++;
+            const container = document.getElementById('timepointsContainer');
+            
+            const timepointDiv = document.createElement('div');
+            timepointDiv.className = 'timepoint-entry';
+            timepointDiv.id = `timepoint-${timepointCount}`;
+            
+            let dimensionInputs = '';
+            dimensions.forEach(dim => {
+                dimensionInputs += `
+                    <div class="score-input">
+                        <label for="${dim.id}-${timepointCount}">${dim.label} (%)</label>
+                        <input type="number" id="${dim.id}-${timepointCount}" min="0" max="100" placeholder="0-100">
+                    </div>
+                `;
+            });
+            
+            timepointDiv.innerHTML = `
+                <div class="timepoint-header">
+                    <div>
+                        <input type="text" class="timepoint-label" id="label-${timepointCount}" placeholder="e.g., Baseline, 3 Months, 6 Months" style="border: none; background: transparent; font-weight: 600; font-size: 16px; color: var(--text); width: 100%;">
+                        <input type="date" id="date-${timepointCount}" style="margin-top: 8px; padding: 8px; border: 1px solid var(--border); border-radius: 6px;">
+                    </div>
+                    <button class="remove-btn" onclick="removeTimepoint(${timepointCount})" title="Remove this assessment">✕</button>
+                </div>
+                <div class="score-inputs">
+                    ${dimensionInputs}
+                </div>
+            `;
+            
+            container.appendChild(timepointDiv);
+        }
+        
+        function removeTimepoint(id) {
+            const element = document.getElementById(`timepoint-${id}`);
+            if (element) {
+                element.remove();
+            }
+        }
+        
+        function collectData() {
+            const data = {
+                partner: document.getElementById('partnerName').value,
+                startDate: document.getElementById('startDate').value,
+                preparedBy: document.getElementById('preparedBy').value,
+                timepoints: []
+            };
+            
+            const timepointElements = document.querySelectorAll('.timepoint-entry');
+            timepointElements.forEach((el, index) => {
+                const id = el.id.split('-')[1];
+                const label = document.getElementById(`label-${id}`).value || `Assessment ${index + 1}`;
+                const date = document.getElementById(`date-${id}`).value;
+                
+                const scores = {};
+                dimensions.forEach(dim => {
+                    const input = document.getElementById(`${dim.id}-${id}`);
+                    scores[dim.id] = parseFloat(input.value) || 0;
+                });
+                
+                data.timepoints.push({ label, date, scores });
+            });
+            
+            return data;
+        }
+        
+        function generateDashboard() {
+            const data = collectData();
+            
+            if (!data.partner) {
+                alert('Please enter organization name');
+                return;
+            }
+            
+            if (data.timepoints.length === 0) {
+                alert('Please add at least one assessment');
+                return;
+            }
+            
+            // Clear previous charts
+            Object.values(chartInstances).forEach(chart => chart.destroy());
+            chartInstances = {};
+            
+            // Generate metrics
+            generateMetrics(data);
+            
+            // Generate charts
+            generateProgressChart(data);
+            generateDimensionChart(data);
+            generateComparison(data);
+            generateTrafficLights(data);
+            generateNarrative(data);
+            
+            // Show dashboard
+            document.getElementById('dashboardResults').classList.add('show');
+            document.getElementById('dashboardResults').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function generateMetrics(data) {
+            const grid = document.getElementById('metricsGrid');
+            grid.innerHTML = '';
+            
+            if (data.timepoints.length < 2) {
+                grid.innerHTML = '<p style="color: var(--text-light); grid-column: 1/-1;">Add at least 2 assessments to see change metrics</p>';
+                return;
+            }
+            
+            const baseline = data.timepoints[0];
+            const current = data.timepoints[data.timepoints.length - 1];
+            
+            // Overall progress
+            const baselineAvg = Object.values(baseline.scores).reduce((a, b) => a + b, 0) / dimensions.length;
+            const currentAvg = Object.values(current.scores).reduce((a, b) => a + b, 0) / dimensions.length;
+            const change = currentAvg - baselineAvg;
+            
+            const metrics = [
+                {
+                    label: 'Overall Score',
+                    value: Math.round(currentAvg) + '%',
+                    change: change,
+                    changeText: `${change >= 0 ? '+' : ''}${Math.round(change)}% from baseline`
+                },
+                {
+                    label: 'Time Elapsed',
+                    value: calculateDaysBetween(baseline.date, current.date) + ' days',
+                    change: null,
+                    changeText: `${baseline.label} → ${current.label}`
+                },
+                {
+                    label: 'Assessments Completed',
+                    value: data.timepoints.length,
+                    change: null,
+                    changeText: 'tracking points'
+                },
+                {
+                    label: 'Top Improving Area',
+                    value: getTopImproving(baseline.scores, current.scores),
+                    change: null,
+                    changeText: 'biggest growth'
+                }
+            ];
+            
+            metrics.forEach(metric => {
+                const card = document.createElement('div');
+                card.className = 'metric-card';
+                
+                let changeHTML = '';
+                if (metric.change !== null) {
+                    const changeClass = metric.change > 0 ? 'positive' : metric.change < 0 ? 'negative' : 'neutral';
+                    changeHTML = `<div class="metric-change ${changeClass}">${metric.changeText}</div>`;
+                } else {
+                    changeHTML = `<div class="metric-change neutral">${metric.changeText}</div>`;
+                }
+                
+                card.innerHTML = `
+                    <div class="metric-label">${metric.label}</div>
+                    <div class="metric-value">${metric.value}</div>
+                    ${changeHTML}
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        function generateProgressChart(data) {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            
+            const datasets = dimensions.map((dim, index) => ({
+                label: dim.label,
+                data: data.timepoints.map(tp => tp.scores[dim.id]),
+                borderColor: getColorForDimension(index),
+                backgroundColor: getColorForDimension(index) + '20',
+                tension: 0.4,
+                borderWidth: 3,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }));
+            
+            chartInstances.progress = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.timepoints.map(tp => tp.label),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                usePointStyle: true,
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function generateDimensionChart(data) {
+            const ctx = document.getElementById('dimensionChart').getContext('2d');
+            const current = data.timepoints[data.timepoints.length - 1];
+            
+            chartInstances.dimension = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: dimensions.map(d => d.label),
+                    datasets: [{
+                        label: current.label,
+                        data: dimensions.map(d => current.scores[d.id]),
+                        backgroundColor: 'rgba(95, 173, 86, 0.2)',
+                        borderColor: '#5fad56',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#5fad56',
+                        pointBorderColor: '#fff',
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20,
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+        
+        function generateComparison(data) {
+            const grid = document.getElementById('comparisonGrid');
+            grid.innerHTML = '';
+            
+            if (data.timepoints.length < 2) {
+                grid.innerHTML = '<p style="color: var(--text-light); grid-column: 1/-1;">Add at least 2 assessments to see comparison</p>';
+                return;
+            }
+            
+            const baseline = data.timepoints[0];
+            const current = data.timepoints[data.timepoints.length - 1];
+            
+            dimensions.forEach(dim => {
+                const baselineScore = baseline.scores[dim.id];
+                const currentScore = current.scores[dim.id];
+                
+                const item = document.createElement('div');
+                item.className = 'comparison-item';
+                
+                item.innerHTML = `
+                    <div class="comparison-dimension">${dim.label}</div>
+                    <div class="comparison-bars">
+                        <div class="comparison-bar-row">
+                            <div class="comparison-bar-label">Baseline</div>
+                            <div class="comparison-bar-container">
+                                <div class="comparison-bar-fill" style="width: ${baselineScore}%; background: #cbd5e1;">
+                                    <span class="comparison-bar-value">${Math.round(baselineScore)}%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comparison-bar-row">
+                            <div class="comparison-bar-label">Current</div>
+                            <div class="comparison-bar-container">
+                                <div class="comparison-bar-fill" style="width: ${currentScore}%;">
+                                    <span class="comparison-bar-value">${Math.round(currentScore)}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(item);
+            });
+        }
+        
+        function generateTrafficLights(data) {
+            const grid = document.getElementById('trafficLightGrid');
+            grid.innerHTML = '';
+            
+            const current = data.timepoints[data.timepoints.length - 1];
+            
+            dimensions.forEach(dim => {
+                const score = current.scores[dim.id];
+                let color = 'gray';
+                if (score >= 70) color = 'green';
+                else if (score >= 40) color = 'yellow';
+                else if (score > 0) color = 'red';
+                
+                const item = document.createElement('div');
+                item.className = 'traffic-light-item';
+                item.innerHTML = `
+                    <div class="traffic-light ${color}"></div>
+                    <div class="traffic-light-label">${dim.label}</div>
+                `;
+                grid.appendChild(item);
+            });
+        }
+        
+        function generateNarrative(data) {
+            const container = document.getElementById('narrativeContent');
+            
+            if (data.timepoints.length < 2) {
+                container.innerHTML = '<p>Add at least 2 assessments to generate your implementation story.</p>';
+                return;
+            }
+            
+            const baseline = data.timepoints[0];
+            const current = data.timepoints[data.timepoints.length - 1];
+            const baselineAvg = Object.values(baseline.scores).reduce((a, b) => a + b, 0) / dimensions.length;
+            const currentAvg = Object.values(current.scores).reduce((a, b) => a + b, 0) / dimensions.length;
+            const change = currentAvg - baselineAvg;
+            
+            const topImproving = getTopImprovingDetail(baseline.scores, current.scores);
+            const needsAttention = getNeedsAttention(current.scores);
+            const days = calculateDaysBetween(baseline.date, current.date);
+            
+            let narrative = `<p><strong>${data.partner}</strong> began their Thrive Lights implementation on ${formatDate(data.startDate)}. `;
+            
+            if (change > 0) {
+                narrative += `Over ${days} days, the organization has shown <strong>impressive progress</strong>, improving their overall readiness score by ${Math.round(change)} percentage points (from ${Math.round(baselineAvg)}% to ${Math.round(currentAvg)}%).`;
+            } else if (change < 0) {
+                narrative += `Over ${days} days, the organization has faced some challenges, with their overall score decreasing by ${Math.abs(Math.round(change))} percentage points. This presents an opportunity for targeted support and intervention.`;
+            } else {
+                narrative += `Over ${days} days, the organization has maintained steady performance at ${Math.round(currentAvg)}%.`;
+            }
+            
+            narrative += '</p>';
+            
+            if (topImproving) {
+                narrative += `<p><strong>Biggest Growth Area:</strong> ${topImproving.dimension} has been the star performer, improving by ${Math.round(topImproving.change)} percentage points. This demonstrates strong commitment and effective implementation in this area.</p>`;
+            }
+            
+            if (needsAttention.length > 0) {
+                narrative += `<p><strong>Areas for Focus:</strong> ${needsAttention.join(', ')} ${needsAttention.length === 1 ? 'needs' : 'need'} attention to strengthen overall implementation health.</p>`;
+            }
+            
+            const strengths = dimensions.filter(d => current.scores[d.id] >= 70).map(d => d.label);
+            if (strengths.length > 0) {
+                narrative += `<p><strong>Current Strengths:</strong> ${strengths.join(', ')} ${strengths.length === 1 ? 'is' : 'are'} performing well and can serve as a foundation for continued growth.</p>`;
+            }
+            
+            container.innerHTML = narrative;
+        }
+        
+        function getColorForDimension(index) {
+            const colors = ['#5fad56', '#2B9EB3', '#ffc000', '#8b5cf6', '#ef4444', '#f97316'];
+            return colors[index % colors.length];
+        }
+        
+        function getTopImproving(baseline, current) {
+            let maxChange = -Infinity;
+            let topDim = '';
+            
+            dimensions.forEach(dim => {
+                const change = current[dim.id] - baseline[dim.id];
+                if (change > maxChange) {
+                    maxChange = change;
+                    topDim = dim.label;
+                }
+            });
+            
+            return topDim;
+        }
+        
+        function getTopImprovingDetail(baseline, current) {
+            let maxChange = -Infinity;
+            let topDim = null;
+            
+            dimensions.forEach(dim => {
+                const change = current[dim.id] - baseline[dim.id];
+                if (change > maxChange) {
+                    maxChange = change;
+                    topDim = { dimension: dim.label, change: change };
+                }
+            });
+            
+            return topDim;
+        }
+        
+        function getNeedsAttention(scores) {
+            return dimensions.filter(d => scores[d.id] < 40).map(d => d.label);
+        }
+        
+        function calculateDaysBetween(date1, date2) {
+            if (!date1 || !date2) return 0;
+            const d1 = new Date(date1);
+            const d2 = new Date(date2);
+            const diff = Math.abs(d2 - d1);
+            return Math.ceil(diff / (1000 * 60 * 60 * 24));
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+        
+        function saveData() {
+            const data = collectData();
+            localStorage.setItem('thriveProgressData', JSON.stringify(data));
+            alert('Progress saved to your browser! Data will be available next time you visit this page.');
+        }
+        
+        function loadSavedData() {
+            const saved = localStorage.getItem('thriveProgressData');
+            if (!saved) return;
+            
+            const data = JSON.parse(saved);
+            document.getElementById('partnerName').value = data.partner || '';
+            document.getElementById('startDate').value = data.startDate || '';
+            document.getElementById('preparedBy').value = data.preparedBy || '';
+            
+            data.timepoints.forEach((tp, index) => {
+                if (index > 0) addTimepoint();
+                const id = index + 1;
+                document.getElementById(`label-${id}`).value = tp.label;
+                document.getElementById(`date-${id}`).value = tp.date;
+                
+                dimensions.forEach(dim => {
+                    document.getElementById(`${dim.id}-${id}`).value = tp.scores[dim.id] || '';
+                });
+            });
+            
+            timepointCount = data.timepoints.length;
+        }
+        
+        function resetForm() {
+            if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                localStorage.removeItem('thriveProgressData');
+                location.reload();
+            }
+        }
+        
+        function backToEntry() {
+            document.getElementById('dashboardResults').classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Check for import parameter on page load
+        function checkForImport() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const importData = urlParams.get('import');
+            
+            if (importData) {
+                try {
+                    const data = JSON.parse(atob(importData));
+                    
+                    // Check if this is combined data (multiple timepoints) or single timepoint
+                    if (data.timepoints && Array.isArray(data.timepoints)) {
+                        // COMBINED DATA - Multiple timepoints
+                        document.getElementById('partnerName').value = data.organization || '';
+                        document.getElementById('startDate').value = data.startDate || '';
+                        
+                        // Add each timepoint
+                        data.timepoints.forEach((tp, index) => {
+                            if (index > 0 || timepointCount === 0) {
+                                addTimepoint();
+                            }
+                            
+                            const id = index + 1;
+                            document.getElementById(`label-${id}`).value = tp.label || '';
+                            document.getElementById(`date-${id}`).value = tp.date || '';
+                            
+                            // Populate scores
+                            if (tp.scores) {
+                                dimensions.forEach(dim => {
+                                    const input = document.getElementById(`${dim.id}-${id}`);
+                                    if (input && tp.scores[dim.id] !== undefined) {
+                                        input.value = tp.scores[dim.id];
+                                    }
+                                });
+                            }
+                        });
+                        
+                        timepointCount = data.timepoints.length;
+                        
+                    } else {
+                        // SINGLE TIMEPOINT DATA (legacy support)
+                        document.getElementById('partnerName').value = data.organization || '';
+                        document.getElementById('startDate').value = data.date || '';
+                        
+                        const timepointLabel = data.assessmentType === 'baseline' ? 'Baseline' : '6-Month Check-in';
+                        
+                        if (timepointCount === 0) {
+                            addTimepoint();
+                        }
+                        
+                        document.getElementById('label-1').value = timepointLabel;
+                        document.getElementById('date-1').value = data.date || '';
+                        
+                        // Populate scores
+                        if (data.scores) {
+                            dimensions.forEach(dim => {
+                                const input = document.getElementById(`${dim.id}-1`);
+                                if (input && data.scores[dim.id] !== undefined) {
+                                    input.value = data.scores[dim.id];
+                                }
+                            });
+                        }
+                    }
+                    
+                    // Auto-generate dashboard after a short delay
+                    setTimeout(() => {
+                        generateDashboard();
+                    }, 500);
+                    
+                } catch (error) {
+                    console.error('Error importing data:', error);
+                    alert('Error loading dashboard data. Please contact your Thrive Lights coordinator.');
+                }
+            }
+        }
+        
+        // Initialize on load
+        initializeDashboard();
+        checkForImport();
+    </script>
+</body>
+</html>
