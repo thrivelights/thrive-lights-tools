@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"="width=device-width, initial-scale=1.0">
+    <title>Thrive Lights Data Quality Audit</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #5fad56;
+            --danger: #d7252c;
+            --warning: #ffc000;
+            --info: #2B9EB3;
+            --bg: #0f1419;
+            --surface: #1a1f28;
+            --surface-light: #242b36;
+            --border: #2d3648;
+            --text: #e6edf3;
+            --text-muted: #7d8590;
+            --accent: #00d9ff;
+        }
+        
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1f28 0%, #242b36 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 32px;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .header p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 32px;
+        }
+        
+        .info-panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .info-panel h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        
+        .info-panel p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        
+        .partner-info {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .partner-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(95, 173, 86, 0.2);
+        }
+        
+        .audit-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .section-icon {
+            font-size: 24px;
+        }
+        
+        .section-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .check-item:hover {
+            border-color: var(--primary);
+            background: var(--surface-light);
+        }
+        
+        .check-item input[type="checkbox"] {
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .check-label {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text);
+        }
+        
+        .check-detail {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .metric-input-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+        
+        .metric-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .metric-input {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .metric-input input {
+            padding: 10px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .metric-result {
+            font-size: 14px;
+            font-family: 'IBM Plex Mono', monospace;
+            padding: 8px 12px;
+            border-radius: 4px;
+            min-width: 100px;
+            text-align: right;
+        }
+        
+        .metric-result.good {
+            background: rgba(95, 173, 86, 0.1);
+            color: var(--primary);
+        }
+        
+        .metric-result.warning {
+            background: rgba(255, 192, 0, 0.1);
+            color: var(--warning);
+        }
+        
+        .metric-result.danger {
+            background: rgba(215, 37, 44, 0.1);
+            color: var(--danger);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg);
+        }
+        
+        .btn-primary:hover {
+            background: #6fc75e;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--surface-light);
+        }
+        
+        .results {
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .score-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .score-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .score-value {
+            font-size: 72px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .score-value.excellent { color: var(--primary); }
+        .score-value.good { color: #6fc75e; }
+        .score-value.fair { color: var(--warning); }
+        .score-value.poor { color: var(--danger); }
+        
+        .score-status {
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .issues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .issue-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .issue-card.critical {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .issue-card.warning {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .issue-card.good {
+            border-left: 4px solid var(--primary);
+        }
+        
+        .issue-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .issue-detail {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        
+        .issue-recommendation {
+            font-size: 13px;
+            padding: 10px 12px;
+            background: var(--bg);
+            border-radius: 4px;
+            font-family: 'IBM Plex Mono', monospace;
+            line-height: 1.5;
+        }
+        
+        .recommendations-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 28px;
+            margin-bottom: 32px;
+        }
+        
+        .recommendations-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 20px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .recommendation-item {
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 6px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .recommendation-priority {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .recommendation-text {
+            font-size: 14px;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        @media print {
+            body { background: white; color: black; }
+            .header, .buttons, .audit-section { display: none !important; }
+            .results { display: block !important; }
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .input-grid { grid-template-columns: 1fr; }
+            .issues-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>&gt; DATA QUALITY AUDIT</h1>
+            <p>Systematic assessment of your Thrive Lights data integrity</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="info-panel">
+            <h2>About This Audit</h2>
+            <p>This tool helps you assess the quality and reliability of your Thrive Lights assessment data.</p>
+            <p><strong>What we check:</strong> Completion rates, response patterns, data consistency, priorities & achievements, outliers, and technical quality.</p>
+        </div>
+
+        <div class="partner-info">
+            <h3>&gt; ORGANIZATION INFO</h3>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label>ORGANIZATION</label>
+                    <input type="text" id="orgName" name="organization" placeholder="Your organization name" required>
+                </div>
+                <div class="input-group">
+                    <label>AUDITOR</label>
+                    <input type="text" id="auditor" name="auditor" placeholder="Your name" required>
+                </div>
+                <div class="input-group">
+                    <label>AUDIT DATE</label>
+                    <input type="date" id="auditDate" name="audit_date" required>
+                </div>
+                <div class="input-group">
+                    <label>DATA PERIOD</label>
+                    <input type="text" id="dataPeriod" name="data_period" placeholder="e.g., Jan-Mar 2026">
+                </div>
+            </div>
+        </div>
+
+        <form id="auditForm" action="https://formspree.io/f/mjgejdoa" method="POST">
+            <!-- Hidden field to identify this form -->
+            <input type="hidden" name="_subject" value="Data Quality Audit Submission">
+            
+            <!-- Section 1: Completion Quality -->
+            <div class="audit-section">
+                <div class="section-header">
+                    <span class="section-icon">📊</span>
+                    <h3>1. COMPLETION QUALITY</h3>
+                </div>
+
+                <div class="metric-input-section">
+                    <label class="metric-label">ASSESSMENTS COMPLETED</label>
+                    <div class="metric-input">
+                        <input type="number" id="completed" min="0" placeholder="Number completed">
+                        <div id="completedResult" class="metric-result">—</div>
+                    </div>
+
+                    <label class="metric-label">INCOMPLETE ASSESSMENTS</label>
+                    <div class="metric-input">
+                        <input type="number" id="incomplete" min="0" placeholder="Most questions skipped, not everything answered, answered too fast">
+                        <div id="incompleteResult" class="metric-result">—</div>
+                    </div>
+
+                    <label class="metric-label">COMPLETION RATE</label>
+                    <div class="metric-input">
+                        <input type="text" id="completionRate" readonly style="background: var(--bg);" placeholder="Auto-calculated">
+                        <div id="completionRateResult" class="metric-result">—</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check1_1" name="check1">
+                    <div>
+                        <label class="check-label" for="check1_1">Most assessments are fully completed (>80% of questions answered)</label>
+                        <div class="check-detail">Indicates good facilitator engagement or clear self-admin process</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check1_2" name="check1">
+                    <div>
+                        <label class="check-label" for="check1_2">Demographic information (age, gender, etc.) is consistently collected</label>
+                        <div class="check-detail">Required for meaningful segmentation and analysis</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check1_3" name="check1">
+                    <div>
+                        <label class="check-label" for="check1_3">Very few assessments have large sections left blank</label>
+                        <div class="check-detail">Multiple blank sections may indicate survey fatigue or confusion</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Response Patterns -->
+            <div class="audit-section">
+                <div class="section-header">
+                    <span class="section-icon">🔍</span>
+                    <h3>2. RESPONSE PATTERNS</h3>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check2_1" name="check2">
+                    <div>
+                        <label class="check-label" for="check2_1">No evidence of "straight-lining" (same response selected for all questions)</label>
+                        <div class="check-detail">All greens or all reds suggests disengagement, not real assessment</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check2_2" name="check2">
+                    <div>
+                        <label class="check-label" for="check2_2">Responses show expected variation across dimensions</label>
+                        <div class="check-detail">Real families typically have mix of strengths and challenges</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check2_3" name="check2">
+                    <div>
+                        <label class="check-label" for="check2_3">Very short completion times are rare (assessments typically take 20-45 min)</label>
+                        <div class="check-detail">Completed in <10 minutes may indicate rushing or pre-filling</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check2_4" name="check2">
+                    <div>
+                        <label class="check-label" for="check2_4">Responses are internally consistent (no contradictions)</label>
+                        <div class="check-detail">E.g., "no income" but also "saves regularly" = red flag</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Data Consistency -->
+            <div class="audit-section">
+                <div class="section-header">
+                    <span class="section-icon">⚖️</span>
+                    <h3>3. DATA CONSISTENCY</h3>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check3_1" name="check3">
+                    <div>
+                        <label class="check-label" for="check3_1">What percentage of assessments in this period are follow-ups (vs. baseline)?</label>
+                        <div class="check-detail">Understanding the baseline-to-follow-up ratio helps assess program maturity</div>
+                        <input type="number" min="0" max="100" placeholder="% follow-ups" style="margin-top: 8px; width: 150px; padding: 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface);">
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check3_2" name="check3">
+                    <div>
+                        <label class="check-label" for="check3_2">Participant IDs or names are consistent across timepoints</label>
+                        <div class="check-detail">Misspellings or ID changes prevent matching baseline to follow-up</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check3_3" name="check3">
+                    <div>
+                        <label class="check-label" for="check3_3">Dates make sense (appropriate time gaps between assessments)</label>
+                        <div class="check-detail">Ensure assessment dates are chronologically logical</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check3_4" name="check3">
+                    <div>
+                        <label class="check-label" for="check3_4">No duplicate assessments for same person/same timepoint</label>
+                        <div class="check-detail">Inflates numbers and skews analysis</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Priorities & Achievements -->
+            <div class="audit-section">
+                <div class="section-header">
+                    <span class="section-icon">🎯</span>
+                    <h3>4. PRIORITIES & ACHIEVEMENTS</h3>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check4_1" name="check4">
+                    <div>
+                        <label class="check-label" for="check4_1">Have families set at least one priority during baseline assessments?</label>
+                        <div class="check-detail">Priority-setting is core to Thrive Lights methodology</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check4_2" name="check4">
+                    <div>
+                        <label class="check-label" for="check4_2">By follow-up, have families set at least one achievement?</label>
+                        <div class="check-detail">Tracking achievements demonstrates progress and builds momentum</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Outliers & Anomalies -->
+            <div class="audit-section">
+                <div class="section-header">
+                    <span class="section-icon">🚨</span>
+                    <h3>5. OUTLIERS & ANOMALIES</h3>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check5_1" name="check5">
+                    <div>
+                        <label class="check-label" for="check5_1">No unrealistic improvement (baseline red → follow-up all green)</label>
+                        <div class="check-detail">Massive jumps may indicate measurement error</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check5_2" name="check5">
+                    <div>
+                        <label class="check-label" for="check5_2">Age/demographic data is plausible (no 150-year-olds, etc.)</label>
+                        <div class="check-detail">Data entry typos create inaccurate data</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check5_3" name="check5">
+                    <div>
+                        <label class="check-label" for="check5_3">Geographic data matches your service area</label>
+                        <div class="check-detail">Families from outside your region = potential error</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Technical Quality -->
+            <div class="audit-section">
+                <div class="section-header">
+                    <span class="section-icon">💻</span>
+                    <h3>6. TECHNICAL QUALITY</h3>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check6_1" name="check6">
+                    <div>
+                        <label class="check-label" for="check6_1">Data export format is clean (no scrambled characters, readable dates)</label>
+                        <div class="check-detail">Encoding issues corrupt analysis</div>
+                    </div>
+                </div>
+
+                <div class="check-item">
+                    <input type="checkbox" id="check6_2" name="check6">
+                    <div>
+                        <label class="check-label" for="check6_2">No obvious platform/technical errors (missing questions, broken skip logic)</label>
+                        <div class="check-detail">System bugs need to be flagged and fixed</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button type="submit" class="btn btn-primary" id="submitBtn">RUN AUDIT & SUBMIT</button>
+                <button type="button" class="btn btn-secondary" onclick="resetAudit()">RESET</button>
+            </div>
+        </form>
+
+        <!-- Results Section -->
+        <div class="results" id="resultsSection">
+            <div class="score-card">
+                <div class="score-label">DATA_QUALITY_SCORE</div>
+                <div class="score-value" id="qualityScore">—</div>
+                <div class="score-status" id="qualityStatus">—</div>
+            </div>
+
+            <div class="issues-grid" id="issuesGrid"></div>
+
+            <div class="recommendations-section">
+                <h3>&gt; RECOMMENDATIONS</h3>
+                <div id="recommendationsList"></div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-primary" onclick="window.print()">EXPORT_REPORT</button>
+                <button class="btn btn-secondary" onclick="backToAudit()">← BACK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-set audit date
+        document.getElementById('auditDate').valueAsDate = new Date();
+
+        // Calculate completion rate
+        function calculateMetrics() {
+            const completed = parseInt(document.getElementById('completed').value) || 0;
+            const incomplete = parseInt(document.getElementById('incomplete').value) || 0;
+            const total = completed + incomplete;
+            
+            if (total > 0) {
+                const rate = Math.round((completed / total) * 100);
+                document.getElementById('completionRate').value = rate + '%';
+                
+                const resultDiv = document.getElementById('completionRateResult');
+                if (rate >= 80) {
+                    resultDiv.textContent = 'EXCELLENT';
+                    resultDiv.className = 'metric-result good';
+                } else if (rate >= 60) {
+                    resultDiv.textContent = 'GOOD';
+                    resultDiv.className = 'metric-result warning';
+                } else {
+                    resultDiv.textContent = 'NEEDS WORK';
+                    resultDiv.className = 'metric-result danger';
+                }
+            } else {
+                document.getElementById('completionRate').value = '';
+                document.getElementById('completionRateResult').textContent = '—';
+                document.getElementById('completionRateResult').className = 'metric-result';
+            }
+        }
+
+        document.getElementById('completed').addEventListener('input', calculateMetrics);
+        document.getElementById('incomplete').addEventListener('input', calculateMetrics);
+
+        function generateAuditReport() {
+            const orgName = document.getElementById('orgName').value;
+            const auditor = document.getElementById('auditor').value;
+            const dataPeriod = document.getElementById('dataPeriod').value;
+            
+            if (!orgName || !auditor) {
+                alert('Please fill in organization name and auditor name');
+                return;
+            }
+
+            // Calculate score
+            const totalChecks = document.querySelectorAll('input[type="checkbox"]').length;
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const score = Math.round((checkedBoxes / totalChecks) * 100);
+
+            // Update score display
+            const scoreEl = document.getElementById('qualityScore');
+            const statusEl = document.getElementById('qualityStatus');
+            
+            scoreEl.textContent = score + '%';
+            
+            if (score >= 90) {
+                scoreEl.className = 'score-value excellent';
+                statusEl.textContent = 'EXCELLENT';
+            } else if (score >= 75) {
+                scoreEl.className = 'score-value good';
+                statusEl.textContent = 'GOOD';
+            } else if (score >= 50) {
+                scoreEl.className = 'score-value fair';
+                statusEl.textContent = 'NEEDS_IMPROVEMENT';
+            } else {
+                scoreEl.className = 'score-value poor';
+                statusEl.textContent = 'CRITICAL_ISSUES';
+            }
+
+            // Generate issues list
+            generateIssues();
+            
+            // Generate recommendations
+            generateRecommendations(score);
+            
+            // Show results
+            document.getElementById('resultsSection').classList.add('show');
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateIssues() {
+            const grid = document.getElementById('issuesGrid');
+            grid.innerHTML = '';
+
+            const issues = [
+                {
+                    checked: document.getElementById('check1_1').checked,
+                    title: 'Completion Quality',
+                    good: 'Most assessments fully completed',
+                    bad: 'Low completion rates detected',
+                    recommendation: 'Review facilitator training or simplify survey'
+                },
+                {
+                    checked: document.getElementById('check2_1').checked,
+                    title: 'Response Patterns',
+                    good: 'No straight-lining detected',
+                    bad: 'Suspicious response patterns found',
+                    recommendation: 'Review facilitator fidelity, check for rushed assessments'
+                },
+                {
+                    checked: document.getElementById('check3_2').checked,
+                    title: 'Participant Matching',
+                    good: 'IDs/names consistent across timepoints',
+                    bad: 'Inconsistent participant identifiers',
+                    recommendation: 'Standardize naming conventions, clean existing data'
+                },
+                {
+                    checked: document.getElementById('check4_1').checked,
+                    title: 'Priorities Set',
+                    good: 'Families setting priorities',
+                    bad: 'Missing priority data',
+                    recommendation: 'Ensure facilitators support families in setting at least one priority'
+                },
+                {
+                    checked: document.getElementById('check5_1').checked,
+                    title: 'Outlier Detection',
+                    good: 'No unrealistic improvements',
+                    bad: 'Anomalous data detected',
+                    recommendation: 'Review outliers manually, verify with facilitators'
+                }
+            ];
+
+            issues.forEach(issue => {
+                const card = document.createElement('div');
+                card.className = 'issue-card ' + (issue.checked ? 'good' : 'critical');
+                
+                card.innerHTML = `
+                    <div class="issue-title">${issue.title}</div>
+                    <div class="issue-detail">${issue.checked ? issue.good : issue.bad}</div>
+                    ${!issue.checked ? `<div class="issue-recommendation">→ ${issue.recommendation}</div>` : ''}
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        function generateRecommendations(score) {
+            const list = document.getElementById('recommendationsList');
+            list.innerHTML = '';
+
+            const recommendations = [];
+
+            // Overall score check
+            if (score < 75) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'Schedule data quality training with facilitators to address completion and pattern issues'
+                });
+            }
+
+            // Section 1: Completion Quality
+            if (!document.getElementById('check1_1').checked) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'Low completion rates suggest facilitator challenges. Review training on maintaining participant engagement throughout the assessment'
+                });
+            }
+
+            if (!document.getElementById('check1_2').checked) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'Refresh staff training on the importance of consistent demographic data collection for meaningful analysis'
+                });
+            }
+
+            if (!document.getElementById('check1_3').checked) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'Assessments with large blank sections suggest survey fatigue or disengagement. To maintain data quality, exclude these incomplete assessments from analysis or delete them from the Platform'
+                });
+            }
+
+            // Section 2: Response Patterns
+            if (!document.getElementById('check2_1').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Review facilitator fidelity - straight-lining suggests disengagement or rushed assessments'
+                });
+            }
+
+            if (!document.getElementById('check2_2').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Lack of variation across dimensions is unusual. Ensure facilitators are supporting families to reflect honestly on all areas'
+                });
+            }
+
+            if (!document.getElementById('check2_3').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Assessments completed in under 10 minutes may be rushed. Remind facilitators this is a conversation, not a survey to speed through'
+                });
+            }
+
+            if (!document.getElementById('check2_4').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Internal contradictions suggest data entry errors or misunderstandings. Review flagged cases with facilitators for correction'
+                });
+            }
+
+            // Section 3: Data Consistency
+            if (!document.getElementById('check3_2').checked) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'Download data reports from the Platform and check for inconsistent participant IDs. Use the Households section to edit and standardize IDs as needed'
+                });
+            }
+
+            if (!document.getElementById('check3_3').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Review assessment dates to ensure they are entered correctly and that follow-ups have adequate spacing from baseline. Follow-ups done too soon may not capture real progress. When assessments are too close together, keep the most complete one and remove the other to preserve data quality'
+                });
+            }
+
+            if (!document.getElementById('check3_4').checked) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'Remove duplicate assessments before analysis to prevent inflated numbers and skewed results'
+                });
+            }
+
+            // Section 4: Priorities & Achievements
+            if (!document.getElementById('check4_1').checked) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'Ensure facilitators are supporting families to set at least one priority during assessments'
+                });
+            }
+
+            if (!document.getElementById('check4_2').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Remind organizations and facilitators of the importance of tracking achievements at follow-up to demonstrate progress and celebrate wins with families'
+                });
+            }
+
+            // Section 5: Outliers & Anomalies
+            if (!document.getElementById('check5_1').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Review outlier cases with organization admins to verify accuracy and identify any data entry errors'
+                });
+            }
+
+            if (!document.getElementById('check5_2').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Review demographic data entry for typos. Consider adding validation rules in your workflow (e.g., age 0-120)'
+                });
+            }
+
+            if (!document.getElementById('check5_3').checked) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    text: 'Geographic data outside your service area may indicate data entry errors. Review and correct participant location information'
+                });
+            }
+
+            // Section 6: Technical Quality
+            if (!document.getElementById('check6_1').checked) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'Contact Thrive Lights support about data export encoding issues to ensure clean, usable data files'
+                });
+            }
+
+            if (!document.getElementById('check6_2').checked) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    text: 'The Thrive Lights team is here to help troubleshoot any platform or technical issues you encounter. Reach out so we can resolve these together'
+                });
+            }
+
+            // Success message
+            if (score >= 90) {
+                recommendations.push({
+                    priority: 'SUCCESS',
+                    text: 'Your data quality is excellent! This data is ready for analysis and reporting.'
+                });
+            }
+
+            // Default message if no issues
+            if (recommendations.length === 0) {
+                recommendations.push({
+                    priority: 'INFO',
+                    text: 'Continue current data quality practices. Consider quarterly audits to maintain standards.'
+                });
+            }
+
+            recommendations.forEach(rec => {
+                const item = document.createElement('div');
+                item.className = 'recommendation-item';
+                item.innerHTML = `
+                    <div class="recommendation-priority">${rec.priority}</div>
+                    <div class="recommendation-text">${rec.text}</div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function resetAudit() {
+            if (confirm('Reset all audit data? This cannot be undone.')) {
+                document.getElementById('auditForm').reset();
+                document.getElementById('completionRate').value = '';
+                document.getElementById('completionRateResult').textContent = '—';
+                document.getElementById('completionRateResult').className = 'metric-result';
+            }
+        }
+
+        function backToAudit() {
+            document.getElementById('resultsSection').classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Handle form submission
+        const form = document.getElementById('auditForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const orgName = document.getElementById('orgName').value;
+            const auditor = document.getElementById('auditor').value;
+            
+            if (!orgName || !auditor) {
+                alert('Please enter organization name and auditor name');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'SUBMITTING...';
+            
+            try {
+                // Collect all audit results for submission
+                const formData = new FormData(form);
+                
+                // Add calculated score
+                const totalChecks = document.querySelectorAll('input[type="checkbox"]').length;
+                const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked').length;
+                const score = Math.round((checkedBoxes / totalChecks) * 100);
+                formData.append('overall_score', score + '%');
+                
+                // Add completion rate
+                const completionRate = document.getElementById('completionRate').value;
+                if (completionRate) {
+                    formData.append('completion_rate_calculated', completionRate);
+                }
+                
+                // Submit to Formspree
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Generate visual report for user
+                    generateAuditReport();
+                    alert('✓ Audit submitted successfully! Your Thrive Lights contact will receive the results.');
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                alert('There was an error submitting your audit. The visual report will still generate, but please contact your Thrive Lights coordinator to share results manually.');
+                generateAuditReport();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'RUN AUDIT & SUBMIT';
+            }
+        });
+    </script>
+</body>
+</html>
