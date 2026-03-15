@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrive Lights Organizational Stoplight Assessment</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            padding: 40px 30px;
+            color: white;
+            text-align: center;
+        }
+        .logo-space { margin-bottom: 20px; font-size: 48px; }
+        .header h1 { font-size: 28px; margin-bottom: 10px; font-weight: 600; }
+        .header p { font-size: 16px; opacity: 0.95; }
+        .content { padding: 40px 30px; }
+        .intro-box {
+            background: #fff9e6;
+            border-left: 4px solid #ffc000;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .intro-box p { color: #666; font-size: 14px; line-height: 1.6; }
+        .partner-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #5fad56;
+        }
+        .partner-info h3 { color: #333; margin-bottom: 15px; font-size: 18px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .input-group input:focus { outline: none; border-color: #5fad56; }
+        .section {
+            margin-bottom: 40px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 30px;
+        }
+        .section:last-of-type { border-bottom: none; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 12px;
+        }
+        .section-icon { font-size: 24px; }
+        .section-header h2 { color: #333; font-size: 22px; font-weight: 600; }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        .question-text {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        .rating-scale { display: flex; gap: 10px; flex-wrap: wrap; }
+        .rating-option { flex: 1; min-width: 100px; }
+        .rating-option input[type="radio"] { display: none; }
+        .rating-option label {
+            display: block;
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .rating-option input[type="radio"]:checked + label {
+            background: #5fad56;
+            border-color: #5fad56;
+            color: white;
+        }
+        .rating-option label:hover { border-color: #5fad56; }
+        .stoplight-rating {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .stoplight-option input[type="radio"] { display: none; }
+        .stoplight-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .stoplight-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .stoplight-red .stoplight-circle { background: #d7252c; }
+        .stoplight-yellow .stoplight-circle { background: #ffc000; }
+        .stoplight-green .stoplight-circle { background: #5fad56; }
+        .stoplight-option input[type="radio"]:checked + label {
+            border-width: 3px;
+            transform: scale(1.05);
+        }
+        .stoplight-red input[type="radio"]:checked + label { border-color: #d7252c; }
+        .stoplight-yellow input[type="radio"]:checked + label { border-color: #ffc000; }
+        .stoplight-green input[type="radio"]:checked + label { border-color: #5fad56; }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+        .checkbox-item:has(input:checked) {
+            background: #f0fdf4;
+            border-color: #5fad56;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .checkbox-item label {
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            flex: 1;
+        }
+        .text-input, .number-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        .number-input { max-width: 200px; }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #5fad56 0%, #8bc53f 100%);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(95, 173, 86, 0.4);
+        }
+        .btn-secondary {
+            background: white;
+            color: #333;
+            border: 2px solid #5fad56;
+        }
+        .btn-secondary:hover { background: #f8f9fa; }
+        .btn-export {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .readiness-score {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .score-number { font-size: 48px; font-weight: bold; margin: 10px 0; }
+        .score-label { font-size: 18px; opacity: 0.9; }
+        .support-strategy {
+            background: #fff9e6;
+            border-left: 4px solid #ffc000;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .support-strategy h3 { color: #333; margin-bottom: 15px; font-size: 20px; }
+        .strategy-item {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .strategy-item:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ffc000;
+            font-weight: bold;
+        }
+        .pdf-report { display: none; }
+        .required { color: #d7252c; }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; max-width: 100%; }
+            .buttons, .progress-bar, .intro-box { display: none !important; }
+            .results, .pdf-report { display: block !important; }
+            .pdf-report { padding: 20px; }
+            .pdf-header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #5fad56;
+            }
+            .pdf-header h1 {
+                color: #5fad56;
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+            .pdf-section {
+                margin-bottom: 30px;
+                page-break-inside: avoid;
+            }
+            .pdf-section-title {
+                background: #5fad56;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 4px;
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 15px;
+            }
+            .pdf-question {
+                margin-bottom: 20px;
+                padding: 15px;
+                background: #f9fafb;
+                border-left: 3px solid #5fad56;
+            }
+            .pdf-q {
+                font-weight: 600;
+                color: #333;
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+            .pdf-a {
+                color: #666;
+                font-size: 13px;
+                padding-left: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container { border-radius: 0; }
+            .content { padding: 25px 20px; }
+            .rating-scale { flex-direction: column; }
+            .rating-option { min-width: 100%; }
+            .buttons { flex-direction: column; }
+            .btn { min-width: 100%; }
+            .checkbox-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-space">🔍</div>
+            <h1>Organizational Stoplight Assessment</h1>
+            <p>Help us understand your organization so we can customize support to meet your needs</p>
+        </div>
+
+        <div class="content">
+            <div class="intro-box">
+                <p><strong>Why this assessment?</strong> There are no right or wrong answers. This quick assessment (8-10 minutes) helps us understand your current capacity and customize our onboarding to provide the most relevant support for your team.</p>
+            </div>
+
+            <div class="partner-info">
+                <h3>Organization Information</h3>
+                <div class="input-group">
+                    <label for="orgName">Organization Name <span class="required">*</span></label>
+                    <input type="text" id="orgName" required>
+                </div>
+                <div class="input-group">
+                    <label for="contactName">Your Name <span class="required">*</span></label>
+                    <input type="text" id="contactName" required>
+                </div>
+                <div class="input-group">
+                    <label for="contactRole">Your Role/Title <span class="required">*</span></label>
+                    <input type="text" id="contactRole" required>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <form id="assessmentForm">
+                <!-- SECTION 1: Organization Overview -->
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-icon">🏢</span>
+                        <h2>Organization Overview</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">Primary population(s) you serve (select all that apply)</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="pop_children" id="pop_children">
+                                <label for="pop_children">Children & Families</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="pop_youth" id="pop_youth">
+                                <label for="pop_youth">Youth & Young Adults</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="pop_adults" id="pop_adults">
+                                <label for="pop_adults">Adults (general)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="pop_seniors" id="pop_seniors">
+                                <label for="pop_seniors">Seniors</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="pop_community" id="pop_community">
+                                <label for="pop_community">Community members (general)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="pop_workforce" id="pop_workforce">
+                                <label for="pop_workforce">Workforce/Employees</label>
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label for="pop_other">Other population:</label>
+                            <input type="text" class="text-input" id="pop_other" placeholder="If other, describe here">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: Data & Evaluation Practices -->
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-icon">📊</span>
+                        <h2>Data & Evaluation Practices</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How does your organization currently track participant outcomes? (select all that apply)</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="track_spreadsheets" id="track_spreadsheets">
+                                <label for="track_spreadsheets">Spreadsheets (Excel, Google Sheets)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="track_database" id="track_database">
+                                <label for="track_database">Database or CRM system</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="track_case" id="track_case">
+                                <label for="track_case">Case management software</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="track_paper" id="track_paper">
+                                <label for="track_paper">Paper forms/files</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="track_survey" id="track_survey">
+                                <label for="track_survey">Survey tools</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="track_none" id="track_none">
+                                <label for="track_none">Don't track systematically</label>
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label for="track_other">Other tracking method:</label>
+                            <input type="text" class="text-input" id="track_other" placeholder="If other, describe here">
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How comfortable is your team with using data to inform program decisions?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q_comfort" id="comfort_1" value="1" data-label="Not comfortable">
+                                <label for="comfort_1">1<br>Not comfortable</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_comfort" id="comfort_2" value="2" data-label="Slightly">
+                                <label for="comfort_2">2<br>Slightly</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_comfort" id="comfort_3" value="3" data-label="Moderately">
+                                <label for="comfort_3">3<br>Moderately</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_comfort" id="comfort_4" value="4" data-label="Comfortable">
+                                <label for="comfort_4">4<br>Comfortable</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_comfort" id="comfort_5" value="5" data-label="Very comfortable">
+                                <label for="comfort_5">5<br>Very comfortable</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">What are your biggest data challenges? (select all that apply)</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="challenge_time" id="challenge_time">
+                                <label for="challenge_time">Lack of time to collect data</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="challenge_training" id="challenge_training">
+                                <label for="challenge_training">Staff need training/confidence</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="challenge_participants" id="challenge_participants">
+                                <label for="challenge_participants">Hard to get participants to complete</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="challenge_using" id="challenge_using">
+                                <label for="challenge_using">Collecting data but not using it</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="challenge_integration" id="challenge_integration">
+                                <label for="challenge_integration">Systems don't integrate</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="challenge_what" id="challenge_what">
+                                <label for="challenge_what">Don't know what to collect</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="challenge_none" id="challenge_none">
+                                <label for="challenge_none">No significant challenges</label>
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label for="challenge_other">Other challenge:</label>
+                            <input type="text" class="text-input" id="challenge_other" placeholder="If other, describe here">
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">Do you currently track participant outcomes over time?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option" style="flex: 0 0 auto; min-width: 150px;">
+                                <input type="radio" name="q_track_time" id="track_yes" value="yes" data-label="Yes">
+                                <label for="track_yes">Yes</label>
+                            </div>
+                            <div class="rating-option" style="flex: 0 0 auto; min-width: 150px;">
+                                <input type="radio" name="q_track_time" id="track_sometimes" value="sometimes" data-label="Sometimes">
+                                <label for="track_sometimes">Sometimes</label>
+                            </div>
+                            <div class="rating-option" style="flex: 0 0 auto; min-width: 150px;">
+                                <input type="radio" name="q_track_time" id="track_no" value="no" data-label="No">
+                                <label for="track_no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How often do you use data to adjust or improve programs?</div>
+                        <div class="stoplight-rating">
+                            <div class="stoplight-option stoplight-red">
+                                <input type="radio" name="q_use_data" id="use_never" value="never" data-label="Never/Rarely">
+                                <label for="use_never">
+                                    <div class="stoplight-circle">⚠️</div>
+                                    <div>Never/Rarely</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-yellow">
+                                <input type="radio" name="q_use_data" id="use_periodically" value="periodically" data-label="Periodically">
+                                <label for="use_periodically">
+                                    <div class="stoplight-circle">⚡</div>
+                                    <div>Periodically</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-green">
+                                <input type="radio" name="q_use_data" id="use_regularly" value="regularly" data-label="Regularly">
+                                <label for="use_regularly">
+                                    <div class="stoplight-circle">✓</div>
+                                    <div>Regularly</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: Reporting & Stakeholder Engagement -->
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-icon">📋</span>
+                        <h2>Reporting & Stakeholder Engagement</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How often do you report outcomes to your board of directors?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q_board_freq" id="board_monthly" value="monthly" data-label="Monthly">
+                                <label for="board_monthly">Monthly</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_board_freq" id="board_quarterly" value="quarterly" data-label="Quarterly">
+                                <label for="board_quarterly">Quarterly</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_board_freq" id="board_biannual" value="biannual" data-label="Twice/year">
+                                <label for="board_biannual">Twice/year</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_board_freq" id="board_annual" value="annual" data-label="Annually">
+                                <label for="board_annual">Annually</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_board_freq" id="board_rarely" value="rarely" data-label="Rarely/Never">
+                                <label for="board_rarely">Rarely/Never</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_board_freq" id="board_none" value="none" data-label="No formal board">
+                                <label for="board_none">No board</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">Do funders require outcome data from you?</div>
+                        <div class="stoplight-rating">
+                            <div class="stoplight-option stoplight-green">
+                                <input type="radio" name="q_funder_req" id="funder_yes" value="yes" data-label="Yes, regularly">
+                                <label for="funder_yes">
+                                    <div class="stoplight-circle">✓</div>
+                                    <div>Yes, regularly</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-yellow">
+                                <input type="radio" name="q_funder_req" id="funder_sometimes" value="sometimes" data-label="Sometimes/At renewal">
+                                <label for="funder_sometimes">
+                                    <div class="stoplight-circle">⚡</div>
+                                    <div>Sometimes</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-red">
+                                <input type="radio" name="q_funder_req" id="funder_no" value="no" data-label="No/No grant funding">
+                                <label for="funder_no">
+                                    <div class="stoplight-circle">⚠️</div>
+                                    <div>No/No funding</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How challenging is it to prepare reports for stakeholders (board, funders)?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q_report_challenge" id="report_1" value="1" data-label="Very easy">
+                                <label for="report_1">1<br>Very easy</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_report_challenge" id="report_2" value="2" data-label="Somewhat easy">
+                                <label for="report_2">2<br>Somewhat easy</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_report_challenge" id="report_3" value="3" data-label="Neutral">
+                                <label for="report_3">3<br>Neutral</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_report_challenge" id="report_4" value="4" data-label="Somewhat challenging">
+                                <label for="report_4">4<br>Challenging</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_report_challenge" id="report_5" value="5" data-label="Very challenging">
+                                <label for="report_5">5<br>Very challenging</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">Does your board currently review program outcome data?</div>
+                        <div class="stoplight-rating">
+                            <div class="stoplight-option stoplight-green">
+                                <input type="radio" name="q_board_review" id="review_yes" value="yes" data-label="Yes, regularly">
+                                <label for="review_yes">
+                                    <div class="stoplight-circle">✓</div>
+                                    <div>Yes, regularly</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-yellow">
+                                <input type="radio" name="q_board_review" id="review_occasionally" value="occasionally" data-label="Occasionally">
+                                <label for="review_occasionally">
+                                    <div class="stoplight-circle">⚡</div>
+                                    <div>Occasionally</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-red">
+                                <input type="radio" name="q_board_review" id="review_no" value="no" data-label="Rarely/No">
+                                <label for="review_no">
+                                    <div class="stoplight-circle">⚠️</div>
+                                    <div>Rarely/No</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: Implementation Readiness -->
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-icon">🚀</span>
+                        <h2>Implementation Readiness</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">What is your PRIMARY goal for using Thrive Lights? (select up to 3)</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_understand" id="goal_understand">
+                                <label for="goal_understand">Understand participant needs</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_track" id="goal_track">
+                                <label for="goal_track">Track participant progress</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_demonstrate" id="goal_demonstrate">
+                                <label for="goal_demonstrate">Demonstrate impact to funders</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_board" id="goal_board">
+                                <label for="goal_board">Demonstrate impact to board</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_improve" id="goal_improve">
+                                <label for="goal_improve">Improve program effectiveness</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_case" id="goal_case">
+                                <label for="goal_case">Support case management</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_learning" id="goal_learning">
+                                <label for="goal_learning">Build learning culture</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_requirements" id="goal_requirements">
+                                <label for="goal_requirements">Meet reporting requirements</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="goal_empower" id="goal_empower">
+                                <label for="goal_empower">Empower participants</label>
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label for="goal_other">Other goal:</label>
+                            <input type="text" class="text-input" id="goal_other" placeholder="If other, describe here">
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">What concerns do you have about implementing Thrive Lights? (select all that apply)</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="concern_capacity" id="concern_capacity">
+                                <label for="concern_capacity">Staff capacity/time constraints</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="concern_tech" id="concern_tech">
+                                <label for="concern_tech">Technology challenges</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="concern_engagement" id="concern_engagement">
+                                <label for="concern_engagement">Participant engagement</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="concern_leadership" id="concern_leadership">
+                                <label for="concern_leadership">Proving value to leadership</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="concern_integration" id="concern_integration">
+                                <label for="concern_integration">Integration with existing systems</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="concern_none" id="concern_none">
+                                <label for="concern_none">No major concerns</label>
+                            </div>
+                        </div>
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label for="concern_other">Other concern:</label>
+                            <input type="text" class="text-input" id="concern_other" placeholder="If other, describe here">
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How many participants do you plan to enroll in Thrive Lights initially?</div>
+                        <input type="number" name="q_participant_count" id="participant_count" class="number-input" min="0" placeholder="Number of participants">
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">Who will be your primary Thrive Lights project coordinator?</div>
+                        <input type="text" name="q_coordinator" id="coordinator" class="text-input" placeholder="Name and role">
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">Have you used participant self-assessment tools before?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q_prior_tools" id="prior_current" value="current" data-label="Yes, currently use one">
+                                <label for="prior_current">Yes, currently</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_prior_tools" id="prior_past" value="past" data-label="Yes, in the past">
+                                <label for="prior_past">Yes, in past</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_prior_tools" id="prior_interested" value="interested" data-label="No, but interested">
+                                <label for="prior_interested">No, but interested</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q_prior_tools" id="prior_unsure" value="unsure" data-label="No, unsure if it fits">
+                                <label for="prior_unsure">No, unsure</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">What support would be most valuable during onboarding? (select top 3)</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="support_tech" id="support_tech">
+                                <label for="support_tech">Extra tech training</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="support_facilitator" id="support_facilitator">
+                                <label for="support_facilitator">Facilitator coaching</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="support_adaptation" id="support_adaptation">
+                                <label for="support_adaptation">Survey adaptation help</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="support_presentation" id="support_presentation">
+                                <label for="support_presentation">Board/funder presentation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="support_troubleshooting" id="support_troubleshooting">
+                                <label for="support_troubleshooting">Ongoing troubleshooting</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="support_peers" id="support_peers">
+                                <label for="support_peers">Peer connections</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="support_integration" id="support_integration">
+                                <label for="support_integration">System integration help</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="support_strategic" id="support_strategic">
+                                <label for="support_strategic">Strategic guidance</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="btn btn-primary" onclick="generateAssessment()">Generate Assessment Results</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset Form</button>
+                    <button type="button" class="btn btn-export" id="exportBtn" onclick="exportPDF()" disabled>Export as PDF</button>
+                </div>
+
+                <div class="results" id="resultsSection">
+                    <div class="readiness-score">
+                        <div class="score-label">Organizational Readiness Level</div>
+                        <div class="score-number" id="readinessLevel">—</div>
+                        <div id="readinessDesc"></div>
+                    </div>
+
+                    <div class="support-strategy" id="supportStrategy">
+                        <h3>🎯 Recommended Support Strategy (For Thrive Lights Team)</h3>
+                        <div id="strategyList"></div>
+                    </div>
+                </div>
+
+                <div class="pdf-report" id="pdfReport"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updateProgress() {
+            var form = document.getElementById('assessmentForm');
+            var radioGroups = new Set();
+            var radios = form.querySelectorAll('input[type="radio"]');
+            radios.forEach(function(r) { radioGroups.add(r.name); });
+            
+            var answered = 0;
+            radioGroups.forEach(function(name) {
+                if (form.querySelector('input[name="' + name + '"]:checked')) {
+                    answered++;
+                }
+            });
+            
+            var progress = (answered / radioGroups.size) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+            radio.addEventListener('change', updateProgress);
+        });
+
+        document.querySelectorAll('.question').forEach(function(question) {
+            var text = question.querySelector('.question-text').textContent;
+            if (text.includes('up to 3') || text.includes('top 3')) {
+                var checkboxes = question.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(function(cb) {
+                    cb.addEventListener('change', function() {
+                        var checked = question.querySelectorAll('input[type="checkbox"]:checked');
+                        if (checked.length > 3) {
+                            this.checked = false;
+                            alert('Please select only up to 3 options.');
+                        }
+                    });
+                });
+            }
+        });
+
+        function generateAssessment() {
+            var orgName = document.getElementById('orgName').value;
+            var contactName = document.getElementById('contactName').value;
+            var contactRole = document.getElementById('contactRole').value;
+            
+            if (!orgName || !contactName || !contactRole) {
+                alert('Please fill in all required organization information fields.');
+                return;
+            }
+
+            var score = 0;
+            var maxScore = 0;
+
+            var comfort = document.querySelector('input[name="q_comfort"]:checked');
+            if (comfort) {
+                score += parseInt(comfort.value);
+                maxScore += 5;
+            }
+
+            var useData = document.querySelector('input[name="q_use_data"]:checked');
+            if (useData) {
+                score += (useData.value === 'regularly' ? 3 : useData.value === 'periodically' ? 2 : 1);
+                maxScore += 3;
+            }
+
+            var boardReview = document.querySelector('input[name="q_board_review"]:checked');
+            if (boardReview) {
+                score += (boardReview.value === 'yes' ? 3 : boardReview.value === 'occasionally' ? 2 : 1);
+                maxScore += 3;
+            }
+
+            var trackTime = document.querySelector('input[name="q_track_time"]:checked');
+            if (trackTime) {
+                score += (trackTime.value === 'yes' ? 3 : trackTime.value === 'sometimes' ? 2 : 1);
+                maxScore += 3;
+            }
+
+            var percentScore = maxScore > 0 ? (score / maxScore) * 100 : 50;
+
+            var level, desc, strategies;
+            
+            if (percentScore < 40) {
+                level = "HIGH SUPPORT NEEDED";
+                desc = "Extra support recommended for successful implementation";
+                strategies = [
+                    "Assign dedicated Partner Success Manager for weekly check-ins",
+                    "Provide comprehensive training with hands-on practice",
+                    "Start with small pilot group to build confidence",
+                    "Extra technology support and troubleshooting"
+                ];
+            } else if (percentScore < 65) {
+                level = "MODERATE READINESS";
+                desc = "Standard onboarding with targeted support";
+                strategies = [
+                    "Follow standard onboarding schedule",
+                    "Provide targeted support based on identified gaps",
+                    "Monthly check-ins during first 90 days",
+                    "Share resources from similar partners"
+                ];
+            } else {
+                level = "STRONG READINESS";
+                desc = "Well-positioned for successful implementation";
+                strategies = [
+                    "Accelerated onboarding possible",
+                    "Standard check-in schedule",
+                    "Consider as peer learning leader",
+                    "Focus on advanced features"
+                ];
+            }
+
+            if (document.getElementById('track_none').checked) {
+                strategies.push("NO SYSTEMATIC TRACKING - Provide extra support on data basics");
+            }
+            if (document.getElementById('challenge_training').checked) {
+                strategies.push("TRAINING NEED - Schedule additional skills-building");
+            }
+            if (document.getElementById('concern_tech').checked) {
+                strategies.push("TECH CONCERNS - Assign technical support specialist");
+            }
+            if (document.getElementById('concern_capacity').checked) {
+                strategies.push("CAPACITY CONSTRAINTS - Recommend phased rollout");
+            }
+
+            document.getElementById('readinessLevel').textContent = level;
+            document.getElementById('readinessDesc').textContent = desc;
+            
+            var stratHTML = '';
+            strategies.forEach(function(s) {
+                stratHTML += '<div class="strategy-item">' + s + '</div>';
+            });
+            document.getElementById('strategyList').innerHTML = stratHTML;
+
+            document.getElementById('resultsSection').classList.add('show');
+            document.getElementById('exportBtn').disabled = false;
+
+            generatePDFReport();
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generatePDFReport() {
+            var orgName = document.getElementById('orgName').value;
+            var contactName = document.getElementById('contactName').value;
+            var contactRole = document.getElementById('contactRole').value;
+
+            var pdfHTML = '<div class="pdf-header">';
+            pdfHTML += '<h1>Organizational Stoplight Assessment</h1>';
+            pdfHTML += '<div style="color: #666; margin-top: 10px;">';
+            pdfHTML += '<strong>' + orgName + '</strong><br>';
+            pdfHTML += 'Completed by: ' + contactName + ' (' + contactRole + ')<br>';
+            pdfHTML += 'Date: ' + new Date().toLocaleDateString();
+            pdfHTML += '</div></div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Organization Overview</div>';
+            
+            var pops = [];
+            if (document.getElementById('pop_children').checked) pops.push('☑ Children & Families');
+            if (document.getElementById('pop_youth').checked) pops.push('☑ Youth & Young Adults');
+            if (document.getElementById('pop_adults').checked) pops.push('☑ Adults (general)');
+            if (document.getElementById('pop_seniors').checked) pops.push('☑ Seniors');
+            if (document.getElementById('pop_community').checked) pops.push('☑ Community members');
+            if (document.getElementById('pop_workforce').checked) pops.push('☑ Workforce/Employees');
+            var popOther = document.getElementById('pop_other').value;
+            if (popOther) pops.push('☑ Other: ' + popOther);
+            if (pops.length > 0) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Primary population(s) you serve</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + pops.join('<br>') + '</div></div>';
+            }
+            pdfHTML += '</div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Data & Evaluation Practices</div>';
+            
+            var tracks = [];
+            if (document.getElementById('track_spreadsheets').checked) tracks.push('☑ Spreadsheets');
+            if (document.getElementById('track_database').checked) tracks.push('☑ Database/CRM');
+            if (document.getElementById('track_case').checked) tracks.push('☑ Case management software');
+            if (document.getElementById('track_paper').checked) tracks.push('☑ Paper forms');
+            if (document.getElementById('track_survey').checked) tracks.push('☑ Survey tools');
+            if (document.getElementById('track_none').checked) tracks.push('☑ Don\'t track systematically');
+            var trackOther = document.getElementById('track_other').value;
+            if (trackOther) tracks.push('☑ Other: ' + trackOther);
+            if (tracks.length > 0) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How does your organization track participant outcomes?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + tracks.join('<br>') + '</div></div>';
+            }
+
+            var comfort = document.querySelector('input[name="q_comfort"]:checked');
+            if (comfort) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How comfortable is your team with using data?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + comfort.value + '/5 - ' + comfort.dataset.label + '</div></div>';
+            }
+
+            var challenges = [];
+            if (document.getElementById('challenge_time').checked) challenges.push('☑ Lack of time');
+            if (document.getElementById('challenge_training').checked) challenges.push('☑ Staff need training');
+            if (document.getElementById('challenge_participants').checked) challenges.push('☑ Hard to get participants to complete');
+            if (document.getElementById('challenge_using').checked) challenges.push('☑ Collecting but not using');
+            if (document.getElementById('challenge_integration').checked) challenges.push('☑ Systems don\'t integrate');
+            if (document.getElementById('challenge_what').checked) challenges.push('☑ Don\'t know what to collect');
+            if (document.getElementById('challenge_none').checked) challenges.push('☑ No challenges');
+            var challengeOther = document.getElementById('challenge_other').value;
+            if (challengeOther) challenges.push('☑ Other: ' + challengeOther);
+            if (challenges.length > 0) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: What are your biggest data challenges?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + challenges.join('<br>') + '</div></div>';
+            }
+
+            var trackTime = document.querySelector('input[name="q_track_time"]:checked');
+            if (trackTime) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Do you track participant outcomes over time?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + trackTime.dataset.label + '</div></div>';
+            }
+
+            var useData = document.querySelector('input[name="q_use_data"]:checked');
+            if (useData) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How often do you use data to improve programs?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + useData.dataset.label + '</div></div>';
+            }
+
+            pdfHTML += '</div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Reporting & Stakeholder Engagement</div>';
+
+            var boardFreq = document.querySelector('input[name="q_board_freq"]:checked');
+            if (boardFreq) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How often do you report to your board?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + boardFreq.dataset.label + '</div></div>';
+            }
+
+            var funderReq = document.querySelector('input[name="q_funder_req"]:checked');
+            if (funderReq) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Do funders require outcome data?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + funderReq.dataset.label + '</div></div>';
+            }
+
+            var reportChallenge = document.querySelector('input[name="q_report_challenge"]:checked');
+            if (reportChallenge) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How challenging are reports to prepare?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + reportChallenge.value + '/5 - ' + reportChallenge.dataset.label + '</div></div>';
+            }
+
+            var boardReview = document.querySelector('input[name="q_board_review"]:checked');
+            if (boardReview) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Does your board review outcome data?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + boardReview.dataset.label + '</div></div>';
+            }
+
+            pdfHTML += '</div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Implementation Readiness</div>';
+
+            var goals = [];
+            if (document.getElementById('goal_understand').checked) goals.push('☑ Understand participant needs');
+            if (document.getElementById('goal_track').checked) goals.push('☑ Track progress');
+            if (document.getElementById('goal_demonstrate').checked) goals.push('☑ Demonstrate impact to funders');
+            if (document.getElementById('goal_board').checked) goals.push('☑ Demonstrate impact to board');
+            if (document.getElementById('goal_improve').checked) goals.push('☑ Improve programs');
+            if (document.getElementById('goal_case').checked) goals.push('☑ Case management');
+            if (document.getElementById('goal_learning').checked) goals.push('☑ Build learning culture');
+            if (document.getElementById('goal_requirements').checked) goals.push('☑ Meet reporting requirements');
+            if (document.getElementById('goal_empower').checked) goals.push('☑ Empower participants');
+            var goalOther = document.getElementById('goal_other').value;
+            if (goalOther) goals.push('☑ Other: ' + goalOther);
+            if (goals.length > 0) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Primary goals for using Thrive Lights?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + goals.join('<br>') + '</div></div>';
+            }
+
+            var concerns = [];
+            if (document.getElementById('concern_capacity').checked) concerns.push('☑ Staff capacity/time');
+            if (document.getElementById('concern_tech').checked) concerns.push('☑ Technology');
+            if (document.getElementById('concern_engagement').checked) concerns.push('☑ Participant engagement');
+            if (document.getElementById('concern_leadership').checked) concerns.push('☑ Proving value');
+            if (document.getElementById('concern_integration').checked) concerns.push('☑ System integration');
+            if (document.getElementById('concern_none').checked) concerns.push('☑ No major concerns');
+            var concernOther = document.getElementById('concern_other').value;
+            if (concernOther) concerns.push('☑ Other: ' + concernOther);
+            if (concerns.length > 0) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Concerns about implementation?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + concerns.join('<br>') + '</div></div>';
+            }
+
+            var partCount = document.getElementById('participant_count').value;
+            if (partCount) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Participants to enroll initially?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + partCount + ' participants</div></div>';
+            }
+
+            var coordinator = document.getElementById('coordinator').value;
+            if (coordinator) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Primary project coordinator?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + coordinator + '</div></div>';
+            }
+
+            var priorTools = document.querySelector('input[name="q_prior_tools"]:checked');
+            if (priorTools) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Used self-assessment tools before?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + priorTools.dataset.label + '</div></div>';
+            }
+
+            var supports = [];
+            if (document.getElementById('support_tech').checked) supports.push('☑ Extra tech training');
+            if (document.getElementById('support_facilitator').checked) supports.push('☑ Facilitator coaching');
+            if (document.getElementById('support_adaptation').checked) supports.push('☑ Survey adaptation');
+            if (document.getElementById('support_presentation').checked) supports.push('☑ Board/funder presentation');
+            if (document.getElementById('support_troubleshooting').checked) supports.push('☑ Troubleshooting');
+            if (document.getElementById('support_peers').checked) supports.push('☑ Peer connections');
+            if (document.getElementById('support_integration').checked) supports.push('☑ System integration');
+            if (document.getElementById('support_strategic').checked) supports.push('☑ Strategic guidance');
+            if (supports.length > 0) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Most valuable support during onboarding?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + supports.join('<br>') + '</div></div>';
+            }
+
+            pdfHTML += '</div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Assessment Results</div>';
+            pdfHTML += '<div class="pdf-question"><div class="pdf-q">Readiness Level</div>';
+            pdfHTML += '<div class="pdf-a"><strong>' + document.getElementById('readinessLevel').textContent + '</strong><br>';
+            pdfHTML += document.getElementById('readinessDesc').textContent + '</div></div>';
+            pdfHTML += '<div class="pdf-question"><div class="pdf-q">Support Strategy</div>';
+            pdfHTML += '<div class="pdf-a">' + document.getElementById('strategyList').innerHTML.replace(/<div class="strategy-item">/g, '').replace(/<\/div>/g, '<br>') + '</div></div>';
+            pdfHTML += '</div>';
+
+            document.getElementById('pdfReport').innerHTML = pdfHTML;
+        }
+
+        function resetForm() {
+            if (confirm('Reset the form? All data will be cleared.')) {
+                document.getElementById('assessmentForm').reset();
+                document.getElementById('orgName').value = '';
+                document.getElementById('contactName').value = '';
+                document.getElementById('contactRole').value = '';
+                document.getElementById('resultsSection').classList.remove('show');
+                document.getElementById('exportBtn').disabled = true;
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function exportPDF() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

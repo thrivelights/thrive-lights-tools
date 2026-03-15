@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrive Lights Success Milestones Builder</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            padding: 40px 30px;
+            color: white;
+            text-align: center;
+        }
+        .logo-space { margin-bottom: 20px; font-size: 48px; }
+        .header h1 { font-size: 32px; margin-bottom: 10px; font-weight: 600; }
+        .header p { font-size: 16px; opacity: 0.95; max-width: 700px; margin: 0 auto; }
+        .content { padding: 40px 30px; }
+        .partner-info {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #5fad56;
+        }
+        .partner-info h3 { color: #333; margin-bottom: 15px; font-size: 18px; }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .input-group { margin-bottom: 15px; }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .input-group input:focus { outline: none; border-color: #5fad56; }
+        .required { color: #d7252c; }
+        .timeline-nav {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .timeline-btn {
+            padding: 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .timeline-btn:hover {
+            border-color: #5fad56;
+            transform: translateY(-2px);
+        }
+        .timeline-btn.active {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            color: white;
+            border-color: #5fad56;
+        }
+        .timeline-label {
+            font-size: 18px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .timeline-desc {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        .timeline-btn.active .timeline-desc { opacity: 0.95; }
+        .timeline-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+        .timeline-section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-header {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .section-header h2 { font-size: 24px; margin-bottom: 8px; }
+        .section-header p { font-size: 14px; opacity: 0.95; }
+        .milestone-card {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .milestone-card.has-content {
+            border-color: #5fad56;
+            background: #f0fdf4;
+        }
+        .milestone-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .milestone-inputs { margin-top: 10px; }
+        .milestone-inputs textarea, .milestone-inputs input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .milestone-inputs textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .milestone-inputs textarea:focus, .milestone-inputs input:focus {
+            outline: none;
+            border-color: #5fad56;
+        }
+        .type-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .type-option { position: relative; }
+        .type-option input[type="radio"] { display: none; }
+        .type-option label {
+            display: block;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .type-option input[type="radio"]:checked + label {
+            background: #5fad56;
+            border-color: #5fad56;
+            color: white;
+        }
+        .type-option label:hover { border-color: #5fad56; }
+        .type-icon {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .add-milestone-btn {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            border: 2px dashed #5fad56;
+            border-radius: 8px;
+            color: #5fad56;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+        .add-milestone-btn:hover { background: #f0fdf4; }
+        .dependencies-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        .dependencies-section h4 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 16px;
+        }
+        .dependencies-section textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 60px;
+        }
+        .overall-section {
+            background: #fff9e6;
+            border-left: 4px solid #ffc000;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .overall-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        .overall-section textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            min-height: 100px;
+        }
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(95, 173, 86, 0.4);
+        }
+        .btn-secondary {
+            background: white;
+            color: #333;
+            border: 2px solid #5fad56;
+        }
+        .btn-secondary:hover { background: #f8f9fa; }
+        .btn-export {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .summary-view {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #5fad56;
+        }
+        .summary-view.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .summary-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .summary-header h2 {
+            color: #5fad56;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .timeline-summary {
+            margin-bottom: 30px;
+        }
+        .timeline-summary-header {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .milestone-summary-item {
+            background: #f9fafb;
+            padding: 15px;
+            border-left: 4px solid #5fad56;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .milestone-summary-type {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #5fad56;
+            color: white;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .milestone-summary-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .milestone-summary-detail {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; max-width: 100%; }
+            .buttons, .timeline-nav, .add-milestone-btn { display: none !important; }
+            .summary-view { display: block !important; }
+            .timeline-section { display: block !important; }
+        }
+        @media (max-width: 768px) {
+            .container { border-radius: 0; }
+            .content { padding: 25px 20px; }
+            .timeline-nav { grid-template-columns: repeat(2, 1fr); }
+            .type-selector { grid-template-columns: 1fr; }
+            .buttons { flex-direction: column; }
+            .btn { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-space">🎯</div>
+            <h1>Success Milestones Builder</h1>
+            <p>Let's co-create your roadmap to success! Define what you want to achieve at each stage of your Thrive Lights journey.</p>
+        </div>
+
+        <div class="content">
+            <div class="partner-info">
+                <h3>Partner Information</h3>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="orgName">Organization Name <span class="required">*</span></label>
+                        <input type="text" id="orgName" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="contactName">Your Name <span class="required">*</span></label>
+                        <input type="text" id="contactName" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="contactEmail">Your Email <span class="required">*</span></label>
+                        <input type="email" id="contactEmail" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="coordinatorName">Project Coordinator Name</label>
+                        <input type="text" id="coordinatorName">
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-nav">
+                <div class="timeline-btn active" onclick="showTimeline(0)">
+                    <span class="timeline-label">30 Days</span>
+                    <span class="timeline-desc">Getting Started</span>
+                </div>
+                <div class="timeline-btn" onclick="showTimeline(1)">
+                    <span class="timeline-label">60 Days</span>
+                    <span class="timeline-desc">Building Momentum</span>
+                </div>
+                <div class="timeline-btn" onclick="showTimeline(2)">
+                    <span class="timeline-label">90 Days</span>
+                    <span class="timeline-desc">Insights Emerging</span>
+                </div>
+                <div class="timeline-btn" onclick="showTimeline(3)">
+                    <span class="timeline-label">120 Days</span>
+                    <span class="timeline-desc">Taking Action</span>
+                </div>
+            </div>
+
+            <!-- 30 Day Timeline -->
+            <div class="timeline-section active" id="timeline0">
+                <div class="section-header">
+                    <h2>30-Day Milestones</h2>
+                    <p>What does success look like after 30 days? Think about initial implementation, staff readiness, and early wins.</p>
+                </div>
+                <div id="milestones30"></div>
+                <button class="add-milestone-btn" onclick="addMilestone(30)">+ Add Another 30-Day Milestone</button>
+                <div class="dependencies-section">
+                    <h4>Dependencies or Support Needed for 30-Day Milestones</h4>
+                    <textarea id="deps30" placeholder="What support or resources do you need to achieve these milestones?"></textarea>
+                </div>
+            </div>
+
+            <!-- 60 Day Timeline -->
+            <div class="timeline-section" id="timeline1">
+                <div class="section-header">
+                    <h2>60-Day Milestones</h2>
+                    <p>By 60 days, baseline data collection should be underway. What does progress look like?</p>
+                </div>
+                <div id="milestones60"></div>
+                <button class="add-milestone-btn" onclick="addMilestone(60)">+ Add Another 60-Day Milestone</button>
+                <div class="dependencies-section">
+                    <h4>Dependencies or Support Needed for 60-Day Milestones</h4>
+                    <textarea id="deps60" placeholder="What support or resources do you need?"></textarea>
+                </div>
+            </div>
+
+            <!-- 90 Day Timeline -->
+            <div class="timeline-section" id="timeline2">
+                <div class="section-header">
+                    <h2>90-Day Milestones</h2>
+                    <p>By 90 days, baseline should be complete and insights emerging. What does actionable insight look like?</p>
+                </div>
+                <div id="milestones90"></div>
+                <button class="add-milestone-btn" onclick="addMilestone(90)">+ Add Another 90-Day Milestone</button>
+                <div class="dependencies-section">
+                    <h4>Dependencies or Support Needed for 90-Day Milestones</h4>
+                    <textarea id="deps90" placeholder="What support or resources do you need?"></textarea>
+                </div>
+            </div>
+
+            <!-- 120 Day Timeline -->
+            <div class="timeline-section" id="timeline3">
+                <div class="section-header">
+                    <h2>120-Day Milestones</h2>
+                    <p>By 120 days, you should be moving from insights to action. What does "data driving decisions" look like?</p>
+                </div>
+                <div id="milestones120"></div>
+                <button class="add-milestone-btn" onclick="addMilestone(120)">+ Add Another 120-Day Milestone</button>
+                <div class="dependencies-section">
+                    <h4>Dependencies or Support Needed for 120-Day Milestones</h4>
+                    <textarea id="deps120" placeholder="What support or resources do you need?"></textarea>
+                </div>
+            </div>
+
+            <!-- Overall Success Definition -->
+            <div class="overall-section">
+                <h3>Year 1 Success Vision</h3>
+                <div class="input-group">
+                    <label for="yearSuccess">What does "success" with Thrive Lights look like for your organization by the end of Year 1?</label>
+                    <textarea id="yearSuccess" placeholder="Describe your vision of success..."></textarea>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-primary" onclick="generateSummary()">Generate Milestone Summary</button>
+                <button class="btn btn-secondary" onclick="saveProgress()">Save Progress</button>
+                <button class="btn btn-export" onclick="exportToPDF()">Export as PDF</button>
+            </div>
+
+            <!-- Summary View -->
+            <div class="summary-view" id="summaryView">
+                <div class="summary-header">
+                    <h2>Your Thrive Lights Milestone Roadmap</h2>
+                    <div id="summaryOrg" style="color: #666; font-size: 16px;"></div>
+                    <div id="summaryDate" style="color: #999; font-size: 14px; margin-top: 5px;"></div>
+                </div>
+                <div id="summaryContent"></div>
+                <div class="overall-section" style="margin-top: 30px;">
+                    <h3>Year 1 Success Vision</h3>
+                    <div id="summaryYearSuccess" style="color: #333; line-height: 1.8;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var milestonesData = {
+            30: [],
+            60: [],
+            90: [],
+            120: []
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            addMilestone(30);
+            addMilestone(60);
+            addMilestone(90);
+            addMilestone(120);
+            loadProgress();
+        });
+
+        function showTimeline(index) {
+            document.querySelectorAll('.timeline-btn').forEach(function(btn, i) {
+                btn.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.timeline-section').forEach(function(section, i) {
+                section.classList.toggle('active', i === index);
+            });
+        }
+
+        function addMilestone(days) {
+            var container = document.getElementById('milestones' + days);
+            var index = milestonesData[days].length;
+            
+            var milestoneCard = document.createElement('div');
+            milestoneCard.className = 'milestone-card';
+            milestoneCard.id = 'milestone-' + days + '-' + index;
+            
+            milestoneCard.innerHTML = '<div class="milestone-number">' + (index + 1) + '</div>' +
+                '<div class="milestone-inputs">' +
+                '<div class="input-group">' +
+                '<label>What do you want to accomplish? <span class="required">*</span></label>' +
+                '<textarea placeholder="Describe your milestone..." oninput="updateMilestoneData(' + days + ', ' + index + ', \'description\', this.value)"></textarea>' +
+                '</div>' +
+                '<div class="input-group">' +
+                '<label>Milestone Type <span class="required">*</span></label>' +
+                '<div class="type-selector">' +
+                '<div class="type-option">' +
+                '<input type="radio" name="type-' + days + '-' + index + '" id="tech-' + days + '-' + index + '" value="Technical" onchange="updateMilestoneData(' + days + ', ' + index + ', \'type\', this.value)">' +
+                '<label for="tech-' + days + '-' + index + '"><span class="type-icon">💻</span>Technical</label>' +
+                '</div>' +
+                '<div class="type-option">' +
+                '<input type="radio" name="type-' + days + '-' + index + '" id="strat-' + days + '-' + index + '" value="Strategic" onchange="updateMilestoneData(' + days + ', ' + index + ', \'type\', this.value)">' +
+                '<label for="strat-' + days + '-' + index + '"><span class="type-icon">🎯</span>Strategic</label>' +
+                '</div>' +
+                '<div class="type-option">' +
+                '<input type="radio" name="type-' + days + '-' + index + '" id="engage-' + days + '-' + index + '" value="Engagement" onchange="updateMilestoneData(' + days + ', ' + index + ', \'type\', this.value)">' +
+                '<label for="engage-' + days + '-' + index + '"><span class="type-icon">👥</span>Engagement</label>' +
+                '</div>' +
+                '<div class="type-option">' +
+                '<input type="radio" name="type-' + days + '-' + index + '" id="data-' + days + '-' + index + '" value="Data Quality" onchange="updateMilestoneData(' + days + ', ' + index + ', \'type\', this.value)">' +
+                '<label for="data-' + days + '-' + index + '"><span class="type-icon">📊</span>Data Quality</label>' +
+                '</div>' +
+                '<div class="type-option">' +
+                '<input type="radio" name="type-' + days + '-' + index + '" id="ops-' + days + '-' + index + '" value="Operational" onchange="updateMilestoneData(' + days + ', ' + index + ', \'type\', this.value)">' +
+                '<label for="ops-' + days + '-' + index + '"><span class="type-icon">🔄</span>Operational</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="input-group">' +
+                '<label>How will you know you\'ve achieved this?</label>' +
+                '<textarea placeholder="Success criteria..." oninput="updateMilestoneData(' + days + ', ' + index + ', \'criteria\', this.value)"></textarea>' +
+                '</div>' +
+                '<div class="input-group">' +
+                '<label>Who is responsible for this milestone?</label>' +
+                '<input type="text" placeholder="Name or role" oninput="updateMilestoneData(' + days + ', ' + index + ', \'owner\', this.value)">' +
+                '</div>' +
+                '</div>';
+            
+            container.appendChild(milestoneCard);
+            
+            milestonesData[days].push({
+                description: '',
+                type: '',
+                criteria: '',
+                owner: ''
+            });
+        }
+
+        function updateMilestoneData(days, index, field, value) {
+            if (!milestonesData[days][index]) {
+                milestonesData[days][index] = {};
+            }
+            milestonesData[days][index][field] = value;
+            
+            var card = document.getElementById('milestone-' + days + '-' + index);
+            var hasContent = value || milestonesData[days][index].type;
+            if (hasContent) {
+                card.classList.add('has-content');
+            }
+        }
+
+        function generateSummary() {
+            var orgName = document.getElementById('orgName').value;
+            var contactName = document.getElementById('contactName').value;
+            var contactEmail = document.getElementById('contactEmail').value;
+            
+            if (!orgName || !contactName || !contactEmail) {
+                alert('Please fill in all required partner information fields.');
+                return;
+            }
+
+            var hasAnyMilestone = false;
+            Object.keys(milestonesData).forEach(function(days) {
+                if (milestonesData[days].some(function(m) { return m.description && m.type; })) {
+                    hasAnyMilestone = true;
+                }
+            });
+
+            if (!hasAnyMilestone) {
+                alert('Please create at least one milestone before generating summary.');
+                return;
+            }
+
+            document.getElementById('summaryOrg').textContent = orgName;
+            document.getElementById('summaryDate').textContent = 'Created: ' + new Date().toLocaleDateString();
+            
+            var summaryHTML = '';
+            
+            [30, 60, 90, 120].forEach(function(days) {
+                var milestones = milestonesData[days].filter(function(m) { return m.description && m.type; });
+                
+                if (milestones.length > 0) {
+                    summaryHTML += '<div class="timeline-summary">';
+                    summaryHTML += '<div class="timeline-summary-header">' + days + '-Day Milestones</div>';
+                    
+                    milestones.forEach(function(m, i) {
+                        summaryHTML += '<div class="milestone-summary-item">';
+                        summaryHTML += '<div class="milestone-summary-type">' + m.type + '</div>';
+                        summaryHTML += '<div class="milestone-summary-title">Milestone ' + (i + 1) + ': ' + m.description + '</div>';
+                        if (m.criteria) {
+                            summaryHTML += '<div class="milestone-summary-detail"><strong>Success Criteria:</strong> ' + m.criteria + '</div>';
+                        }
+                        if (m.owner) {
+                            summaryHTML += '<div class="milestone-summary-detail"><strong>Owner:</strong> ' + m.owner + '</div>';
+                        }
+                        summaryHTML += '</div>';
+                    });
+                    
+                    var deps = document.getElementById('deps' + days).value;
+                    if (deps) {
+                        summaryHTML += '<div style="margin-top: 10px; padding: 12px; background: white; border-radius: 4px; font-size: 13px;">';
+                        summaryHTML += '<strong>Dependencies/Support Needed:</strong> ' + deps;
+                        summaryHTML += '</div>';
+                    }
+                    
+                    summaryHTML += '</div>';
+                }
+            });
+            
+            document.getElementById('summaryContent').innerHTML = summaryHTML;
+            
+            var yearSuccess = document.getElementById('yearSuccess').value;
+            document.getElementById('summaryYearSuccess').textContent = yearSuccess || 'Not specified';
+            
+            document.getElementById('summaryView').classList.add('show');
+            document.getElementById('summaryView').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function saveProgress() {
+            var data = {
+                partnerInfo: {
+                    orgName: document.getElementById('orgName').value,
+                    contactName: document.getElementById('contactName').value,
+                    contactEmail: document.getElementById('contactEmail').value,
+                    coordinatorName: document.getElementById('coordinatorName').value
+                },
+                milestones: milestonesData,
+                dependencies: {
+                    30: document.getElementById('deps30').value,
+                    60: document.getElementById('deps60').value,
+                    90: document.getElementById('deps90').value,
+                    120: document.getElementById('deps120').value
+                },
+                yearSuccess: document.getElementById('yearSuccess').value,
+                savedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('tlMilestones', JSON.stringify(data));
+            alert('Progress saved! You can close this page and return later to continue.');
+        }
+
+        function loadProgress() {
+            var saved = localStorage.getItem('tlMilestones');
+            if (saved) {
+                try {
+                    var data = JSON.parse(saved);
+                    
+                    if (data.partnerInfo) {
+                        document.getElementById('orgName').value = data.partnerInfo.orgName || '';
+                        document.getElementById('contactName').value = data.partnerInfo.contactName || '';
+                        document.getElementById('contactEmail').value = data.partnerInfo.contactEmail || '';
+                        document.getElementById('coordinatorName').value = data.partnerInfo.coordinatorName || '';
+                    }
+                    
+                    if (data.dependencies) {
+                        document.getElementById('deps30').value = data.dependencies[30] || '';
+                        document.getElementById('deps60').value = data.dependencies[60] || '';
+                        document.getElementById('deps90').value = data.dependencies[90] || '';
+                        document.getElementById('deps120').value = data.dependencies[120] || '';
+                    }
+                    
+                    document.getElementById('yearSuccess').value = data.yearSuccess || '';
+                    
+                    console.log('Progress loaded from ' + new Date(data.savedAt).toLocaleString());
+                } catch (e) {
+                    console.error('Error loading saved progress', e);
+                }
+            }
+        }
+
+        function exportToPDF() {
+            generateSummary();
+            setTimeout(function() { window.print(); }, 500);
+        }
+
+        setInterval(saveProgress, 120000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrive Lights 30-Day Health Check-in</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            padding: 40px 30px;
+            color: white;
+            text-align: center;
+        }
+        .logo-space { margin-bottom: 20px; font-size: 48px; }
+        .header h1 { font-size: 28px; margin-bottom: 10px; font-weight: 600; }
+        .header p { font-size: 16px; opacity: 0.95; }
+        .content { padding: 40px 30px; }
+        .intro-box {
+            background: #fff9e6;
+            border-left: 4px solid #ffc000;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .intro-box p { color: #666; font-size: 14px; line-height: 1.6; }
+        .partner-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #5fad56;
+        }
+        .partner-info h3 { color: #333; margin-bottom: 15px; font-size: 18px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .input-group input:focus, .input-group select:focus { outline: none; border-color: #5fad56; }
+        .section {
+            margin-bottom: 40px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 30px;
+        }
+        .section:last-of-type { border-bottom: none; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 12px;
+        }
+        .section-icon { font-size: 24px; }
+        .section-header h2 { color: #333; font-size: 22px; font-weight: 600; }
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        .question-text {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        .rating-scale { display: flex; gap: 10px; flex-wrap: wrap; }
+        .rating-option { flex: 1; min-width: 100px; }
+        .rating-option input[type="radio"] { display: none; }
+        .rating-option label {
+            display: block;
+            padding: 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .rating-option input[type="radio"]:checked + label {
+            background: #5fad56;
+            border-color: #5fad56;
+            color: white;
+        }
+        .rating-option label:hover { border-color: #5fad56; }
+        .stoplight-rating {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .stoplight-option input[type="radio"] { display: none; }
+        .stoplight-option label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .stoplight-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .stoplight-red .stoplight-circle { background: #d7252c; }
+        .stoplight-yellow .stoplight-circle { background: #ffc000; }
+        .stoplight-green .stoplight-circle { background: #5fad56; }
+        .stoplight-option input[type="radio"]:checked + label {
+            border-width: 3px;
+            transform: scale(1.05);
+        }
+        .stoplight-red input[type="radio"]:checked + label { border-color: #d7252c; }
+        .stoplight-yellow input[type="radio"]:checked + label { border-color: #ffc000; }
+        .stoplight-green input[type="radio"]:checked + label { border-color: #5fad56; }
+        .optional-comment {
+            margin-top: 12px;
+        }
+        .optional-comment label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .optional-comment textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 60px;
+        }
+        .optional-comment textarea:focus { outline: none; border-color: #5fad56; }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+        .checkbox-item:has(input:checked) {
+            background: #f0fdf4;
+            border-color: #5fad56;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .checkbox-item label {
+            font-size: 14px;
+            color: #555;
+            cursor: pointer;
+            flex: 1;
+        }
+        .number-input {
+            max-width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #5fad56 0%, #8bc53f 100%);
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #5fad56 0%, #8bc53f 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(95, 173, 86, 0.4);
+        }
+        .btn-secondary {
+            background: white;
+            color: #333;
+            border: 2px solid #5fad56;
+        }
+        .btn-secondary:hover { background: #f8f9fa; }
+        .btn-export {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+        .results.show {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .score-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .score-number { font-size: 48px; font-weight: bold; margin: 10px 0; }
+        .score-label { font-size: 18px; opacity: 0.9; }
+        .interventions {
+            background: #fff9e6;
+            border-left: 4px solid #ffc000;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .interventions h3 { color: #333; margin-bottom: 15px; font-size: 20px; }
+        .intervention-item {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .intervention-item:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ffc000;
+            font-weight: bold;
+        }
+        .pdf-report { display: none; }
+        .required { color: #d7252c; }
+        
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; max-width: 100%; }
+            .buttons, .progress-bar, .intro-box { display: none !important; }
+            .results, .pdf-report { display: block !important; }
+            .pdf-report { padding: 20px; }
+            .pdf-header {
+                text-align: center;
+                margin-bottom: 30px;
+                padding-bottom: 20px;
+                border-bottom: 3px solid #5fad56;
+            }
+            .pdf-header h1 {
+                color: #5fad56;
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+            .pdf-section {
+                margin-bottom: 30px;
+                page-break-inside: avoid;
+            }
+            .pdf-section-title {
+                background: #5fad56;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 4px;
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 15px;
+            }
+            .pdf-question {
+                margin-bottom: 20px;
+                padding: 15px;
+                background: #f9fafb;
+                border-left: 3px solid #5fad56;
+            }
+            .pdf-q {
+                font-weight: 600;
+                color: #333;
+                margin-bottom: 8px;
+                font-size: 14px;
+            }
+            .pdf-a {
+                color: #666;
+                font-size: 13px;
+                padding-left: 15px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container { border-radius: 0; }
+            .content { padding: 25px 20px; }
+            .rating-scale { flex-direction: column; }
+            .rating-option { min-width: 100%; }
+            .buttons { flex-direction: column; }
+            .btn { min-width: 100%; }
+            .checkbox-group { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-space">🏥</div>
+            <h1>30-Day Implementation Health Check-in</h1>
+            <p>Help us understand how implementation is going so we can provide the right support</p>
+        </div>
+
+        <div class="content">
+            <div class="intro-box">
+                <p><strong>Why this check-in?</strong> This quick assessment helps us identify any issues early and provide targeted support. Your honest feedback ensures you get the most value from Thrive Lights.</p>
+            </div>
+
+            <div class="partner-info">
+                <h3>Partner Information</h3>
+                <div class="input-group">
+                    <label for="orgName">Organization Name <span class="required">*</span></label>
+                    <input type="text" id="orgName" required>
+                </div>
+                <div class="input-group">
+                    <label for="contactName">Your Name <span class="required">*</span></label>
+                    <input type="text" id="contactName" required>
+                </div>
+                <div class="input-group">
+                    <label for="checkInDate">Check-in Date <span class="required">*</span></label>
+                    <input type="date" id="checkInDate" required>
+                </div>
+                <div class="input-group">
+                    <label for="implementationModel">Implementation Model</label>
+                    <select id="implementationModel">
+                        <option value="facilitated">Facilitated (using facilitators)</option>
+                        <option value="self-administered">Self-administered (direct links)</option>
+                        <option value="hybrid">Hybrid approach</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <form id="healthCheckForm">
+                <!-- SECTION 1: Implementation Quality -->
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-icon">📊</span>
+                        <h2>Implementation Quality</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">Are assessments happening according to your planned timeline?</div>
+                        <div class="stoplight-rating">
+                            <div class="stoplight-option stoplight-red">
+                                <input type="radio" name="q1_timeline" id="q1_red" value="1" data-label="Significantly behind">
+                                <label for="q1_red">
+                                    <div class="stoplight-circle">⚠️</div>
+                                    <div>Significantly behind</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-yellow">
+                                <input type="radio" name="q1_timeline" id="q1_yellow" value="2" data-label="Somewhat behind">
+                                <label for="q1_yellow">
+                                    <div class="stoplight-circle">⚡</div>
+                                    <div>Somewhat behind</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-green">
+                                <input type="radio" name="q1_timeline" id="q1_green" value="3" data-label="On track">
+                                <label for="q1_green">
+                                    <div class="stoplight-circle">✓</div>
+                                    <div>On track</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="optional-comment">
+                            <label>Additional context (optional)</label>
+                            <textarea name="q1_comment" placeholder="What's helping or hindering progress?"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How is the quality of the assessments being conducted?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q2_quality" id="q2_1" value="1" data-label="Poor">
+                                <label for="q2_1">1<br>Poor</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q2_quality" id="q2_2" value="2" data-label="Fair">
+                                <label for="q2_2">2<br>Fair</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q2_quality" id="q2_3" value="3" data-label="Good">
+                                <label for="q2_3">3<br>Good</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q2_quality" id="q2_4" value="4" data-label="Very Good">
+                                <label for="q2_4">4<br>Very Good</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q2_quality" id="q2_5" value="5" data-label="Excellent">
+                                <label for="q2_5">5<br>Excellent</label>
+                            </div>
+                        </div>
+                        <div class="optional-comment">
+                            <label>What's contributing to quality? (optional)</label>
+                            <textarea name="q2_comment"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How many assessments have been completed so far?</div>
+                        <input type="number" name="q3_count" id="q3_count" min="0" class="number-input" placeholder="Number completed">
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label>Out of how many planned for this stage?</label>
+                            <input type="number" name="q3_target" id="q3_target" min="0" class="number-input" placeholder="Target number">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: Staff Comfort -->
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-icon">👥</span>
+                        <h2>Staff Comfort & Confidence</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How comfortable is your team using the Thrive Lights platform?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q4_comfort" id="q4_1" value="1" data-label="Not comfortable">
+                                <label for="q4_1">1<br>Not comfortable</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q4_comfort" id="q4_2" value="2" data-label="Somewhat uncomfortable">
+                                <label for="q4_2">2<br>Somewhat</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q4_comfort" id="q4_3" value="3" data-label="Neutral">
+                                <label for="q4_3">3<br>Neutral</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q4_comfort" id="q4_4" value="4" data-label="Comfortable">
+                                <label for="q4_4">4<br>Comfortable</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q4_comfort" id="q4_5" value="5" data-label="Very comfortable">
+                                <label for="q4_5">5<br>Very comfortable</label>
+                            </div>
+                        </div>
+                        <div class="optional-comment">
+                            <label>What would increase comfort level? (optional)</label>
+                            <textarea name="q4_comment"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">Do staff members feel they have adequate support to use Thrive Lights effectively?</div>
+                        <div class="stoplight-rating">
+                            <div class="stoplight-option stoplight-red">
+                                <input type="radio" name="q5_support" id="q5_red" value="1" data-label="Inadequate support">
+                                <label for="q5_red">
+                                    <div class="stoplight-circle">⚠️</div>
+                                    <div>Inadequate support</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-yellow">
+                                <input type="radio" name="q5_support" id="q5_yellow" value="2" data-label="Some gaps">
+                                <label for="q5_yellow">
+                                    <div class="stoplight-circle">⚡</div>
+                                    <div>Some gaps</div>
+                                </label>
+                            </div>
+                            <div class="stoplight-option stoplight-green">
+                                <input type="radio" name="q5_support" id="q5_green" value="3" data-label="Well supported">
+                                <label for="q5_green">
+                                    <div class="stoplight-circle">✓</div>
+                                    <div>Well supported</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="optional-comment">
+                            <label>What type of support is needed? (optional)</label>
+                            <textarea name="q5_comment"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: Workflow Integration -->
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-icon">🔄</span>
+                        <h2>Workflow Integration</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How well has Thrive Lights integrated into your daily operations?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q6_integration" id="q6_1" value="1" data-label="Not at all">
+                                <label for="q6_1">1<br>Not at all</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q6_integration" id="q6_2" value="2" data-label="Minimally">
+                                <label for="q6_2">2<br>Minimally</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q6_integration" id="q6_3" value="3" data-label="Somewhat">
+                                <label for="q6_3">3<br>Somewhat</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q6_integration" id="q6_4" value="4" data-label="Well">
+                                <label for="q6_4">4<br>Well</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q6_integration" id="q6_5" value="5" data-label="Seamlessly">
+                                <label for="q6_5">5<br>Seamlessly</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 4: Overall Health Rating -->
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-icon">💯</span>
+                        <h2>Overall Implementation Health</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">On a scale of 1-5, how would you rate your overall implementation health at Day 30?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q7_overall" id="q7_1" value="1" data-label="Critical">
+                                <label for="q7_1">1<br>Critical</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q7_overall" id="q7_2" value="2" data-label="Concerning">
+                                <label for="q7_2">2<br>Concerning</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q7_overall" id="q7_3" value="3" data-label="Fair">
+                                <label for="q7_3">3<br>Fair</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q7_overall" id="q7_4" value="4" data-label="Good">
+                                <label for="q7_4">4<br>Good</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q7_overall" id="q7_5" value="5" data-label="Excellent">
+                                <label for="q7_5">5<br>Excellent</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 5: Facilitator-Specific (conditional) -->
+                <div class="section" id="facilitatorSection" style="display: none;">
+                    <div class="section-header">
+                        <span class="section-icon">🎯</span>
+                        <h2>Facilitator Experience</h2>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">How confident do facilitators feel conducting assessments?</div>
+                        <div class="rating-scale">
+                            <div class="rating-option">
+                                <input type="radio" name="q8_facilitator" id="q8_1" value="1" data-label="Not confident">
+                                <label for="q8_1">1<br>Not confident</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q8_facilitator" id="q8_2" value="2" data-label="Somewhat uncertain">
+                                <label for="q8_2">2<br>Uncertain</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q8_facilitator" id="q8_3" value="3" data-label="Moderately confident">
+                                <label for="q8_3">3<br>Moderate</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q8_facilitator" id="q8_4" value="4" data-label="Confident">
+                                <label for="q8_4">4<br>Confident</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" name="q8_facilitator" id="q8_5" value="5" data-label="Very confident">
+                                <label for="q8_5">5<br>Very confident</label>
+                            </div>
+                        </div>
+                        <div class="optional-comment">
+                            <label>What's affecting facilitator confidence? (optional)</label>
+                            <textarea name="q8_comment"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="btn btn-primary" onclick="calculateHealth()">Calculate Health Score</button>
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset Form</button>
+                    <button type="button" class="btn btn-export" id="exportBtn" onclick="exportPDF()" disabled>Export as PDF</button>
+                </div>
+
+                <div class="results" id="resultsSection">
+                    <div class="score-display">
+                        <div class="score-label">Implementation Health Score</div>
+                        <div class="score-number" id="scoreNumber">—</div>
+                        <div id="scoreInterpretation"></div>
+                    </div>
+
+                    <div class="interventions" id="interventionsBox">
+                        <h3>🎯 Recommended Interventions (For Thrive Lights Team)</h3>
+                        <div id="interventionsList"></div>
+                    </div>
+                </div>
+
+                <div class="pdf-report" id="pdfReport"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Show/hide facilitator section
+        document.getElementById('implementationModel').addEventListener('change', function() {
+            var facilitatorSection = document.getElementById('facilitatorSection');
+            if (this.value === 'facilitated' || this.value === 'hybrid') {
+                facilitatorSection.style.display = 'block';
+            } else {
+                facilitatorSection.style.display = 'none';
+            }
+        });
+
+        // Set default date
+        document.getElementById('checkInDate').valueAsDate = new Date();
+
+        // Progress tracking
+        function updateProgress() {
+            var form = document.getElementById('healthCheckForm');
+            var radioGroups = new Set();
+            var radios = form.querySelectorAll('input[type="radio"]');
+            radios.forEach(function(r) { radioGroups.add(r.name); });
+            
+            var answered = 0;
+            radioGroups.forEach(function(name) {
+                if (form.querySelector('input[name="' + name + '"]:checked')) {
+                    answered++;
+                }
+            });
+            
+            var progress = (answered / radioGroups.size) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+            radio.addEventListener('change', updateProgress);
+        });
+
+        function calculateHealth() {
+            var orgName = document.getElementById('orgName').value;
+            var contactName = document.getElementById('contactName').value;
+            var checkInDate = document.getElementById('checkInDate').value;
+            
+            if (!orgName || !contactName || !checkInDate) {
+                alert('Please fill in all required partner information fields.');
+                return;
+            }
+
+            var scores = [];
+            var questions = ['q1_timeline', 'q2_quality', 'q4_comfort', 'q5_support', 'q6_integration', 'q7_overall'];
+            
+            var model = document.getElementById('implementationModel').value;
+            if (model === 'facilitated' || model === 'hybrid') {
+                questions.push('q8_facilitator');
+            }
+
+            questions.forEach(function(name) {
+                var selected = document.querySelector('input[name="' + name + '"]:checked');
+                if (selected) {
+                    scores.push(parseInt(selected.value));
+                }
+            });
+
+            if (scores.length === 0) {
+                alert('Please answer at least some questions before calculating the score.');
+                return;
+            }
+
+            var avgScore = scores.reduce(function(a, b) { return a + b; }, 0) / scores.length;
+            var percentScore = ((avgScore - 1) / 4) * 100;
+
+            var status, interpretation, interventions = [];
+            
+            if (percentScore < 40) {
+                status = 'AT RISK';
+                interpretation = 'Implementation is at risk. Immediate intervention needed to prevent disengagement.';
+                interventions = [
+                    'Schedule emergency check-in call within 48 hours',
+                    'Assign dedicated support team member',
+                    'Review and adjust implementation timeline',
+                    'Consider reducing scope temporarily',
+                    'Provide intensive hands-on support'
+                ];
+            } else if (percentScore < 60) {
+                status = 'NEEDS ATTENTION';
+                interpretation = 'Implementation needs attention. Proactive support required to get back on track.';
+                interventions = [
+                    'Schedule targeted support session within 1 week',
+                    'Identify and address top 2-3 barriers',
+                    'Provide additional training if needed',
+                    'Increase check-in frequency to weekly'
+                ];
+            } else if (percentScore < 80) {
+                status = 'ON TRACK';
+                interpretation = 'Implementation is progressing well. Continue standard support with some fine-tuning.';
+                interventions = [
+                    'Maintain current support schedule',
+                    'Address any specific concerns raised',
+                    'Prepare for upcoming milestones',
+                    'Celebrate early wins with team'
+                ];
+            } else {
+                status = 'EXCELLENT';
+                interpretation = 'Implementation is exceeding expectations. This partner is a strong candidate for peer learning leadership.';
+                interventions = [
+                    'Maintain standard touchpoints',
+                    'Consider inviting to facilitate peer learning',
+                    'Document success factors for other partners',
+                    'Begin planning for advanced features/expansion'
+                ];
+            }
+
+            var q4 = document.querySelector('input[name="q4_comfort"]:checked');
+            if (q4 && parseInt(q4.value) < 3) {
+                interventions.push('LOW STAFF COMFORT - Schedule additional platform training');
+            }
+
+            var q1 = document.querySelector('input[name="q1_timeline"]:checked');
+            if (q1 && parseInt(q1.value) < 3) {
+                interventions.push('BEHIND SCHEDULE - Discuss timeline adjustment or additional resources');
+            }
+
+            if (model === 'facilitated' || model === 'hybrid') {
+                var q8 = document.querySelector('input[name="q8_facilitator"]:checked');
+                if (q8 && parseInt(q8.value) < 3) {
+                    interventions.push('LOW FACILITATOR CONFIDENCE - Arrange coaching session');
+                }
+            }
+
+            document.getElementById('scoreNumber').textContent = Math.round(percentScore) + '%';
+            document.getElementById('scoreInterpretation').textContent = interpretation;
+
+            var interventionsHTML = '';
+            interventions.forEach(function(i) {
+                interventionsHTML += '<div class="intervention-item">' + i + '</div>';
+            });
+            document.getElementById('interventionsList').innerHTML = interventionsHTML;
+
+            document.getElementById('resultsSection').classList.add('show');
+            document.getElementById('exportBtn').disabled = false;
+
+            generatePDFReport(status, percentScore, interpretation, interventions);
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+
+            // Save to localStorage for comparison
+            localStorage.setItem('tlHealthCheck_' + orgName, JSON.stringify({
+                score: percentScore,
+                date: checkInDate,
+                status: status,
+                timestamp: new Date().toISOString()
+            }));
+        }
+
+        function generatePDFReport(status, score, interpretation, interventions) {
+            var orgName = document.getElementById('orgName').value;
+            var contactName = document.getElementById('contactName').value;
+            var checkInDate = document.getElementById('checkInDate').value;
+
+            var pdfHTML = '<div class="pdf-header">';
+            pdfHTML += '<h1>30-Day Implementation Health Check-in</h1>';
+            pdfHTML += '<div style="color: #666; margin-top: 10px;">';
+            pdfHTML += '<strong>' + orgName + '</strong><br>';
+            pdfHTML += 'Completed by: ' + contactName + '<br>';
+            pdfHTML += 'Date: ' + checkInDate;
+            pdfHTML += '</div></div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Implementation Quality</div>';
+
+            var q1 = document.querySelector('input[name="q1_timeline"]:checked');
+            if (q1) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Are assessments happening according to timeline?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + q1.dataset.label + '</div></div>';
+            }
+
+            var q2 = document.querySelector('input[name="q2_quality"]:checked');
+            if (q2) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How is the quality of assessments?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + q2.value + '/5 - ' + q2.dataset.label + '</div></div>';
+            }
+
+            var q3Count = document.getElementById('q3_count').value;
+            var q3Target = document.getElementById('q3_target').value;
+            if (q3Count) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How many assessments completed?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + q3Count + (q3Target ? ' out of ' + q3Target : '') + '</div></div>';
+            }
+
+            pdfHTML += '</div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Staff Comfort & Confidence</div>';
+
+            var q4 = document.querySelector('input[name="q4_comfort"]:checked');
+            if (q4) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How comfortable is your team using the platform?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + q4.value + '/5 - ' + q4.dataset.label + '</div></div>';
+            }
+
+            var q5 = document.querySelector('input[name="q5_support"]:checked');
+            if (q5) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Do staff have adequate support?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + q5.dataset.label + '</div></div>';
+            }
+
+            pdfHTML += '</div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Workflow Integration</div>';
+
+            var q6 = document.querySelector('input[name="q6_integration"]:checked');
+            if (q6) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How well has Thrive Lights integrated into operations?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + q6.value + '/5 - ' + q6.dataset.label + '</div></div>';
+            }
+
+            pdfHTML += '</div>';
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Overall Health</div>';
+
+            var q7 = document.querySelector('input[name="q7_overall"]:checked');
+            if (q7) {
+                pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: Overall implementation health rating?</div>';
+                pdfHTML += '<div class="pdf-a">A: ' + q7.value + '/5 - ' + q7.dataset.label + '</div></div>';
+            }
+
+            pdfHTML += '</div>';
+
+            var model = document.getElementById('implementationModel').value;
+            if (model === 'facilitated' || model === 'hybrid') {
+                pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Facilitator Experience</div>';
+
+                var q8 = document.querySelector('input[name="q8_facilitator"]:checked');
+                if (q8) {
+                    pdfHTML += '<div class="pdf-question"><div class="pdf-q">Q: How confident are facilitators?</div>';
+                    pdfHTML += '<div class="pdf-a">A: ' + q8.value + '/5 - ' + q8.dataset.label + '</div></div>';
+                }
+
+                pdfHTML += '</div>';
+            }
+
+            pdfHTML += '<div class="pdf-section"><div class="pdf-section-title">Results</div>';
+            pdfHTML += '<div class="pdf-question"><div class="pdf-q">Health Score</div>';
+            pdfHTML += '<div class="pdf-a"><strong>' + status + ' (' + Math.round(score) + '%)</strong><br>' + interpretation + '</div></div>';
+            pdfHTML += '<div class="pdf-question"><div class="pdf-q">Recommended Interventions</div>';
+            pdfHTML += '<div class="pdf-a">' + interventions.join('<br>') + '</div></div>';
+            pdfHTML += '</div>';
+
+            document.getElementById('pdfReport').innerHTML = pdfHTML;
+        }
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form?')) {
+                document.getElementById('healthCheckForm').reset();
+                document.getElementById('orgName').value = '';
+                document.getElementById('contactName').value = '';
+                document.getElementById('checkInDate').valueAsDate = new Date();
+                document.getElementById('resultsSection').classList.remove('show');
+                document.getElementById('exportBtn').disabled = true;
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function exportPDF() {
+            window.print();
+        }
+
+        // Trigger on page load
+        document.getElementById('implementationModel').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
