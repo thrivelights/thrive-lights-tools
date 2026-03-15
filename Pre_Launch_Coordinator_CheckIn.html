@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Launch Coordinator Check-In | Thrive Lights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --green: #44AF69;
+            --red: #F8333C;
+            --yellow: #FCAB10;
+            --blue: #2B9EB3;
+            --beige: #DBD5B5;
+            --text: #2c2416;
+            --text-light: #6b6456;
+            --bg: #fdfaf6;
+            --surface: #ffffff;
+            --border: #e7e3dc;
+        }
+        
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--green) 0%, #5fad56 100%);
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: -30px auto 0;
+            padding: 0 24px;
+        }
+        
+        .intro-card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+        
+        .intro-card h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        
+        .intro-card p {
+            color: var(--text-light);
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        
+        .section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+        
+        .section-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+        
+        .section-header p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .question-block {
+            margin-bottom: 28px;
+        }
+        
+        .question-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .question-helper {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            background: white;
+            transition: all 0.2s;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(68, 175, 105, 0.1);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+        
+        .textarea-small {
+            min-height: 60px;
+        }
+        
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .confidence-scale {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 10px;
+        }
+        
+        .confidence-scale input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #F8333C 0%, #FCAB10 50%, #44AF69 100%);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .confidence-scale input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 3px solid var(--green);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        .confidence-scale input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 3px solid var(--green);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+        
+        .confidence-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--green);
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8faf9;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-item:hover {
+            border-color: var(--green);
+            background: rgba(68, 175, 105, 0.05);
+        }
+        
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        
+        .other-input {
+            display: none;
+            margin-top: 12px;
+        }
+        
+        .other-input.show {
+            display: block;
+        }
+        
+        .submit-section {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .submit-btn {
+            background: var(--green);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        .submit-btn:hover {
+            background: #3d9b56;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(68, 175, 105, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .export-pdf {
+            background: white;
+            color: var(--green);
+            border: 2px solid var(--green);
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            margin-top: 12px;
+        }
+        
+        .export-pdf:hover {
+            background: rgba(68, 175, 105, 0.05);
+        }
+        
+        .success-message {
+            display: none;
+            background: #d1f4e0;
+            border: 2px solid var(--green);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .success-message h2 {
+            font-size: 24px;
+            color: var(--green);
+            margin-bottom: 12px;
+        }
+        
+        .success-message p {
+            font-size: 16px;
+            color: var(--text);
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .required {
+            color: var(--red);
+        }
+        
+        @media print {
+            body { background: white; }
+            .header, .submit-section { display: none; }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 26px; }
+            .container { padding: 0 16px; }
+            .section { padding: 24px; }
+            .input-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Pre-Launch Coordinator Check-In</h1>
+        <p>Complete this 1 week before your first Thrive Lights assessments</p>
+    </div>
+
+    <div class="container">
+        <div class="intro-card">
+            <h2>Welcome, Coordinator!</h2>
+            <p>You've completed training and you're almost ready to launch Thrive Lights with families. This quick check-in helps us understand how you're feeling, what support you need, and how we can best work together during your first few months.</p>
+            <p><strong>Time to complete:</strong> 10-15 minutes</p>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <h2>✓ Submission Received!</h2>
+            <p>Thank you for completing the Pre-Launch Check-In. Your Thrive Lights contact will be in touch soon. You can now close this page or export a PDF copy for your records.</p>
+        </div>
+
+        <form id="checkInForm" action="https://formspree.io/f/mjgejdoa" method="POST">
+            <!-- Hidden field to identify this form -->
+            <input type="hidden" name="_subject" value="Pre-Launch Coordinator Check-In">
+            
+            <!-- Section 1: Coordinator Info -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>Coordinator Information</h2>
+                    <p>Tell us about yourself</p>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="coord_name">Your Full Name <span class="required">*</span></label>
+                    <input type="text" id="coord_name" name="coord_name" required>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="coord_role">Your Role/Title <span class="required">*</span></label>
+                    <input type="text" id="coord_role" name="coord_role" placeholder="e.g., Program Coordinator, Case Manager" required>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="coord_email">Your Email <span class="required">*</span></label>
+                    <input type="email" id="coord_email" name="coord_email" required>
+                </div>
+
+                <div class="input-grid">
+                    <div class="question-block">
+                        <label class="question-label" for="org_name">Organization Name <span class="required">*</span></label>
+                        <input type="text" id="org_name" name="org_name" required>
+                    </div>
+
+                    <div class="question-block">
+                        <label class="question-label" for="launch_date">Expected Launch Date</label>
+                        <input type="date" id="launch_date" name="launch_date">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Confidence & Readiness -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>Confidence & Readiness</h2>
+                    <p>How prepared do you feel?</p>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label">On a scale of 1-5, how confident do you feel about using the Thrive Lights platform?</label>
+                    <div class="confidence-scale">
+                        <input type="range" id="confidence_platform" name="confidence_platform" min="1" max="5" value="3" oninput="updateConfidenceValue(this)">
+                        <div class="confidence-value" id="confidence_platform_value">3</div>
+                    </div>
+                    <div class="scale-labels">
+                        <span>1 - Not confident</span>
+                        <span>3 - Moderately confident</span>
+                        <span>5 - Very confident</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Questions & Concerns -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>Questions & Concerns</h2>
+                    <p>Help us support you better</p>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="questions">What questions do you still have about Thrive Lights?</label>
+                    <div class="question-helper">Be specific - this helps us prepare for our check-in call</div>
+                    <textarea id="questions" name="questions" placeholder="e.g., How do I handle a family who doesn't want to set goals? What if someone's internet cuts out mid-assessment?"></textarea>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="obstacles">What obstacles or challenges do you anticipate in your first month?</label>
+                    <div class="question-helper">Staffing? Technology? Family engagement? Time constraints?</div>
+                    <textarea id="obstacles" name="obstacles" placeholder="Be candid - we're here to help you navigate challenges"></textarea>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="support_needed">What support do you need from the Thrive Lights team before launch?</label>
+                    <textarea id="support_needed" name="support_needed" placeholder="Extra training? Specific resources? Practice session? Talking points for families?"></textarea>
+                </div>
+            </div>
+
+            <!-- Section 4: Goals & Vision -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>Goals & Vision</h2>
+                    <p>What does success look like?</p>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="family_count">How many families do you plan to serve in your first 3 months?</label>
+                    <input type="number" id="family_count" name="family_count" min="0" placeholder="Enter a number">
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="personal_success">What does success look like for YOU personally in this role?</label>
+                    <div class="question-helper">What would make you proud? What would tell you "I'm doing this well"?</div>
+                    <textarea id="personal_success" name="personal_success" placeholder="e.g., Families tell me they feel heard, I help someone achieve a goal they didn't think was possible..."></textarea>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="org_success">What does success look like for your organization in the first 6 months?</label>
+                    <textarea id="org_success" name="org_success" placeholder="e.g., 50 families complete baseline assessments, staff feel confident facilitating, we identify patterns to inform programming..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 5: Communication & Support -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>Communication & Support</h2>
+                    <p>How can we best stay connected?</p>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label">Preferred communication channel <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="radio" id="comm_email" name="comm_channel" value="Email" required>
+                            <label for="comm_email">Email</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="comm_phone" name="comm_channel" value="Phone">
+                            <label for="comm_phone">Phone</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="comm_slack" name="comm_channel" value="Slack/Teams">
+                            <label for="comm_slack">Slack/Teams</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="comm_text" name="comm_channel" value="Text/SMS">
+                            <label for="comm_text">Text/SMS</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="comm_other" name="comm_channel" value="Other" onchange="toggleOtherInput('comm_other_input')">
+                            <label for="comm_other">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" id="comm_other_input" name="comm_channel_other" class="other-input" placeholder="Please specify">
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label">Preferred check-in frequency during first 3 months <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="radio" id="freq_weekly" name="checkin_frequency" value="Weekly" required>
+                            <label for="freq_weekly">Weekly</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="freq_biweekly" name="checkin_frequency" value="Bi-weekly">
+                            <label for="freq_biweekly">Bi-weekly</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="freq_monthly" name="checkin_frequency" value="Monthly">
+                            <label for="freq_monthly">Monthly</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="freq_asneeded" name="checkin_frequency" value="As-needed">
+                            <label for="freq_asneeded">As-needed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-grid">
+                    <div class="question-block">
+                        <label class="question-label">Best time to reach you</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="radio" id="time_morning" name="best_time" value="Morning">
+                                <label for="time_morning">Morning</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="time_afternoon" name="best_time" value="Afternoon">
+                                <label for="time_afternoon">Afternoon</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="time_evening" name="best_time" value="Evening">
+                                <label for="time_evening">Evening</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question-block">
+                        <label class="question-label" for="timezone">Your timezone</label>
+                        <input type="text" id="timezone" name="timezone" placeholder="e.g., Eastern, Pacific, Central, Mountain">
+                    </div>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label">How do you learn best when you hit a roadblock?</label>
+                    <div class="question-helper">Select all that apply</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="learn_guides" name="learning_style" value="Step-by-step written guides">
+                            <label for="learn_guides">Step-by-step written guides</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="learn_video" name="learning_style" value="Video tutorials">
+                            <label for="learn_video">Video tutorials</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="learn_call" name="learning_style" value="Live troubleshooting call">
+                            <label for="learn_call">Live troubleshooting call</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="learn_peer" name="learning_style" value="Peer learning from other coordinators">
+                            <label for="learn_peer">Peer learning from other coordinators</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="learn_other" name="learning_style" value="Other" onchange="toggleOtherInput('learn_other_input')">
+                            <label for="learn_other">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" id="learn_other_input" name="learning_style_other" class="other-input" placeholder="Please describe your preferred learning approach">
+                </div>
+            </div>
+
+            <!-- Section 6: Anything Else -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>Anything Else?</h2>
+                    <p>Final thoughts or context</p>
+                </div>
+
+                <div class="question-block">
+                    <label class="question-label" for="anything_else">Is there anything else we should know before you launch?</label>
+                    <div class="question-helper">Community context, organizational transitions, personal circumstances - anything that might affect your first few months</div>
+                    <textarea id="anything_else" name="anything_else" placeholder="Optional - share anything that would help us support you better"></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <button type="submit" class="submit-btn" id="submitBtn">Submit Check-In</button>
+                <button type="button" class="export-pdf" onclick="window.print()">Export as PDF</button>
+                <p style="margin-top: 20px; font-size: 13px; color: var(--text-light);">
+                    Your responses will be sent to your Thrive Lights contact. You'll hear from us within 2 business days.
+                </p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function updateConfidenceValue(slider) {
+            const valueDisplay = document.getElementById(slider.id + '_value');
+            valueDisplay.textContent = slider.value;
+        }
+
+        function toggleOtherInput(inputId) {
+            const input = document.getElementById(inputId);
+            const checkbox = input.previousElementSibling || document.querySelector(`input[onchange*="${inputId}"]`);
+            
+            if (checkbox && checkbox.checked) {
+                input.classList.add('show');
+            } else {
+                input.classList.remove('show');
+                input.value = '';
+            }
+        }
+
+        // Handle form submission
+        const form = document.getElementById('checkInForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    form.style.display = 'none';
+                    successMessage.classList.add('show');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                alert('There was an error submitting your form. Please try again or contact your Thrive Lights coordinator directly.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Check-In';
+            }
+        });
+
+        // Handle "other" checkboxes/radios
+        document.querySelectorAll('input[type="radio"][onchange*="toggleOtherInput"], input[type="checkbox"][onchange*="toggleOtherInput"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const match = this.getAttribute('onchange').match(/toggleOtherInput\('([^']+)'\)/);
+                if (match) {
+                    toggleOtherInput(match[1]);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
