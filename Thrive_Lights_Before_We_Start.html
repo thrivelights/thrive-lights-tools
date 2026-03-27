@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner Readiness Assessment - Form 1: Before We Start</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1B6B3A;
+    --green-light: #E6F4EC;
+    --green-mid: #C3E5D0;
+    --yellow: #B07D00;
+    --yellow-light: #FFF8E1;
+    --yellow-mid: #FFE9A0;
+    --red: #B91C1C;
+    --red-light: #FEF2F2;
+    --red-mid: #FECACA;
+    --blue: #1E40AF;
+    --blue-light: #EFF6FF;
+    --blue-mid: #BFDBFE;
+    --bg: #F8F9FB;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --text: #1A202C;
+    --text-muted: #64748B;
+    --text-light: #94A3B8;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .form-hero {
+    background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #1D4ED8 100%);
+    padding: 56px 24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .form-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .form-hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .form-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: #BFDBFE;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .form-hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .form-hero-sub {
+    font-size: 16px;
+    color: #93C5FD;
+    margin-bottom: 20px;
+  }
+  .form-hero-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.65;
+    max-width: 580px;
+  }
+
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    height: 6px;
+    margin-top: 28px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: #60A5FA;
+    border-radius: 20px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: #93C5FD;
+    margin-top: 6px;
+  }
+
+  .form-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 16px 80px;
+  }
+
+  .legend-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px 28px;
+    margin: 28px 0 0;
+    border-left: 4px solid var(--blue);
+  }
+  .legend-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blue);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-dot.g { background: var(--green); }
+  .legend-dot.y { background: var(--yellow); }
+  .legend-dot.r { background: var(--red); }
+
+  .section-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-top: 28px;
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 20px 28px;
+    background: var(--blue-light);
+    border-bottom: 2px solid var(--blue-mid);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-num {
+    width: 36px; height: 36px;
+    background: var(--blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.01em;
+  }
+  .section-desc {
+    padding: 16px 28px 4px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-questions {
+    padding: 8px 28px 20px;
+  }
+
+  .question-block {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .question-block:last-of-type {
+    border-bottom: none;
+  }
+  .question-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .question-text {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .traffic-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .traffic-option {
+    position: relative;
+  }
+  .traffic-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+  .traffic-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 8px;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+    background: var(--bg);
+  }
+  .traffic-option label:hover {
+    border-color: var(--text-light);
+    background: white;
+  }
+  .traffic-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    margin-bottom: 2px;
+  }
+  .traffic-option.green label .traffic-dot { background: var(--green); }
+  .traffic-option.yellow label .traffic-dot { background: var(--yellow); }
+  .traffic-option.red label .traffic-dot { background: var(--red); }
+
+  .traffic-option-label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .traffic-option.green .traffic-option-label { color: var(--green); }
+  .traffic-option.yellow .traffic-option-label { color: var(--yellow); }
+  .traffic-option.red .traffic-option-label { color: var(--red); }
+
+  .traffic-option-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.3;
+  }
+
+  /* Selected states */
+  .traffic-option.green input:checked + label {
+    background: var(--green-light);
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(27,107,58,0.12);
+  }
+  .traffic-option.yellow input:checked + label {
+    background: var(--yellow-light);
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 3px rgba(176,125,0,0.12);
+  }
+  .traffic-option.red input:checked + label {
+    background: var(--red-light);
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(185,28,28,0.12);
+  }
+
+  .notes-block {
+    margin-top: 24px;
+  }
+  .notes-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .notes-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    resize: vertical;
+    min-height: 80px;
+    background: var(--bg);
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  .notes-textarea:focus {
+    border-color: var(--blue);
+    background: white;
+  }
+
+  .info-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-top: 28px;
+    overflow: hidden;
+  }
+  .info-header {
+    padding: 20px 28px;
+    background: #F1F5F9;
+    border-bottom: 1px solid var(--border);
+  }
+  .info-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .info-grid {
+    padding: 20px 28px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .info-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .info-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .info-field input, .info-field select {
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .info-field input:focus, .info-field select:focus {
+    border-color: var(--blue);
+    background: white;
+  }
+
+  .submit-area {
+    margin-top: 28px;
+    padding: 28px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .submit-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .submit-btn {
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .submit-btn:hover { background: #1E3A8A; }
+  .submit-btn:active { transform: scale(0.98); }
+
+  .success-message {
+    display: none;
+    background: var(--green-light);
+    border: 2px solid var(--green);
+    border-radius: var(--radius);
+    padding: 28px;
+    text-align: center;
+    margin-top: 28px;
+  }
+  .success-message h3 {
+    font-size: 20px;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+  .success-message p {
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+
+  .required-star { color: var(--red); margin-left: 2px; }
+
+  @media (max-width: 560px) {
+    .traffic-options { grid-template-columns: repeat(3, 1fr); }
+    .info-grid { grid-template-columns: 1fr; }
+    .submit-area { flex-direction: column; align-items: stretch; }
+    .submit-btn { text-align: center; }
+    .section-header, .section-desc, .section-questions { padding-left: 20px; padding-right: 20px; }
+  }
+
+  .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+  .submit-btn.loading::after {
+    content: '';
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="form-hero">
+  <div class="form-hero-inner">
+    <div class="form-badge">Thrive Lights Partner Readiness</div>
+    <h1>Before We Start</h1>
+    <div class="form-hero-sub">Form 1 of 2 - Completed during onboarding</div>
+    <p class="form-hero-desc">This assessment helps Thrive Lights understand where your organization is starting from. There are no wrong answers. Your responses will be reviewed by your Thrive Lights contact and will shape your onboarding plan together. Plan for about 10-15 minutes.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">0 of 27 questions answered</div>
+  </div>
+</div>
+
+<div class="form-body">
+
+  <!-- Legend -->
+  <div class="legend-card">
+    <h3>How to use the stoplight</h3>
+    <div class="legend-items">
+      <div class="legend-item"><div class="legend-dot g"></div> <strong>Green</strong> &mdash; Yes / In place. This is ready to go.</div>
+      <div class="legend-item"><div class="legend-dot y"></div> <strong>Yellow</strong> &mdash; Partially / In progress. Some pieces are there but not fully in place yet.</div>
+      <div class="legend-item"><div class="legend-dot r"></div> <strong>Red</strong> &mdash; No / Not started. This has not been set up yet.</div>
+    </div>
+  </div>
+
+  <form id="readinessForm" novalidate>
+
+  <!-- Organization Info -->
+  <div class="info-card">
+    <div class="info-header"><h2>Organization Information</h2></div>
+    <div class="info-grid">
+      <div class="info-field">
+        <label>Organization Name <span class="required-star">*</span></label>
+        <input type="text" name="org_name" required placeholder="Your organization">
+      </div>
+      <div class="info-field">
+        <label>Date Completed <span class="required-star">*</span></label>
+        <input type="date" name="date">
+      </div>
+      <div class="info-field">
+        <label>Name of Person Completing This Form <span class="required-star">*</span></label>
+        <input type="text" name="person_name" required placeholder="Full name">
+      </div>
+      <div class="info-field">
+        <label>Title / Role</label>
+        <input type="text" name="person_title" placeholder="Your title or role">
+      </div>
+      <div class="info-field">
+        <label>Contact Email</label>
+        <input type="email" name="email" placeholder="email@organization.org">
+      </div>
+      <div class="info-field">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" placeholder="(000) 000-0000">
+      </div>
+      <div class="info-field">
+        <label>Thrive Lights Contact / Onboarding Lead</label>
+        <input type="text" name="tl_contact" placeholder="Name of your Thrive Lights contact">
+      </div>
+      <div class="info-field">
+        <label>Expected Implementation Start Date</label>
+        <input type="date" name="start_date">
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <h2>Staff and Facilitators</h2>
+    </div>
+    <div class="section-desc">Facilitators are the people who will work directly with families using the Thrive Lights tool. They are the heart of the program.</div>
+    <div class="section-questions">
+
+      <div class="question-block">
+        <div class="question-label">1.1</div>
+        <div class="question-text">Our organization has identified at least one staff member or committed volunteer to serve as a Thrive Lights facilitator.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q1_1" value="green" id="q1_1_g"><label for="q1_1_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q1_1" value="yellow" id="q1_1_y"><label for="q1_1_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q1_1" value="red" id="q1_1_r"><label for="q1_1_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">1.2</div>
+        <div class="question-text">Our identified facilitator(s) have a background in social work, psychology, case management, or a related field.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q1_2" value="green" id="q1_2_g"><label for="q1_2_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q1_2" value="yellow" id="q1_2_y"><label for="q1_2_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q1_2" value="red" id="q1_2_r"><label for="q1_2_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">1.3</div>
+        <div class="question-text">Our identified facilitator(s) have at least 2 years of experience working with families or individuals on goal-setting and life circumstances.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q1_3" value="green" id="q1_3_g"><label for="q1_3_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q1_3" value="yellow" id="q1_3_y"><label for="q1_3_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q1_3" value="red" id="q1_3_r"><label for="q1_3_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">1.4</div>
+        <div class="question-text">Our facilitator(s) have availability to complete the required 20 hours of Thrive Lights training.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q1_4" value="green" id="q1_4_g"><label for="q1_4_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q1_4" value="yellow" id="q1_4_y"><label for="q1_4_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q1_4" value="red" id="q1_4_r"><label for="q1_4_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">1.5</div>
+        <div class="question-text">We have a signed agreement (MOU, volunteer agreement, or employment contract) in place with our facilitator(s).</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q1_5" value="green" id="q1_5_g"><label for="q1_5_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q1_5" value="yellow" id="q1_5_y"><label for="q1_5_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q1_5" value="red" id="q1_5_r"><label for="q1_5_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-label">Section 1 Notes: Anything else about your staffing situation we should know?</div>
+        <textarea class="notes-textarea" name="notes_s1" placeholder="Optional additional context..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <h2>Adaptation Team</h2>
+    </div>
+    <div class="section-desc">The Adaptation Team is a small group who will help localize the Thrive Lights assessment to fit your community. This is about making the tool meaningful and culturally relevant for the families you serve.</div>
+    <div class="section-questions">
+
+      <div class="question-block">
+        <div class="question-label">2.1</div>
+        <div class="question-text">Our organization has an active group or committee that can serve as an Adaptation Team (program manager, community leader, subject matter expert, etc.).</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q2_1" value="green" id="q2_1_g"><label for="q2_1_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q2_1" value="yellow" id="q2_1_y"><label for="q2_1_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q2_1" value="red" id="q2_1_r"><label for="q2_1_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">2.2</div>
+        <div class="question-text">The Adaptation Team members have time in their schedules to review the assessment, discuss indicators, and attend focus groups.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q2_2" value="green" id="q2_2_g"><label for="q2_2_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q2_2" value="yellow" id="q2_2_y"><label for="q2_2_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q2_2" value="red" id="q2_2_r"><label for="q2_2_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">2.3</div>
+        <div class="question-text">The Adaptation Team includes at least one person with deep knowledge of the community you are serving.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q2_3" value="green" id="q2_3_g"><label for="q2_3_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q2_3" value="yellow" id="q2_3_y"><label for="q2_3_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q2_3" value="red" id="q2_3_r"><label for="q2_3_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">2.4</div>
+        <div class="question-text">We have a signed agreement or letter of participation from Adaptation Team members.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q2_4" value="green" id="q2_4_g"><label for="q2_4_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q2_4" value="yellow" id="q2_4_y"><label for="q2_4_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q2_4" value="red" id="q2_4_r"><label for="q2_4_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-label">Section 2 Notes: Who makes up your Adaptation Team, or who are you considering?</div>
+        <textarea class="notes-textarea" name="notes_s2" placeholder="Optional additional context..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <h2>Training Readiness</h2>
+    </div>
+    <div class="section-desc">The 20-hour training is required for all facilitators and Adaptation Team members. It takes place over Zoom and covers the full Thrive Lights methodology.</div>
+    <div class="section-questions">
+
+      <div class="question-block">
+        <div class="question-label">3.1</div>
+        <div class="question-text">Our facilitator(s) and Adaptation Team members are aware that 20 hours of training is required and have committed to completing it.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q3_1" value="green" id="q3_1_g"><label for="q3_1_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q3_1" value="yellow" id="q3_1_y"><label for="q3_1_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q3_1" value="red" id="q3_1_r"><label for="q3_1_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">3.2</div>
+        <div class="question-text">We have identified a time of day and days of the week when most participants can attend training sessions.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q3_2" value="green" id="q3_2_g"><label for="q3_2_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q3_2" value="yellow" id="q3_2_y"><label for="q3_2_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q3_2" value="red" id="q3_2_r"><label for="q3_2_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">3.3</div>
+        <div class="question-text">All training participants have reliable internet access and a device for joining Zoom sessions.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q3_3" value="green" id="q3_3_g"><label for="q3_3_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q3_3" value="yellow" id="q3_3_y"><label for="q3_3_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q3_3" value="red" id="q3_3_r"><label for="q3_3_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">3.4</div>
+        <div class="question-text">Our organization has a plan for how training recordings and materials will be stored, shared with staff who may join later, and used to train new facilitators as the team grows (train the trainer).</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q3_4" value="green" id="q3_4_g"><label for="q3_4_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q3_4" value="yellow" id="q3_4_y"><label for="q3_4_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q3_4" value="red" id="q3_4_r"><label for="q3_4_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-label">Section 3 Notes: Any scheduling constraints or barriers to training we should plan around?</div>
+        <textarea class="notes-textarea" name="notes_s3" placeholder="Optional additional context..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <h2>Community Engagement (Focus Groups)</h2>
+    </div>
+    <div class="section-desc">Focus groups bring together community members to review the Thrive Lights indicators before they are used. This step makes sure the assessment reflects real life for the families in your program.</div>
+    <div class="section-questions">
+
+      <div class="question-block">
+        <div class="question-label">4.1</div>
+        <div class="question-text">Our organization can identify approximately 15 community representatives to participate in three separate focus groups of about 5 participants each.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q4_1" value="green" id="q4_1_g"><label for="q4_1_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q4_1" value="yellow" id="q4_1_y"><label for="q4_1_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q4_1" value="red" id="q4_1_r"><label for="q4_1_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">4.2</div>
+        <div class="question-text">We have the capacity to organize and facilitate these focus groups (either in person or online).</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q4_2" value="green" id="q4_2_g"><label for="q4_2_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q4_2" value="yellow" id="q4_2_y"><label for="q4_2_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q4_2" value="red" id="q4_2_r"><label for="q4_2_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">4.3</div>
+        <div class="question-text">We have considered whether we will offer incentives to focus group participants (not required, but encouraged).</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q4_3" value="green" id="q4_3_g"><label for="q4_3_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q4_3" value="yellow" id="q4_3_y"><label for="q4_3_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q4_3" value="red" id="q4_3_r"><label for="q4_3_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">4.4</div>
+        <div class="question-text">The Adaptation Team is prepared to take notes, analyze feedback, and communicate findings.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q4_4" value="green" id="q4_4_g"><label for="q4_4_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q4_4" value="yellow" id="q4_4_y"><label for="q4_4_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q4_4" value="red" id="q4_4_r"><label for="q4_4_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-label">Section 4 Notes: Any context about your community or focus group logistics?</div>
+        <textarea class="notes-textarea" name="notes_s4" placeholder="Optional additional context..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <h2>Field Testing</h2>
+    </div>
+    <div class="section-desc">Field testing means piloting the adapted assessment with a small group of community members before rolling it out fully. This is how you catch any issues before they affect families at scale.</div>
+    <div class="section-questions">
+
+      <div class="question-block">
+        <div class="question-label">5.1</div>
+        <div class="question-text">Our organization can identify approximately 5 community representatives for a field testing session.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q5_1" value="green" id="q5_1_g"><label for="q5_1_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q5_1" value="yellow" id="q5_1_y"><label for="q5_1_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q5_1" value="red" id="q5_1_r"><label for="q5_1_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">5.2</div>
+        <div class="question-text">We have access to at least two tablets or devices for the field testing session.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q5_2" value="green" id="q5_2_g"><label for="q5_2_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q5_2" value="yellow" id="q5_2_y"><label for="q5_2_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q5_2" value="red" id="q5_2_r"><label for="q5_2_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">5.3</div>
+        <div class="question-text">We have a plan for who will lead the field testing session and how feedback will be recorded.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q5_3" value="green" id="q5_3_g"><label for="q5_3_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q5_3" value="yellow" id="q5_3_y"><label for="q5_3_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q5_3" value="red" id="q5_3_r"><label for="q5_3_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">5.4</div>
+        <div class="question-text">We have considered whether we will offer incentives to field testing participants (not required, but encouraged).</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q5_4" value="green" id="q5_4_g"><label for="q5_4_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q5_4" value="yellow" id="q5_4_y"><label for="q5_4_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q5_4" value="red" id="q5_4_r"><label for="q5_4_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-label">Section 5 Notes: Any context about field testing readiness or device availability?</div>
+        <textarea class="notes-textarea" name="notes_s5" placeholder="Optional additional context..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <h2>Organizational Commitment</h2>
+    </div>
+    <div class="section-desc">This section is about leadership buy-in and operational structure. Even when all the right people are in place, implementation struggles when the organizational foundation is not solid. This is where Thrive Lights can offer the most targeted support.</div>
+    <div class="section-questions">
+
+      <div class="question-block">
+        <div class="question-label">6.1</div>
+        <div class="question-text">Our organization's leadership is aware of and supportive of implementing Thrive Lights.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q6_1" value="green" id="q6_1_g"><label for="q6_1_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q6_1" value="yellow" id="q6_1_y"><label for="q6_1_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q6_1" value="red" id="q6_1_r"><label for="q6_1_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">6.2</div>
+        <div class="question-text">We have reviewed the budget and have a sense of what resources (staff time, technology, incentives) are needed.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q6_2" value="green" id="q6_2_g"><label for="q6_2_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q6_2" value="yellow" id="q6_2_y"><label for="q6_2_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q6_2" value="red" id="q6_2_r"><label for="q6_2_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">6.3</div>
+        <div class="question-text">We have or are prepared to build a work plan with clear timelines and responsible parties.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q6_3" value="green" id="q6_3_g"><label for="q6_3_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q6_3" value="yellow" id="q6_3_y"><label for="q6_3_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q6_3" value="red" id="q6_3_r"><label for="q6_3_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">6.4</div>
+        <div class="question-text">We have a system for regular internal communication about Thrive Lights progress (weekly or bi-weekly check-ins, shared documents, etc.).</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q6_4" value="green" id="q6_4_g"><label for="q6_4_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q6_4" value="yellow" id="q6_4_y"><label for="q6_4_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q6_4" value="red" id="q6_4_r"><label for="q6_4_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-label">6.5</div>
+        <div class="question-text">We have identified who the main point of contact will be for coordinating with Thrive Lights staff.</div>
+        <div class="traffic-options">
+          <div class="traffic-option green"><input type="radio" name="q6_5" value="green" id="q6_5_g"><label for="q6_5_g"><div class="traffic-dot"></div><span class="traffic-option-label">GREEN</span><span class="traffic-option-sub">Yes / In place</span></label></div>
+          <div class="traffic-option yellow"><input type="radio" name="q6_5" value="yellow" id="q6_5_y"><label for="q6_5_y"><div class="traffic-dot"></div><span class="traffic-option-label">YELLOW</span><span class="traffic-option-sub">Partially / In progress</span></label></div>
+          <div class="traffic-option red"><input type="radio" name="q6_5" value="red" id="q6_5_r"><label for="q6_5_r"><div class="traffic-dot"></div><span class="traffic-option-label">RED</span><span class="traffic-option-sub">No / Not started</span></label></div>
+        </div>
+      </div>
+
+      <div class="notes-block">
+        <div class="notes-label">Section 6 Notes: Any organizational context, constraints, or goals Thrive Lights should know about?</div>
+        <textarea class="notes-textarea" name="notes_s6" placeholder="Optional additional context..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Anything Else -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-num" style="background:#475569;">?</div>
+      <h2 style="color:#334155;">Anything Else?</h2>
+    </div>
+    <div class="section-questions">
+      <div class="notes-block" style="padding-top: 16px;">
+        <div class="notes-label">Is there anything else you would like to share with your Thrive Lights contact before your onboarding begins?</div>
+        <textarea class="notes-textarea" name="notes_final" placeholder="Any additional context, questions, or things you want us to know..." style="min-height: 100px;"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-area">
+    <p class="submit-note">Your responses will be reviewed by your Thrive Lights contact, who will follow up with next steps for your onboarding plan.</p>
+    <button type="submit" class="submit-btn">Submit Assessment</button>
+  </div>
+
+  <div class="success-message" id="successMsg">
+    <h3>Thank you for completing Form 1!</h3>
+    <p>Your Thrive Lights contact will review your responses and follow up with next steps for your onboarding plan. If you have any questions in the meantime, please reach out to <a href="/cdn-cgi/l/email-protection#472326352b22222907332f352e31222b2e202f333469283520" style="color:#1E40AF;"><span class="__cf_email__" data-cfemail="056164776960606b45716d776c7360696c626d71762b6a7762">[email&#160;protected]</span></a>.</p>
+  </div>
+  <div id="errorMsg" style="display:none; background:#FEF2F2; border:2px solid #B91C1C; border-radius:12px; padding:20px 24px; margin-top:20px; text-align:center;">
+    <p style="color:#B91C1C; font-weight:600; margin-bottom:6px;">Something went wrong with your submission.</p>
+    <p style="color:#64748B; font-size:14px;">Please try again, or email your responses directly to <a href="/cdn-cgi/l/email-protection#711510031d14141f310519031807141d18161905025f1e0316" style="color:#1E40AF;"><span class="__cf_email__" data-cfemail="553134273930303b15213d273c2330393c323d21267b3a2732">[email&#160;protected]</span></a>.</p>
+  </div>
+
+  </form>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ─────────────────────────────────────────────────────────────
+  // FORMSPREE ID - sends to mjgejdoa@formspree.io
+  // ─────────────────────────────────────────────────────────────
+  const FORMSPREE_ID = 'mjgejdoa';
+
+  const form = document.getElementById('readinessForm');
+  const allRadios = form.querySelectorAll('input[type="radio"]');
+  const submitBtn = form.querySelector('.submit-btn');
+  const totalQuestions = 27;
+
+  function updateProgress() {
+    const answered = new Set();
+    allRadios.forEach(r => { if (r.checked) answered.add(r.name); });
+    const count = answered.size;
+    const pct = Math.round((count / totalQuestions) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = count + ' of ' + totalQuestions + ' questions answered';
+  }
+
+  allRadios.forEach(r => r.addEventListener('change', updateProgress));
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Basic validation
+    const orgName = form.querySelector('[name="org_name"]').value.trim();
+    const personName = form.querySelector('[name="person_name"]').value.trim();
+    if (!orgName || !personName) {
+      alert('Please fill in your Organization Name and your Name before submitting.');
+      return;
+    }
+
+    // Collect all form data and build a readable email body
+    const data = new FormData(form);
+    const labels = {
+      org_name: 'Organization Name',
+      date: 'Date Completed',
+      person_name: 'Name',
+      person_title: 'Title / Role',
+      email: 'Email',
+      phone: 'Phone',
+      tl_contact: 'Thrive Lights Contact',
+      start_date: 'Expected Start Date',
+      q1_1: '1.1 Facilitator identified',
+      q1_2: '1.2 Facilitator background',
+      q1_3: '1.3 Facilitator experience',
+      q1_4: '1.4 Training availability',
+      q1_5: '1.5 Signed agreement',
+      notes_s1: 'Section 1 Notes',
+      q2_1: '2.1 Adaptation Team active',
+      q2_2: '2.2 Team has capacity',
+      q2_3: '2.3 Community knowledge',
+      q2_4: '2.4 Participation agreement',
+      notes_s2: 'Section 2 Notes',
+      q3_1: '3.1 Training commitment',
+      q3_2: '3.2 Scheduling identified',
+      q3_3: '3.3 Internet and devices',
+      q3_4: '3.4 Materials and train-the-trainer plan',
+      notes_s3: 'Section 3 Notes',
+      q4_1: '4.1 Focus group participants',
+      q4_2: '4.2 Focus group capacity',
+      q4_3: '4.3 Incentives considered',
+      q4_4: '4.4 Team ready to document',
+      notes_s4: 'Section 4 Notes',
+      q5_1: '5.1 Field testing participants',
+      q5_2: '5.2 Devices available',
+      q5_3: '5.3 Field testing plan',
+      q5_4: '5.4 Field testing incentives considered',
+      notes_s5: 'Section 5 Notes',
+      q6_1: '6.1 Leadership support',
+      q6_2: '6.2 Budget reviewed',
+      q6_3: '6.3 Work plan',
+      q6_4: '6.4 Internal communication',
+      q6_5: '6.5 Point of contact identified',
+      notes_s6: 'Section 6 Notes',
+      notes_final: 'Anything Else'
+    };
+
+    // Build a clean readable message
+    let message = 'PARTNER READINESS ASSESSMENT - FORM 1: BEFORE WE START\n';
+    message += '='.repeat(55) + '\n\n';
+    for (const [key, label] of Object.entries(labels)) {
+      const val = data.get(key) || '';
+      if (val) message += `${label}: ${val.toUpperCase ? val.toUpperCase() : val}\n`;
+    }
+
+    // Disable button and show loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...'; submitBtn.classList.add('loading');
+
+    try {
+      const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          _subject: `Partner Readiness Form 1 - ${data.get('org_name') || 'New Partner'}`,
+          ...Object.fromEntries(
+            Array.from(data.entries()).map(([k, v]) => [labels[k] || k, v])
+          )
+        })
+      });
+
+      if (response.ok) {
+        form.style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const err = await response.json();
+        throw new Error(err.error || 'Submission failed');
+      }
+    } catch (err) {
+      submitBtn.disabled = false;
+      sub
