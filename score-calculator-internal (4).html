@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thrive Lights Score Calculator (Internal Tool)</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #5fad56;
+            --secondary: #2B9EB3;
+            --bg: #fafbfc;
+            --surface: #ffffff;
+            --border: #e1e8ed;
+            --text: #1a1f36;
+            --text-light: #697386;
+            --code-bg: #f6f8fa;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --red: #ef4444;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1f36 0%, #2d3648 100%);
+            color: white;
+            padding: 40px 32px;
+            border-bottom: 4px solid var(--primary);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header h1 {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 15px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(95, 173, 86, 0.2);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 12px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 32px;
+        }
+        
+        .info-box {
+            background: #e0f2fe;
+            border-left: 4px solid var(--secondary);
+            padding: 20px 24px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+        }
+        
+        .info-box h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 8px;
+        }
+        
+        .info-box p {
+            font-size: 14px;
+            color: #075985;
+            line-height: 1.6;
+        }
+        
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .paste-area {
+            width: 100%;
+            min-height: 400px;
+            padding: 16px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            background: var(--code-bg);
+            resize: vertical;
+        }
+        
+        .paste-area:focus {
+            outline: none;
+            border-color: var(--primary);
+            border-style: solid;
+        }
+        
+        .helper-text {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4a8b43;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(95, 173, 86, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg);
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .results {
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .scores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .score-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .score-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .score-value {
+            font-size: 42px;
+            font-weight: 700;
+            font-family: 'IBM Plex Mono', monospace;
+            margin-bottom: 4px;
+        }
+        
+        .score-questions {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 8px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .overall-score {
+            background: linear-gradient(135deg, var(--primary) 0%, #7bc96f 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .overall-score-label {
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .overall-score-value {
+            font-size: 64px;
+            font-weight: 700;
+            font-family: 'IBM Plex Mono', monospace;
+            margin-bottom: 8px;
+        }
+        
+        .overall-score-status {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .breakdown-section {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+        
+        .breakdown-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        
+        .breakdown-item {
+            padding: 12px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+        }
+        
+        .breakdown-item strong {
+            color: var(--text);
+        }
+        
+        .breakdown-item span {
+            color: var(--text-light);
+        }
+        
+        .export-options {
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+        
+        .export-options h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+        
+        .export-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        
+        .export-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .export-card h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .export-card p {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        
+        .url-output {
+            width: 100%;
+            padding: 10px 12px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            margin-bottom: 12px;
+            color: var(--text-light);
+        }
+        
+        .copy-paste-box {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            margin-bottom: 12px;
+            resize: vertical;
+        }
+        
+        @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            .scores-grid { grid-template-columns: 1fr; }
+            .export-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>🔧 SCORE CALCULATOR</h1>
+            <p>Internal tool for Thrive Lights team - Convert Formspree emails to Progress Dashboard scores</p>
+            <div class="badge">INTERNAL USE ONLY</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="info-box">
+            <h3>📋 How to Use This Tool</h3>
+            <p><strong>Step 1:</strong> Copy the entire Formspree email you received from a partner's Form 1 or Form 2 submission.<br>
+            <strong>Step 2:</strong> Paste it into the box below.<br>
+            <strong>Step 3:</strong> Tool auto-extracts answers and calculates dimension scores.<br>
+            <strong>Step 4:</strong> Generate shareable dashboard link or copy scores to send to partner.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="step-number">1</div>
+                <h2>Partner Information</h2>
+            </div>
+            
+            <div class="input-group">
+                <label for="orgName">Organization Name</label>
+                <input type="text" id="orgName" placeholder="Will auto-fill from email">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="input-group">
+                    <label for="assessmentType">Assessment Type</label>
+                    <select id="assessmentType">
+                        <option value="">-- Select --</option>
+                        <option value="baseline">Baseline (Form 1: Before We Start)</option>
+                        <option value="6month">6-Month (Form 2: Six Month Check-in)</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="assessmentDate">Assessment Date</label>
+                    <input type="date" id="assessmentDate">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="step-number">2</div>
+                <h2>Paste Formspree Email Content</h2>
+            </div>
+            
+            <textarea 
+                class="paste-area" 
+                id="emailContent" 
+                placeholder="Paste the entire Formspree email here...
+
+Example format:
+1.1 Our organization has identified at least one staff member...: Green
+1.2 Our identified facilitator(s) have a background in...: Yellow
+1.3 Our identified facilitator(s) have at least 2 years...: Green
+..."></textarea>
+            
+            <div class="helper-text">💡 Tip: Copy the entire email from "Organization Name" down to the last question</div>
+            
+            <div class="buttons">
+                <button class="btn btn-primary" onclick="parseEmail()">Parse Email & Calculate Scores</button>
+                <button class="btn btn-secondary" onclick="resetForm()">Clear All</button>
+            </div>
+        </div>
+
+        <!-- Storage Section -->
+        <div class="card" id="storageSection" style="display: none;">
+            <div class="card-header">
+                <div class="step-number">3</div>
+                <h2>Store Scores for Dashboard</h2>
+            </div>
+            
+            <p style="margin-bottom: 16px; color: var(--text-light);">Store this assessment, then repeat for the other timepoint before generating the dashboard link.</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <button class="btn btn-primary" onclick="storeBaseline()" id="storeBaselineBtn">
+                    💾 Store as Baseline
+                </button>
+                <button class="btn btn-primary" onclick="storeSixMonth()" id="storeSixMonthBtn">
+                    💾 Store as 6-Month
+                </button>
+            </div>
+            
+            <div id="storedStatus" style="margin-top: 20px; padding: 16px; background: var(--code-bg); border-radius: 8px; display: none;">
+                <div style="font-weight: 600; margin-bottom: 8px;">Stored Assessments:</div>
+                <div id="storedBaselineStatus" style="color: var(--text-light); margin-bottom: 4px;">❌ Baseline: Not stored</div>
+                <div id="storedSixMonthStatus" style="color: var(--text-light);">❌ 6-Month: Not stored</div>
+            </div>
+        </div>
+
+        <div class="results" id="resultsSection">
+            <div class="overall-score">
+                <div class="overall-score-label">OVERALL READINESS SCORE</div>
+                <div class="overall-score-value" id="overallScore">—</div>
+                <div class="overall-score-status" id="overallStatus">—</div>
+            </div>
+
+            <div class="card">
+                <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">Dimension Breakdown</h2>
+                <div class="scores-grid" id="scoresGrid"></div>
+                
+                <div class="breakdown-section">
+                    <h3>Calculation Details</h3>
+                    <div id="breakdownDetails"></div>
+                </div>
+            </div>
+
+            <div class="export-options">
+                <h3>📤 Send to Partner</h3>
+                <div class="export-grid">
+                    <div class="export-card">
+                        <h4>Option 1: Combined Dashboard Link (BEST)</h4>
+                        <p>Generate ONE link with BOTH baseline and 6-month scores. Partner sees full progress automatically.</p>
+                        <input type="text" class="url-output" id="combinedDashboardURL" readonly placeholder="Store both assessments first">
+                        <button class="btn btn-primary" style="width: 100%;" onclick="generateCombinedDashboard()" id="combinedDashboardBtn" disabled>Generate Combined Dashboard</button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 8px;" onclick="copyCombinedLink()">Copy Link</button>
+                    </div>
+                    
+                    <div class="export-card">
+                        <h4>Option 2: Single Timepoint Link</h4>
+                        <p>Generate a link with just this assessment's scores (for sending after Form 1 only).</p>
+                        <input type="text" class="url-output" id="dashboardURL" readonly placeholder="Click 'Generate Link' below">
+                        <button class="btn btn-primary" style="width: 100%;" onclick="generateDashboardLink()">Generate Single Link</button>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 8px;" onclick="copyLink()">Copy Link</button>
+                    </div>
+                    
+                    <div class="export-card">
+                        <h4>Option 3: Copy Scores to Paste</h4>
+                        <p>Copy these scores and manually enter into Progress Dashboard or email to partner.</p>
+                        <textarea class="copy-paste-box" id="copyPasteScores" readonly></textarea>
+                        <button class="btn btn-secondary" style="width: 100%;" onclick="copyScores()">Copy Scores</button>
+                    </div>
+                    
+                    <div class="export-card">
+                        <h4>Option 4: Email Template</h4>
+                        <p>Ready-to-send email with scores and dashboard link.</p>
+                        <button class="btn btn-secondary" style="width: 100%;" onclick="generateEmail()">Generate Email</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons" style="margin-top: 32px;">
+                <button class="btn btn-secondary" onclick="backToEntry()">← Process Another Assessment</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Question mapping to dimensions
+        const dimensionMapping = {
+            staff: {
+                label: 'Staff & Facilitators',
+                form1Questions: ['1.1', '1.2', '1.3', '1.4', '1.5'],
+                form2Questions: ['1.1', '1.2', '1.3', '1.4', '1.6']
+            },
+            adaptation: {
+                label: 'Adaptation Quality',
+                form1Questions: ['2.1', '2.2', '2.3', '2.4'],
+                form2Questions: ['2.1', '2.2', '2.3']
+            },
+            training: {
+                label: 'Training Effectiveness',
+                form1Questions: ['3.1', '3.2', '3.3', '3.4'],
+                form2Questions: ['3.1', '3.2', '3.3', '3.4', '3.5']
+            },
+            engagement: {
+                label: 'Community Engagement',
+                form1Questions: ['4.1', '4.2', '4.3', '4.4'],
+                form2Questions: ['4.1', '4.2', '4.3']
+            },
+            operations: {
+                label: 'Operations & Quality',
+                form1Questions: ['5.1', '5.2', '5.3', '5.4'],
+                form2Questions: ['5.1', '5.2', '5.3', '5.4']
+            },
+            sustainability: {
+                label: 'Sustainability & Growth',
+                form1Questions: ['6.1', '6.2', '6.3', '6.4', '6.5'],
+                form2Questions: ['6.1', '6.2', '6.3', '6.4', '6.5', '6.6', '6.7']
+            }
+        };
+
+        const stoplightToScore = {
+            'green': 100,
+            'yellow': 67,
+            'red': 33
+        };
+
+        let calculatedScores = {};
+        let parsedResponses = {};
+        let partnerInfo = {};
+
+        function parseEmail() {
+            const emailText = document.getElementById('emailContent').value;
+            const assessmentType = document.getElementById('assessmentType').value;
+            
+            if (!emailText.trim()) {
+                alert('Please paste the Formspree email content');
+                return;
+            }
+            
+            if (!assessmentType) {
+                alert('Please select the assessment type (Baseline or 6-Month)');
+                return;
+            }
+
+            // Parse responses
+            parsedResponses = {};
+            const lines = emailText.split('\n').map(line => line.trim());
+            
+            // Try to auto-detect organization name and date
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                // Check for organization name
+                if (line.includes('Organization Name') && i + 1 < lines.length) {
+                    // Skip blank lines to find the actual value
+                    for (let j = i + 1; j < lines.length && j < i + 5; j++) {
+                        if (lines[j] && !lines[j].includes('Date') && !lines[j].includes('Name')) {
+                            document.getElementById('orgName').value = lines[j];
+                            break;
+                        }
+                    }
+                }
+                
+                // Check for date
+                if (line.includes('Date Completed') && i + 1 < lines.length) {
+                    // Skip blank lines to find the actual date
+                    for (let j = i + 1; j < lines.length && j < i + 5; j++) {
+                        if (lines[j] && lines[j].match(/\d{4}-\d{2}-\d{2}/)) {
+                            document.getElementById('assessmentDate').value = lines[j];
+                            break;
+                        }
+                    }
+                }
+                
+                // Parse question responses
+                // Look for pattern: line with "X.X" followed by color (may have blank lines in between)
+                const questionMatch = line.match(/^(\d+\.\d+)\s+/);
+                if (questionMatch) {
+                    const questionNum = questionMatch[1];
+                    
+                    // Look ahead for the color, skipping blank lines
+                    for (let j = i + 1; j < lines.length && j < i + 5; j++) {
+                        const testLine = lines[j].toLowerCase().trim();
+                        
+                        if (testLine === 'green' || testLine === 'yellow' || testLine === 'red') {
+                            parsedResponses[questionNum] = testLine;
+                            break;
+                        }
+                        
+                        // Stop if we hit another question or section header
+                        if (testLine.match(/^\d+\.\d+\s+/) || testLine.includes('Section') || testLine.includes('Notes')) {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (Object.keys(parsedResponses).length === 0) {
+                console.log('Debug: Lines array:', lines.slice(0, 30));
+                console.log('Debug: Parsed responses:', parsedResponses);
+                alert('No valid responses found.\n\nMake sure each question follows this format:\n"1.1 Question text"\nfollowed by\n"green" or "yellow" or "red" on the next line.\n\nFound ' + lines.length + ' lines but no valid question/answer pairs.');
+                return;
+            }
+            
+            console.log('Successfully parsed', Object.keys(parsedResponses).length, 'responses:', parsedResponses);
+
+            // Calculate dimension scores
+            calculateDimensionScores(assessmentType);
+            
+            // Show results
+            displayResults();
+        }
+
+        function calculateDimensionScores(assessmentType) {
+            calculatedScores = {};
+            const questionKey = assessmentType === 'baseline' ? 'form1Questions' : 'form2Questions';
+            
+            for (const [dimId, dimData] of Object.entries(dimensionMapping)) {
+                const questions = dimData[questionKey];
+                const scores = [];
+                const details = [];
+                
+                for (const qNum of questions) {
+                    if (parsedResponses[qNum]) {
+                        const color = parsedResponses[qNum];
+                        const score = stoplightToScore[color];
+                        scores.push(score);
+                        details.push({ question: qNum, color: color, score: score });
+                    }
+                }
+                
+                if (scores.length > 0) {
+                    const avgScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+                    calculatedScores[dimId] = {
+                        label: dimData.label,
+                        score: avgScore,
+                        details: details,
+                        questionsAnswered: scores.length,
+                        totalQuestions: questions.length
+                    };
+                } else {
+                    calculatedScores[dimId] = {
+                        label: dimData.label,
+                        score: 0,
+                        details: [],
+                        questionsAnswered: 0,
+                        totalQuestions: questions.length
+                    };
+                }
+            }
+        }
+
+        function displayResults() {
+            // Calculate overall score
+            const allScores = Object.values(calculatedScores).map(d => d.score);
+            const overallScore = Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length);
+            
+            document.getElementById('overallScore').textContent = overallScore + '%';
+            
+            let status = '';
+            if (overallScore >= 80) status = 'Strong Readiness';
+            else if (overallScore >= 60) status = 'Moderate Readiness';
+            else if (overallScore >= 40) status = 'Needs Support';
+            else status = 'High Support Needed';
+            
+            document.getElementById('overallStatus').textContent = status;
+
+            // Display dimension scores
+            const grid = document.getElementById('scoresGrid');
+            grid.innerHTML = '';
+            
+            for (const [dimId, dimData] of Object.entries(calculatedScores)) {
+                const card = document.createElement('div');
+                card.className = 'score-card';
+                
+                card.innerHTML = `
+                    <div class="score-label">${dimData.label}</div>
+                    <div class="score-value">${dimData.score}%</div>
+                    <div class="score-questions">${dimData.questionsAnswered} of ${dimData.totalQuestions} questions answered</div>
+                `;
+                
+                grid.appendChild(card);
+            }
+
+            // Display breakdown details
+            const breakdown = document.getElementById('breakdownDetails');
+            breakdown.innerHTML = '';
+            
+            for (const [dimId, dimData] of Object.entries(calculatedScores)) {
+                if (dimData.details.length > 0) {
+                    const item = document.createElement('div');
+                    item.className = 'breakdown-item';
+                    
+                    const detailsText = dimData.details.map(d => 
+                        `Q${d.question}: ${d.color.charAt(0).toUpperCase() + d.color.slice(1)} (${d.score}%)`
+                    ).join(', ');
+                    
+                    const avg = Math.round(dimData.details.reduce((a, b) => a + b.score, 0) / dimData.details.length);
+                    
+                    item.innerHTML = `
+                        <strong>${dimData.label}:</strong><br>
+                        <span>${detailsText}</span><br>
+                        <span>Average: ${avg}%</span>
+                    `;
+                    
+                    breakdown.appendChild(item);
+                }
+            }
+
+            // Generate copy-paste scores
+            generateCopyPasteScores();
+            
+            // Show results section
+            document.getElementById('resultsSection').classList.add('show');
+            document.getElementById('storageSection').style.display = 'block';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Storage for multiple assessments
+        let storedBaseline = null;
+        let storedSixMonth = null;
+
+        function storeBaseline() {
+            storedBaseline = {
+                organization: document.getElementById('orgName').value,
+                date: document.getElementById('assessmentDate').value,
+                scores: {}
+            };
+            
+            for (const [dimId, dimData] of Object.entries(calculatedScores)) {
+                storedBaseline.scores[dimId] = dimData.score;
+            }
+            
+            document.getElementById('storedStatus').style.display = 'block';
+            document.getElementById('storedBaselineStatus').innerHTML = '✅ Baseline: Stored (' + storedBaseline.date + ')';
+            document.getElementById('storedBaselineStatus').style.color = 'var(--primary)';
+            
+            checkIfBothStored();
+            alert('✅ Baseline scores stored! Now process Form 2 and store 6-month scores.');
+        }
+
+        function storeSixMonth() {
+            storedSixMonth = {
+                organization: document.getElementById('orgName').value,
+                date: document.getElementById('assessmentDate').value,
+                scores: {}
+            };
+            
+            for (const [dimId, dimData] of Object.entries(calculatedScores)) {
+                storedSixMonth.scores[dimId] = dimData.score;
+            }
+            
+            document.getElementById('storedStatus').style.display = 'block';
+            document.getElementById('storedSixMonthStatus').innerHTML = '✅ 6-Month: Stored (' + storedSixMonth.date + ')';
+            document.getElementById('storedSixMonthStatus').style.color = 'var(--primary)';
+            
+            checkIfBothStored();
+            alert('✅ 6-Month scores stored! You can now generate the combined dashboard link.');
+        }
+
+        function checkIfBothStored() {
+            if (storedBaseline && storedSixMonth) {
+                document.getElementById('combinedDashboardBtn').disabled = false;
+                document.getElementById('combinedDashboardBtn').style.background = 'var(--primary)';
+            }
+        }
+
+        function generateCombinedDashboard() {
+            if (!storedBaseline || !storedSixMonth) {
+                alert('Please store both Baseline and 6-Month assessments first!');
+                return;
+            }
+            
+            const combinedData = {
+                organization: storedBaseline.organization,
+                startDate: storedBaseline.date,
+                timepoints: [
+                    {
+                        label: 'Baseline',
+                        date: storedBaseline.date,
+                        scores: storedBaseline.scores
+                    },
+                    {
+                        label: '6-Month Check-in',
+                        date: storedSixMonth.date,
+                        scores: storedSixMonth.scores
+                    }
+                ]
+            };
+            
+            // Encode data for URL
+            const encodedData = btoa(JSON.stringify(combinedData));
+            const baseURL = window.location.origin + window.location.pathname.replace('score-calculator-internal.html', 'partner-progress-dashboard.html');
+            const fullURL = `${baseURL}?import=${encodedData}`;
+            
+            document.getElementById('combinedDashboardURL').value = fullURL;
+        }
+
+        function copyCombinedLink() {
+            const urlInput = document.getElementById('combinedDashboardURL');
+            if (!urlInput.value) {
+                alert('Please generate the combined dashboard link first');
+                return;
+            }
+            urlInput.select();
+            document.execCommand('copy');
+            alert('Combined dashboard link copied to clipboard!');
+        }
+
+        function generateCopyPasteScores() {
+            let text = 'Partner Scores - Ready to Enter into Progress Dashboard\n\n';
+            text += `Organization: ${document.getElementById('orgName').value}\n`;
+            text += `Assessment: ${document.getElementById('assessmentType').value === 'baseline' ? 'Baseline' : '6-Month'}\n`;
+            text += `Date: ${document.getElementById('assessmentDate').value}\n\n`;
+            text += 'Dimension Scores:\n';
+            
+            for (const [dimId, dimData] of Object.entries(calculatedScores)) {
+                text += `${dimData.label}: ${dimData.score}%\n`;
+            }
+            
+            const overallScore = Math.round(Object.values(calculatedScores).map(d => d.score).reduce((a, b) => a + b, 0) / 6);
+            text += `\nOverall Score: ${overallScore}%`;
+            
+            document.getElementById('copyPasteScores').value = text;
+        }
+
+        function generateDashboardLink() {
+            partnerInfo = {
+                organization: document.getElementById('orgName').value,
+                assessmentType: document.getElementById('assessmentType').value,
+                date: document.getElementById('assessmentDate').value,
+                scores: {}
+            };
+            
+            for (const [dimId, dimData] of Object.entries(calculatedScores)) {
+                partnerInfo.scores[dimId] = dimData.score;
+            }
+            
+            // Encode data for URL
+            const encodedData = btoa(JSON.stringify(partnerInfo));
+            const baseURL = window.location.origin + window.location.pathname.replace('score-calculator-internal.html', 'partner-progress-dashboard.html');
+            const fullURL = `${baseURL}?import=${encodedData}`;
+            
+            document.getElementById('dashboardURL').value = fullURL;
+        }
+
+        function copyLink() {
+            const urlInput = document.getElementById('dashboardURL');
+            if (!urlInput.value) {
+                alert('Please generate the link first');
+                return;
+            }
+            urlInput.select();
+            document.execCommand('copy');
+            alert('Dashboard link copied to clipboard!');
+        }
+
+        function copyScores() {
+            const textarea = document.getElementById('copyPasteScores');
+            textarea.select();
+            document.execCommand('copy');
+            alert('Scores copied to clipboard!');
+        }
+
+        function generateEmail() {
+            const orgName = document.getElementById('orgName').value;
+            const assessmentType = document.getElementById('assessmentType').value === 'baseline' ? 'Baseline' : '6-Month';
+            const overallScore = Math.round(Object.values(calculatedScores).map(d => d.score).reduce((a, b) => a + b, 0) / 6);
+            
+            let status = '';
+            if (overallScore >= 80) status = 'Strong';
+            else if (overallScore >= 60) status = 'Moderate-High';
+            else if (overallScore >= 40) status = 'Moderate';
+            else status = 'Needs Additional Support';
+            
+            let emailBody = `Subject: Your Thrive Lights Progress Dashboard is Ready!\n\n`;
+            emailBody += `Hi Team,\n\n`;
+            emailBody += `Thank you for completing your ${assessmentType} assessment!\n\n`;
+            emailBody += `We've calculated your readiness scores across the 6 key dimensions:\n\n`;
+            
+            for (const [dimId, dimData] of Object.entries(calculatedScores)) {
+                const icon = dimData.score >= 70 ? '✅' : dimData.score >= 40 ? '⚠️' : '🔴';
+                const statusText = dimData.score >= 70 ? 'Strong' : dimData.score >= 40 ? 'Good' : 'Needs Support';
+                emailBody += `${icon} ${dimData.label}: ${dimData.score}% (${statusText})\n`;
+            }
+            
+            emailBody += `\nOverall Readiness: ${overallScore}% (${status})\n\n`;
+            emailBody += `View your interactive dashboard here:\n`;
+            emailBody += `${document.getElementById('dashboardURL').value || '[Generate dashboard link first]'}\n\n`;
+            emailBody += `The dashboard shows your scores visually and will track your progress over time as you complete follow-up assessments.\n\n`;
+            emailBody += `Questions? Reply to this email!\n\n`;
+            emailBody += `- Darleen, Thrive Lights Team`;
+            
+            // Copy to clipboard
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = emailBody;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+            
+            alert('Email template copied to clipboard! Paste into your email client.');
+        }
+
+        function resetForm() {
+            if (confirm('Clear all data and start over?')) {
+                document.getElementById('emailContent').value = '';
+                document.getElementById('orgName').value = '';
+                document.getElementById('assessmentType').value = '';
+                document.getElementById('assessmentDate').value = '';
+                document.getElementById('resultsSection').classList.remove('show');
+            }
+        }
+
+        function backToEntry() {
+            document.getElementById('resultsSection').classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Set today's date as default
+        document.getElementById('assessmentDate').valueAsDate = new Date();
+    </script>
+</body>
+</html>
