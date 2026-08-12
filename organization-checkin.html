@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thrive Lights Check In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A2F4A; --charcoal:#1D1D1B; --midgray:#6D6E70; --lightgray:#DADADA;
+  --white:#FFFFFF; --offwhite:#F7F8F9;
+  --green:#3C7A15; --yellow:#F6BE14; --red:#BF080D;
+  --greenbg:#EDF4E8; --yellowbg:#FDF5DC; --redbg:#F9E7E7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--offwhite);
+  color:var(--charcoal);line-height:1.6;padding:32px 16px 80px}
+.wrap{max-width:840px;margin:0 auto}
+.masthead{background:var(--navy);color:var(--white);border-radius:10px 10px 0 0;padding:34px 38px 30px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#9FB3CC;margin-bottom:10px}
+.masthead h1{font-size:29px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.masthead p{margin-top:10px;font-size:14.5px;color:#C8D4E2;max-width:60ch}
+.sheet{background:var(--white);border:1px solid var(--lightgray);border-top:none;
+  border-radius:0 0 10px 10px;padding:0 38px 36px}
+
+.progress-wrap{position:sticky;top:0;background:var(--white);padding:16px 0 12px;z-index:20;
+  border-bottom:1px solid var(--lightgray)}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.progress-label{font-size:12px;font-weight:600;color:var(--midgray);letter-spacing:.04em;text-transform:uppercase}
+.progress-count{font-size:13px;font-weight:600;color:var(--navy)}
+.track{height:5px;background:var(--lightgray);border-radius:3px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--navy);border-radius:3px;transition:width .35s ease}
+
+.section{border-top:1px solid var(--lightgray);padding-top:26px;margin-top:30px}
+.section:first-of-type{border-top:none;margin-top:0;padding-top:24px}
+.sec-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+.sec-num{flex-shrink:0;width:29px;height:29px;border-radius:6px;background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:600;margin-top:2px}
+.sec-head h2{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.sec-sub{font-size:13px;color:var(--midgray);margin-top:2px}
+.sec-body{margin-top:18px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.req{color:var(--red);font-weight:700}
+.field input,.field select,.field textarea{width:100%;padding:10px 13px;border:1px solid var(--lightgray);
+  border-radius:6px;font-family:inherit;font-size:14px;color:var(--charcoal);background:var(--white)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy);
+  box-shadow:0 0 0 3px rgba(26,47,74,.09)}
+.field textarea{min-height:70px;resize:vertical}
+
+.legend{display:flex;gap:18px;flex-wrap:wrap;background:var(--offwhite);border:1px solid var(--lightgray);
+  border-radius:8px;padding:13px 18px;margin:4px 0 18px;font-size:12.5px;color:var(--midgray)}
+.legend span b{color:var(--charcoal)}
+
+.dimtitle{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--midgray);margin:22px 0 2px;padding-bottom:6px;border-bottom:1px solid var(--lightgray)}
+.dimtitle:first-child{margin-top:0}
+.q{padding:14px 0;border-bottom:1px solid #F1F1F1}
+.q:last-child{border-bottom:none}
+.q-text{font-size:14.5px;margin-bottom:11px}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{position:relative;flex:1;min-width:104px}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt label{display:block;text-align:center;padding:8px 6px;border:1.5px solid var(--lightgray);
+  border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s;letter-spacing:.03em}
+.opt.g label{background:var(--greenbg);border-color:#B8D2A6;color:var(--green)}
+.opt.y label{background:var(--yellowbg);border-color:#EBD08A;color:#8A6A00}
+.opt.r label{background:var(--redbg);border-color:#E5B4B4;color:var(--red)}
+.opt.na label{background:var(--white);border-color:var(--lightgray);color:var(--midgray)}
+.opt.g label:hover{border-color:var(--green)}
+.opt.y label:hover{border-color:var(--yellow)}
+.opt.r label:hover{border-color:var(--red)}
+.opt.na label:hover{border-color:var(--midgray)}
+.opt input:checked+label{box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.opt.g input:checked+label{background:var(--green);border-color:var(--green);color:#fff}
+.opt.y input:checked+label{background:var(--yellow);border-color:var(--yellow);color:var(--charcoal)}
+.opt.r input:checked+label{background:var(--red);border-color:var(--red);color:#fff}
+.opt.na input:checked+label{background:var(--midgray);border-color:var(--midgray);color:#fff}
+
+.topics{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch}
+@media(max-width:640px){.topics{grid-template-columns:1fr}}
+.topic{position:relative;display:flex}
+.topic input{position:absolute;opacity:0;width:0;height:0}
+.topic label{display:flex;align-items:center;width:100%;padding:13px 16px;border:1.5px solid var(--lightgray);
+  border-radius:8px;cursor:pointer;transition:all .15s;background:var(--white);font-size:14px;line-height:1.35}
+.topic label:hover{border-color:var(--midgray)}
+.topic input:checked+label{border-color:var(--navy);background:#F4F7FA;box-shadow:0 0 0 2px rgba(26,47,74,.1);font-weight:600}
+.branch{display:none;margin-top:12px}
+.branch.on{display:block}
+.branch .field{margin-bottom:12px}
+.branch .field label{font-weight:500;color:var(--midgray);font-size:12.5px}
+
+.actions{margin-top:32px;padding-top:24px;border-top:1px solid var(--lightgray);display:flex;gap:11px;flex-wrap:wrap}
+.btn{padding:12px 25px;border-radius:7px;font-family:inherit;font-size:14.5px;font-weight:600;
+  cursor:pointer;border:1.5px solid transparent;transition:all .15s}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:#142438}
+.btn-secondary{background:var(--white);color:var(--navy);border-color:var(--lightgray)}
+.btn-secondary:hover{border-color:var(--navy)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.status{margin-top:14px;padding:12px 16px;border-radius:7px;font-size:13.5px;display:none}
+.status.on{display:block}
+.status.ok{background:var(--greenbg);color:var(--green);border:1px solid #C5DDB6}
+.status.err{background:var(--redbg);color:var(--red);border:1px solid #EFC4C4}
+
+.snap{display:none;margin-top:32px}
+.snap.on{display:block}
+.snapbanner{background:var(--navy);color:#fff;border-radius:10px;padding:26px 30px;margin-bottom:24px}
+.snapbanner .sb-eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:#9FB3CC;margin-bottom:7px}
+.snapbanner h2{font-size:24px;font-weight:700;letter-spacing:-.02em}
+.snapbanner p{margin-top:8px;font-size:14.5px;color:#C8D4E2;max-width:58ch}
+.maprow{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #F1F1F1}
+.mapname{flex:1;font-size:14.5px}
+.mapstate{font-size:10.5px;font-weight:700;letter-spacing:.05em;padding:4px 11px;border-radius:4px;white-space:nowrap}
+.mapstate.thriving{background:var(--green);color:#fff}
+.mapstate.progress{background:var(--yellow);color:var(--charcoal)}
+.mapstate.challenge{background:var(--red);color:#fff}
+.rsec{margin-top:26px}
+.rsec h3{font-size:16px;font-weight:600;color:var(--navy);margin-bottom:5px}
+.rsec .rsub{font-size:13px;color:var(--midgray);margin-bottom:13px}
+.guide{border:1px solid var(--lightgray);border-radius:9px;padding:20px 22px;margin-bottom:14px}
+.guide h4{font-size:15.5px;font-weight:600;color:var(--navy);margin-bottom:10px}
+.guide ul{list-style:none;padding:0}
+.guide li{padding:8px 0 8px 22px;position:relative;font-size:14px;border-bottom:1px solid #F4F4F4}
+.guide li:last-child{border-bottom:none}
+.guide li:before{content:"";position:absolute;left:5px;top:16px;width:6px;height:6px;border-radius:50%;background:var(--navy)}
+.strength{display:flex;gap:10px;padding:10px 14px;background:var(--greenbg);border-radius:7px;
+  margin-bottom:7px;font-size:13.5px;border-left:3px solid var(--green)}
+.strength .si{flex-shrink:0;color:var(--green);font-weight:700}
+.prio{position:relative;margin-bottom:8px}
+.prio input{position:absolute;opacity:0;width:0;height:0}
+.prio label{display:flex;gap:11px;padding:12px 15px;border:1.5px solid var(--lightgray);border-radius:7px;
+  cursor:pointer;transition:all .15s;font-size:14px;background:var(--white)}
+.prio label:hover{border-color:var(--midgray)}
+.prio input:checked+label{border-color:var(--navy);background:#F4F7FA;box-shadow:0 0 0 2px rgba(26,47,74,.1)}
+.prio .box{flex-shrink:0;width:16px;height:16px;border:1.5px solid var(--lightgray);border-radius:4px;margin-top:3px}
+.prio input:checked+label .box{background:var(--navy);border-color:var(--navy)}
+.allgreen{padding:16px 19px;background:var(--greenbg);border-left:3px solid var(--green);
+  border-radius:0 7px 7px 0;font-size:14px}
+.footnote{margin-top:28px;font-size:12px;color:var(--midgray);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Thrive Lights</div>
+    <h1>Check In</h1>
+    <p>A quick look at how things are going. Takes about five minutes.</p>
+  </div>
+
+  <div class="sheet">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label">Progress</span>
+        <span class="progress-count"><span id="answered">0</span> of <span id="total">0</span></span>
+      </div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <!-- 1 -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">1</div>
+        <div><h2>About you</h2></div>
+      </div>
+      <div class="sec-body">
+        <div class="grid2">
+          <div class="field"><label>Organization <span class="req">*</span></label><input type="text" id="orgName"></div>
+          <div class="field"><label>Hub <span class="req">*</span></label>
+            <select id="hub"><option value="">Select</option><option>Wichita</option>
+            <option>Grand Rapids</option><option>Oklahoma City</option><option>Dallas</option><option>Other</option></select></div>
+          <div class="field"><label>Your name <span class="req">*</span></label><input type="text" id="contactName"></div>
+          <div class="field"><label>Email <span class="req">*</span></label><input type="email" id="contactEmail"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">2</div>
+        <div>
+          <h2>How things are going</h2>
+          <div class="sec-sub">Same three colors your participants use</div>
+        </div>
+      </div>
+      <div class="sec-body">
+        <div class="legend">
+          <span><b>Thriving</b> working well</span>
+          <span><b>In progress</b> partway there</span>
+          <span><b>Challenge</b> not happening yet</span>
+        </div>
+        <div id="dims"></div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">3</div>
+        <div>
+          <h2>Anything on your mind?</h2>
+          <div class="sec-sub">Optional. Pick any that apply, or skip this.</div>
+        </div>
+      </div>
+      <div class="sec-body">
+        <div class="topics" id="topics"></div>
+        <div id="branches"></div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">4</div>
+        <div><h2>Anything else?</h2><div class="sec-sub">Optional</div></div>
+      </div>
+      <div class="sec-body">
+        <div class="field"><textarea id="freeText" placeholder="Anything you want us to know."></textarea></div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-primary" id="btnMap">See where you are</button>
+      <button type="button" class="btn btn-secondary" id="btnReset">Start over</button>
+    </div>
+    <div class="status" id="status"></div>
+
+    <div class="snap" id="snap">
+      <div class="snapbanner">
+        <div class="sb-eyebrow">Your snapshot</div>
+        <h2 id="snapTitle"></h2>
+        <p id="snapDesc"></p>
+      </div>
+
+      <div class="rsec" style="margin-top:0">
+        <h3>Where you are</h3>
+        <div class="rsub">A picture of this moment, which will look different next time.</div>
+        <div id="mapRows"></div>
+      </div>
+
+      <div class="rsec" id="guideSec" style="display:none">
+        <h3>Some things that might help</h3>
+        <div class="rsub">Based on what you raised. Worth a look before we talk.</div>
+        <div id="guides"></div>
+      </div>
+
+      <div class="rsec" id="strengthSec">
+        <h3>What is going well</h3>
+        <div id="strengths"></div>
+      </div>
+
+      <div class="rsec" id="prioSec">
+        <h3>Anything you would like to work on next?</h3>
+        <div class="rsub">Choose one or two, or none. You decide what matters here.</div>
+        <div id="prios"></div>
+      </div>
+
+      <div class="actions" style="margin-top:24px">
+        <button type="button" class="btn btn-primary" id="btnSend">Send to Thrive Lights</button>
+        <button type="button" class="btn btn-secondary" id="btnDoc" disabled>Download a copy</button>
+      </div>
+      <div class="status" id="status2"></div>
+    </div>
+
+    <div class="footnote">Thrive Lights Check In</div>
+  </div>
+</div>
+
+<script>
+var FORMSPREE = "https://formspree.io/f/mjgejdoa";
+var ENDPOINT = "https://script.google.com/macros/s/AKfycbzpbxfvpxqujjOOL3ZL_iRWEd_Ysw2szcmQ39YlBs0MJoqas0gwl9Zz2fjVmLULaXWy/exec";
+
+var DIMS = [
+  { key:"rhythm", name:"Rhythm and reach", qs:[
+    {id:"r1", t:"We are running assessments at a pace that works for us."},
+    {id:"r2", t:"We are reaching the participants we hoped to reach."}
+  ]},
+  { key:"facilitation", name:"Running the assessments", qs:[
+    {id:"f1", t:"Whoever runs our assessments feels confident doing it."},
+    {id:"f2", t:"We have enough people ready for the volume we are doing."}
+  ]},
+  { key:"participant", name:"The participant experience", qs:[
+    {id:"p1", t:"Participants understand that their results belong to them."},
+    {id:"p2", t:"We talk with participants about what they want to work on."},
+    {id:"p3", t:"Participants have taken action on something they chose themselves."}
+  ]},
+  { key:"data", name:"Using what you learn", qs:[
+    {id:"d1", t:"We look at our data regularly, not only when someone asks for it."},
+    {id:"d2", t:"We have learned something about our participants we did not know before."}
+  ]},
+  { key:"team", name:"Your team", qs:[
+    {id:"t1", t:"Thrive Lights feels like part of how we work, not a side project."},
+    {id:"t2", t:"More than one person here understands how this works."}
+  ]},
+  { key:"network", name:"Being part of the network", qs:[
+    {id:"n1", t:"We know who to contact when we need something."}
+  ]}
+];
+
+var PROMPTS = {
+  rhythm:"Finding a pace and a point in your program that fits",
+  facilitation:"Confidence and capacity for running assessments",
+  participant:"How participants experience this and what follows for them",
+  data:"Making the data part of how you make decisions",
+  team:"Spreading ownership beyond one person",
+  network:"Knowing where to go when you need something"
+};
+
+var TOPICS = [
+  { key:"completion", label:"Completion has been lower than we hoped",
+    ask:"Roughly what share are finishing, and where do people seem to drop off?",
+    guide:"Completion rates", tips:[
+      "Look at when you are asking. If it lands during intake, when someone has a lot in front of them, completion usually suffers. A calmer second or third contact tends to work better.",
+      "Listen to how it gets introduced. There is a real difference between asking someone to fill out a form and inviting them to look at where they are right now.",
+      "If you send a link, one message on its own rarely works. A short reminder a few days later usually recovers a meaningful number of people.",
+      "Check what it looks like on a phone. If most participants open it there and it is awkward, that alone explains a lot."
+    ]},
+  { key:"data", label:"We would like help reading our data",
+    ask:"What are you hoping to be able to say or decide?",
+    guide:"Making sense of your data", tips:[
+      "Start with the distribution across indicators. Which have the most participants in red? That is where your program has the clearest opportunity.",
+      "Look at where participants are already green. That is a strength to build on, and it is often the part organizations skip past.",
+      "Only compare baseline to follow up for participants who have both. Mixing everyone together produces a number that does not mean anything.",
+      "Be careful with small numbers. With ten or fifteen participants, one person moving shifts the percentage a lot."
+    ]},
+  { key:"team", label:"There are changes in our team",
+    ask:"Who is changing, and is anyone currently able to run assessments?",
+    guide:"Working through a team change", tips:[
+      "Check whether anyone else has sat in on sessions, even informally. They are usually closer to being able to run one than they think.",
+      "Do not try to hold your usual volume during a transition. Running a smaller number well beats pausing entirely.",
+      "Tell us early rather than after. We can often get someone into the next training round instead of you waiting for the following one.",
+      "Make sure whoever takes over gets access to your existing data, not just the ability to run new assessments."
+    ]},
+  { key:"technical", label:"Something technical is not working smoothly",
+    ask:"What were you trying to do, and what happened instead?",
+    guide:"Technical issues", tips:[
+      "Try a different browser first. A surprising share of issues are browser specific.",
+      "If something looks wrong after a change, refresh fully rather than just reloading the tab.",
+      "If a record looks missing, check whether it might sit under a different name spelling before assuming it is gone.",
+      "Note whether it happens every time or only sometimes. That difference usually tells us where to look."
+    ]},
+  { key:"slowed", label:"We have slowed down lately",
+    ask:"When did you last run assessments, and what got in the way?",
+    guide:"Picking the pace back up", tips:[
+      "Do not try to catch up. Attempting to make up missed months is the most common reason a restart fails a second time.",
+      "Pick one program, one facilitator, and a small group. Get that working before widening again.",
+      "Work out what actually caused the pause. If it was capacity, restarting at the same volume produces the same result.",
+      "If people you assessed months ago are still with you, a follow up gives you something useful immediately."
+    ]},
+  { key:"after", label:"Thinking about what happens after an assessment",
+    ask:"What currently happens after someone completes one?",
+    guide:"What follows an assessment", tips:[
+      "The results belong to the participant. Start from what they see and what stands out to them.",
+      "Ask which one or two areas they want to work on. Their own priorities drive follow through, and it is rarely the indicator you would have picked.",
+      "Turn those into something small and concrete. One realistic step beats a comprehensive plan nobody returns to.",
+      "Revisit it. Even a short check back on what they chose keeps it from becoming a one time exercise."
+    ]},
+  { key:"reporting", label:"We have reporting coming up",
+    ask:"Who is the audience, and when is it due?",
+    guide:"Reporting on your work", tips:[
+      "With baseline data only, you can describe who you are reaching and where they are starting from. That is a real finding.",
+      "Claims about change need both a baseline and a follow up for the same participants.",
+      "Report how many people you reached alongside your results. Reach and change answer different questions.",
+      "Include what has not moved. Funders respond better to an honest account than one where everything improved."
+    ]},
+  { key:"other", label:"Something else",
+    ask:"Tell us what is on your mind.",
+    guide:"", tips:[] }
+];
+
+function opt(name,val,cls,label){
+  var id=name+"_"+val;
+  return '<div class="opt '+cls+'"><input type="radio" name="'+name+'" id="'+id+'" value="'+val+'">'+
+    '<label for="'+id+'">'+label+'</label></div>';
+}
+
+function build(){
+  document.getElementById("dims").innerHTML = DIMS.map(function(d){
+    return '<div class="dimtitle">'+d.name+'</div>'+
+      d.qs.map(function(q){
+        return '<div class="q"><div class="q-text">'+q.t+'</div><div class="opts">'+
+          opt(q.id,"green","g","Thriving")+
+          opt(q.id,"yellow","y","In progress")+
+          opt(q.id,"red","r","Challenge")+
+          opt(q.id,"na","na","N/A")+
+          '</div></div>';
+      }).join("");
+  }).join("");
+
+  document.getElementById("topics").innerHTML = TOPICS.map(function(t){
+    return '<div class="topic"><input type="checkbox" id="tp_'+t.key+'" value="'+t.key+'">'+
+      '<label for="tp_'+t.key+'">'+t.label+'</label></div>';
+  }).join("");
+
+  document.getElementById("branches").innerHTML = TOPICS.map(function(t){
+    return '<div class="branch" id="br_'+t.key+'"><div class="field">'+
+      '<label>'+t.label+': '+t.ask+'</label>'+
+      '<textarea id="dt_'+t.key+'"></textarea></div></div>';
+  }).join("");
+
+  TOPICS.forEach(function(t){
+    document.getElementById("tp_"+t.key).addEventListener("change", function(){
+      document.getElementById("br_"+t.key).classList.toggle("on", this.checked);
+    });
+  });
+
+  document.addEventListener("change", updateProgress);
+  updateProgress();
+}
+
+function allQs(){
+  var o=[]; DIMS.forEach(function(d){ d.qs.forEach(function(q){ o.push(q); }); }); return o;
+}
+function updateProgress(){
+  var qs=allQs(), done=0;
+  qs.forEach(function(q){ if(document.querySelector('input[name="'+q.id+'"]:checked')) done++; });
+  document.getElementById("answered").textContent=done;
+  document.getElementById("total").textContent=qs.length;
+  document.getElementById("fill").style.width=(done/qs.length*100)+"%";
+}
+function val(id){ var e=document.getElementById(id); return e?e.value.trim():""; }
+function chosenTopics(){ return TOPICS.filter(function(t){ return document.getElementById("tp_"+t.key).checked; }); }
+
+function showMap(){
+  var org=val("orgName"), hub=document.getElementById("hub").value,
+      who=val("contactName"), email=val("contactEmail");
+  if(!org||!hub||!who||!email){
+    setStatus("status","Please fill in your organization, hub, name, and email first.",false); return;
+  }
+  var missing=allQs().filter(function(q){ return !document.querySelector('input[name="'+q.id+'"]:checked'); });
+  if(missing.length){
+    setStatus("status","There "+(missing.length===1?"is 1 question":"are "+missing.length+" questions")+" still to answer in section 2.",false);
+    return;
+  }
+  setStatus("status","",null);
+
+  var results = DIMS.map(function(d){
+    var c={green:0,yellow:0,red:0,na:0}, answers=[];
+    d.qs.forEach(function(q){
+      var v=document.querySelector('input[name="'+q.id+'"]:checked').value;
+      c[v]++; answers.push({id:q.id,question:q.t,answer:v.toUpperCase()});
+    });
+    var scored=c.green+c.yellow+c.red, state;
+    if(scored===0) state="na";
+    else if(c.red===0 && c.green>=c.yellow) state="thriving";
+    else if(c.red>=2 || (c.red>=1 && c.green===0)) state="challenge";
+    else state="progress";
+    return {dim:d,counts:c,state:state,answers:answers};
+  });
+
+  var thriving=results.filter(function(r){return r.state==="thriving";});
+  var needs=results.filter(function(r){return r.counts.yellow>0||r.counts.red>0;});
+  var pressing=results.filter(function(r){return r.state==="progress"||r.state==="challenge";});
+  var topics=chosenTopics();
+
+  var title,desc;
+  if(needs.length===0){
+    title="Things are running well";
+    desc="Every area came out thriving. The most useful thing now is usually going deeper rather than fixing anything.";
+  } else if(pressing.length===0){
+    title="Running well, with a few things you could pick up";
+    desc="Your map reads as thriving across the board. A handful of individual points are not fully green, listed below in case you want somewhere to aim next.";
+  } else if(thriving.length>=pressing.length){
+    title="A solid picture, with a few areas to choose from";
+    desc="Most of what you are doing is working. There are a couple of areas you might want to give attention to, and it is your call which, if any, you pick up.";
+  } else {
+    title="Here is where you are right now";
+    desc="This is a snapshot of one moment, not a judgment about your organization. It usually points to a few specific things rather than anything broad.";
+  }
+  document.getElementById("snapTitle").textContent=title;
+  document.getElementById("snapDesc").textContent=desc;
+
+  document.getElementById("mapRows").innerHTML=results.map(function(r){
+    var cls=r.state==="thriving"?"thriving":r.state==="challenge"?"challenge":"progress";
+    var lbl=r.state==="thriving"?"THRIVING":r.state==="challenge"?"CHALLENGE":"IN PROGRESS";
+    if(r.state==="na"){ cls="progress"; lbl="NOT APPLICABLE"; }
+    return '<div class="maprow"><div class="mapname">'+r.dim.name+'</div>'+
+      '<div class="mapstate '+cls+'">'+lbl+'</div></div>';
+  }).join("");
+
+  // Guidance for chosen topics
+  var withTips=topics.filter(function(t){ return t.tips.length; });
+  if(withTips.length){
+    document.getElementById("guideSec").style.display="";
+    document.getElementById("guides").innerHTML=withTips.map(function(t){
+      return '<div class="guide"><h4>'+t.guide+'</h4><ul>'+
+        t.tips.map(function(x){ return '<li>'+x+'</li>'; }).join("")+'</ul></div>';
+    }).join("");
+  } else {
+    document.getElementById("guideSec").style.display="none";
+  }
+
+  var greens=[];
+  results.forEach(function(r){ r.answers.forEach(function(a){ if(a.answer==="GREEN") greens.push(a.question); }); });
+  if(greens.length){
+    document.getElementById("strengthSec").style.display="";
+    document.getElementById("strengths").innerHTML=greens.map(function(g){
+      return '<div class="strength"><span class="si">&#10003;</span><span>'+g+'</span></div>';
+    }).join("");
+  } else {
+    document.getElementById("strengthSec").style.display="none";
+  }
+
+  if(needs.length){
+    document.getElementById("prios").innerHTML=needs.map(function(r){
+      return '<div class="prio"><input type="checkbox" id="pr_'+r.dim.key+'" value="'+r.dim.name+'">'+
+        '<label for="pr_'+r.dim.key+'"><span class="box"></span><span><b>'+r.dim.name+'</b><br>'+
+        '<span style="color:var(--midgray);font-size:13px">'+PROMPTS[r.dim.key]+'</span></span></label></div>';
+    }).join("");
+  } else {
+    document.getElementById("prios").innerHTML=
+      '<div class="allgreen">Nothing is flagged. If you want somewhere to go next, the usual options are widening to another program, bringing a second person up to speed, or looking at follow up data for participants who have been with you a while.</div>';
+  }
+
+  window.__results=results;
+  document.getElementById("snap").classList.add("on");
+  document.getElementById("btnDoc").disabled=false;
+  document.getElementById("snap").scrollIntoView({behavior:"smooth"});
+}
+
+function gather(){
+  var results=window.__results||[];
+  var prios=[];
+  document.querySelectorAll('[id^="pr_"]:checked').forEach(function(c){ prios.push(c.value); });
+  return {
+    form_type:"health_checkin",
+    organization:val("orgName"), hub:document.getElementById("hub").value,
+    contact:val("contactName"), email:val("contactEmail"),
+    date:new Date().toISOString().slice(0,10),
+    dimensions:results.map(function(r){
+      return {name:r.dim.name,state:r.state,green:r.counts.green,yellow:r.counts.yellow,red:r.counts.red};
+    }),
+    answers:results.reduce(function(a,r){ return a.concat(r.answers); },[]),
+    topics:chosenTopics().map(function(t){
+      return {topic:t.label, detail:val("dt_"+t.key)};
+    }),
+    priorities:prios,
+    free_text:val("freeText")
+  };
+}
+
+function send(){
+  var p=gather(); window.__payload=p;
+  var jobs=[];
+  if(ENDPOINT) jobs.push(fetch(ENDPOINT,{method:"POST",mode:"no-cors",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}));
+  if(FORMSPREE){
+    var flat={
+      _subject:"Check In: "+p.organization+" ("+p.hub+")",
+      Organization:p.organization,Hub:p.hub,Contact:p.contact,Email:p.email,
+      Map:p.dimensions.map(function(d){return d.name+" >> "+d.state.toUpperCase();}).join("\n"),
+      OnTheirMind:p.topics.map(function(t){return t.topic+(t.detail?": "+t.detail:"");}).join("\n")||"nothing raised",
+      ChoseToWorkOn:p.priorities.join(" | ")||"nothing selected",
+      AnythingElse:p.free_text||"none",
+      Answers:p.answers.map(function(a){return a.question+" >> "+a.answer;}).join("\n")
+    };
+    jobs.push(fetch(FORMSPREE,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},
+      body:JSON.stringify(flat)}));
+  }
+  if(!jobs.length){ setStatus("status2","Snapshot ready. No delivery endpoint configured.",true); return; }
+  Promise.allSettled(jobs).then(function(){
+    setStatus("status2","Sent. Thank you. Your snapshot is yours to keep and you can download a copy.",true);
+  });
+}
+
+function setStatus(id,msg,ok){
+  var s=document.getElementById(id);
+  if(ok===null){ s.className="status"; s.textContent=""; return; }
+  s.textContent=msg; s.className="status on "+(ok?"ok":"err");
+}
+
+function downloadDoc(){
+  var p=window.__payload||gather();
+  var mapRows=p.dimensions.map(function(d){
+    var c=d.state==="thriving"?"#3C7A15":d.state==="challenge"?"#BF080D":"#8A6A00";
+    var l=d.state==="thriving"?"THRIVING":d.state==="challenge"?"CHALLENGE":"IN PROGRESS";
+    return '<tr><td style="padding:6px 10px;border:1px solid #DADADA">'+d.name+'</td>'+
+      '<td style="padding:6px 10px;border:1px solid #DADADA;color:'+c+';font-weight:bold;width:130px">'+l+'</td></tr>';
+  }).join("");
+  var ansRows=p.answers.map(function(a){
+    var c=a.answer==="GREEN"?"#3C7A15":a.answer==="YELLOW"?"#8A6A00":a.answer==="RED"?"#BF080D":"#6D6E70";
+    var l=a.answer==="GREEN"?"THRIVING":a.answer==="YELLOW"?"IN PROGRESS":a.answer==="RED"?"CHALLENGE":"N/A";
+    return '<tr><td style="padding:6px 10px;border:1px solid #DADADA">'+a.question+'</td>'+
+      '<td style="padding:6px 10px;border:1px solid #DADADA;color:'+c+';font-weight:bold;width:120px">'+l+'</td></tr>';
+  }).join("");
+  var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">'+
+    '<head><meta charset="utf-8"></head><body style="font-family:Calibri,Arial,sans-serif;color:#1D1D1B">'+
+    '<h1 style="color:#1A2F4A">Check In</h1><p style="color:#6D6E70">Thrive Lights</p><hr>'+
+    '<p><b>Organization:</b> '+p.organization+'<br><b>Hub:</b> '+p.hub+
+    '<br><b>Completed by:</b> '+p.contact+'<br><b>Date:</b> '+p.date+'</p>'+
+    '<h2 style="color:#1A2F4A">Where you are</h2>'+
+    '<table style="border-collapse:collapse;width:100%;font-size:10pt">'+mapRows+'</table>'+
+    (p.topics.length?'<h2 style="color:#1A2F4A">On your mind</h2><ul>'+
+      p.topics.map(function(t){return '<li><b>'+t.topic+'</b>'+(t.detail?': '+t.detail:'')+'</li>';}).join("")+'</ul>':'')+
+    (p.priorities.length?'<h2 style="color:#1A2F4A">Chosen to work on next</h2><ul>'+
+      p.priorities.map(function(x){return '<li>'+x+'</li>';}).join("")+'</ul>':'')+
+    (p.free_text?'<h3 style="color:#1A2F4A">Anything else</h3><p>'+p.free_text+'</p>':'')+
+    '<h2 style="color:#1A2F4A">Full responses</h2>'+
+    '<table style="border-collapse:collapse;width:100%;font-size:10pt">'+ansRows+'</table>'+
+    '</body></html>';
+  var blob=new Blob(['\ufeff',html],{type:"application/msword"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="CheckIn_"+p.organization.replace(/[^a-z0-9]/gi,"_")+".doc";
+  a.click();
+}
+
+document.getElementById("btnMap").addEventListener("click",showMap);
+document.getElementById("btnSend").addEventListener("click",send);
+document.getElementById("btnDoc").addEventListener("click",downloadDoc);
+document.getElementById("btnReset").addEventListener("click",function(){
+  if(confirm("Clear everything and start over?")) location.reload();
+});
+
+build();
+</script>
+</body>
+</html>
