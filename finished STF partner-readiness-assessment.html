@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thrive Lights Partner Readiness Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1A2F4A;
+  --charcoal:#1D1D1B;
+  --midgray:#6D6E70;
+  --lightgray:#DADADA;
+  --white:#FFFFFF;
+  --offwhite:#F7F8F9;
+  --green:#3C7A15;
+  --yellow:#F6BE14;
+  --red:#BF080D;
+  --greenbg:#EDF4E8;
+  --yellowbg:#FDF5DC;
+  --redbg:#F9E7E7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--offwhite);
+  color:var(--charcoal);
+  line-height:1.6;
+  padding:32px 16px 80px;
+}
+.wrap{max-width:860px;margin:0 auto}
+
+/* Header */
+.masthead{
+  background:var(--navy);
+  color:var(--white);
+  border-radius:10px 10px 0 0;
+  padding:38px 40px 34px;
+}
+.eyebrow{
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:#9FB3CC;margin-bottom:12px;
+}
+.masthead h1{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.masthead p{margin-top:12px;font-size:15px;color:#C8D4E2;max-width:60ch}
+
+.sheet{
+  background:var(--white);
+  border:1px solid var(--lightgray);
+  border-top:none;
+  border-radius:0 0 10px 10px;
+  padding:0 40px 40px;
+}
+
+/* Intro */
+.intro{
+  border-left:3px solid var(--navy);
+  background:var(--offwhite);
+  padding:18px 22px;margin:32px 0 8px;border-radius:0 6px 6px 0;
+}
+.intro strong{display:block;font-weight:600;margin-bottom:6px;font-size:15px}
+.intro p{font-size:14px;color:var(--midgray)}
+
+/* Progress */
+.progress-wrap{position:sticky;top:0;background:var(--white);padding:18px 0 14px;z-index:20;border-bottom:1px solid var(--lightgray);margin-bottom:8px}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.progress-label{font-size:12px;font-weight:600;color:var(--midgray);letter-spacing:.04em;text-transform:uppercase}
+.progress-count{font-size:13px;font-weight:600;color:var(--navy)}
+.track{height:5px;background:var(--lightgray);border-radius:3px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--navy);border-radius:3px;transition:width .35s ease}
+
+/* Org info */
+.orgblock{padding:28px 0 8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:var(--charcoal)}
+.req{color:var(--red);font-weight:700}
+.field input,.field select,.field textarea{
+  width:100%;padding:11px 13px;border:1px solid var(--lightgray);border-radius:6px;
+  font-family:inherit;font-size:14px;color:var(--charcoal);background:var(--white);
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,47,74,.09)
+}
+.field textarea{min-height:78px;resize:vertical}
+.hint{font-size:12px;color:var(--midgray);margin-top:5px}
+
+/* Stoplight legend */
+.legend{background:var(--offwhite);border:1px solid var(--lightgray);border-radius:8px;padding:20px 22px;margin:28px 0}
+.legend h3{font-size:14px;font-weight:600;margin-bottom:14px}
+.legend-row{display:flex;align-items:flex-start;gap:11px;margin-bottom:9px;font-size:13.5px}
+.legend-row:last-child{margin-bottom:0}
+.chip{
+  flex-shrink:0;width:60px;text-align:center;border-radius:4px;
+  font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:3px 0;margin-top:1px;
+}
+.chip.g{background:var(--green);color:#fff}
+.chip.y{background:var(--yellow);color:var(--charcoal)}
+.chip.r{background:var(--red);color:#fff}
+
+/* Sections */
+.section{border-top:1px solid var(--lightgray);padding-top:30px;margin-top:34px}
+.sec-head{display:flex;gap:15px;align-items:flex-start;margin-bottom:8px}
+.sec-num{
+  flex-shrink:0;width:31px;height:31px;border-radius:6px;background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;margin-top:2px;
+}
+.sec-head h2{font-size:20px;font-weight:600;letter-spacing:-.01em}
+.sec-sub{font-size:13.5px;color:var(--midgray);margin-top:3px}
+.sec-body{margin-top:22px}
+
+.subhead{
+  font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--midgray);margin:26px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--lightgray);
+}
+
+/* Questions */
+.q{padding:17px 0;border-bottom:1px solid #EFEFEF}
+.q:last-child{border-bottom:none}
+.q-text{font-size:14.5px;margin-bottom:13px;display:flex;gap:10px}
+.q-id{color:var(--midgray);font-weight:600;font-size:13px;flex-shrink:0;min-width:26px}
+.opts{display:flex;gap:9px;flex-wrap:wrap;margin-left:36px}
+@media(max-width:640px){.opts{margin-left:0}}
+.opt{position:relative;flex:1;min-width:112px}
+.opt input{position:absolute;opacity:0;width:0;height:0}
+.opt label{
+  display:block;text-align:center;padding:9px 8px;border:1.5px solid var(--lightgray);
+  border-radius:6px;cursor:pointer;font-size:12.5px;font-weight:500;
+  background:var(--white);transition:all .15s;line-height:1.35;
+}
+.opt label .lbl{display:block;font-size:10px;font-weight:700;letter-spacing:.07em;margin-bottom:2px}
+
+/* Unselected: tinted with the stoplight colour so the choices read at a glance */
+.opt.g label{background:var(--greenbg);border-color:#B8D2A6;color:var(--green)}
+.opt.y label{background:var(--yellowbg);border-color:#EBD08A;color:#8A6A00}
+.opt.r label{background:var(--redbg);border-color:#E5B4B4;color:var(--red)}
+.opt.na label{background:var(--white);border-color:var(--lightgray);color:var(--midgray)}
+
+.opt.g label:hover{border-color:var(--green)}
+.opt.y label:hover{border-color:var(--yellow)}
+.opt.r label:hover{border-color:var(--red)}
+.opt.na label:hover{border-color:var(--midgray)}
+
+/* Selected: full fill */
+.opt input:checked+label{font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.14)}
+.opt.g input:checked+label{background:var(--green);border-color:var(--green);color:#fff}
+.opt.y input:checked+label{background:var(--yellow);border-color:var(--yellow);color:var(--charcoal)}
+.opt.r input:checked+label{background:var(--red);border-color:var(--red);color:#fff}
+.opt.na input:checked+label{background:var(--midgray);border-color:var(--midgray);color:#fff}
+
+/* Callout inside form */
+.why{
+  margin:14px 0 4px 36px;padding:12px 15px;background:var(--offwhite);
+  border-left:2px solid var(--navy);border-radius:0 5px 5px 0;
+  font-size:12.5px;color:var(--midgray);
+}
+@media(max-width:640px){.why{margin-left:0}}
+
+/* Model picker */
+.model-pick{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:6px;align-items:stretch}
+@media(max-width:640px){.model-pick{grid-template-columns:1fr}}
+.model-opt{position:relative;display:flex}
+.model-opt input{position:absolute;opacity:0;width:0;height:0}
+.model-opt label{
+  display:flex;flex-direction:column;justify-content:flex-start;width:100%;
+  padding:16px 18px;border:1.5px solid var(--lightgray);border-radius:8px;
+  cursor:pointer;transition:all .15s;background:var(--white);
+}
+.model-opt label:hover{border-color:var(--midgray)}
+.model-opt input:checked+label{border-color:var(--navy);background:#F4F7FA;box-shadow:0 0 0 2px rgba(26,47,74,.1)}
+.model-opt .mt{display:block;font-size:14.5px;font-weight:600;margin-bottom:6px;line-height:1.3}
+.model-opt .md{display:block;font-size:12.5px;color:var(--midgray);line-height:1.45}
+
+.branch{display:none}
+.branch.on{display:block}
+
+.notes{margin-top:22px}
+.notes label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.notes textarea{
+  width:100%;min-height:80px;padding:11px 13px;border:1px solid var(--lightgray);
+  border-radius:6px;font-family:inherit;font-size:14px;resize:vertical;color:var(--charcoal)
+}
+.notes textarea:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,47,74,.09)}
+
+/* Actions */
+.actions{margin-top:38px;padding-top:28px;border-top:1px solid var(--lightgray);display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  padding:13px 26px;border-radius:7px;font-family:inherit;font-size:14.5px;font-weight:600;
+  cursor:pointer;border:1.5px solid transparent;transition:all .15s;
+}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-primary:hover{background:#142438}
+.btn-secondary{background:var(--white);color:var(--navy);border-color:var(--lightgray)}
+.btn-secondary:hover{border-color:var(--navy)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* Results */
+.results{display:none;margin-top:34px}
+.results.on{display:block}
+.result-banner{border-radius:10px;padding:30px 34px;color:#fff;margin-bottom:26px}
+.result-banner.strong{background:var(--green)}
+.result-banner.moderate{background:var(--yellow);color:var(--charcoal)}
+.result-banner.low{background:var(--red)}
+.result-banner .rb-eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:9px}
+.result-banner h2{font-size:27px;font-weight:700;letter-spacing:-.02em}
+.result-banner p{margin-top:9px;font-size:14.5px;opacity:.95;max-width:58ch}
+
+.rsec{margin-bottom:26px}
+.rsec h3{font-size:16px;font-weight:600;color:var(--navy);margin-bottom:13px}
+.dim-row{display:flex;align-items:center;gap:13px;padding:10px 0;border-bottom:1px solid #EFEFEF}
+.dim-name{flex:1;font-size:14px}
+.dim-bar{width:130px;height:6px;background:var(--lightgray);border-radius:3px;overflow:hidden}
+.dim-bar span{display:block;height:100%;border-radius:3px}
+.dim-pct{width:44px;text-align:right;font-size:13px;font-weight:600;color:var(--navy)}
+
+.plan-item{
+  display:flex;gap:12px;padding:13px 16px;background:var(--offwhite);
+  border-radius:7px;margin-bottom:9px;font-size:14px;border-left:3px solid var(--navy);
+}
+.plan-item.flag{background:var(--redbg);border-left-color:var(--red)}
+.plan-item.watch{background:var(--yellowbg);border-left-color:var(--yellow)}
+.plan-icon{flex-shrink:0;font-weight:700;color:var(--navy)}
+.plan-item.flag .plan-icon{color:var(--red)}
+.plan-item.watch .plan-icon{color:#8A6A00}
+
+.status{margin-top:16px;padding:13px 16px;border-radius:7px;font-size:13.5px;display:none}
+.status.on{display:block}
+.status.ok{background:var(--greenbg);color:var(--green);border:1px solid #C5DDB6}
+.status.err{background:var(--redbg);color:var(--red);border:1px solid #EFC4C4}
+
+.footnote{margin-top:30px;font-size:12px;color:var(--midgray);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="eyebrow">Thrive Lights</div>
+    <h1>Partner Readiness Assessment</h1>
+    <p>A short shared look at where your organization stands today, so we can shape onboarding around what you actually need.</p>
+  </div>
+
+  <div class="sheet">
+
+    <div class="intro">
+      <strong>There is no pass or fail here.</strong>
+      <p>This takes about 15 to 20 minutes. Your answers help us see what kind of support will set you up well, so onboarding is built around what you actually need rather than being the same for everyone. Honest answers are far more useful to us than optimistic ones.</p>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label">Progress</span>
+        <span class="progress-count"><span id="answered">0</span> of <span id="total">0</span> answered</span>
+      </div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+    </div>
+
+    <div class="orgblock">
+      <div class="grid2">
+        <div class="field">
+          <label>Organization name <span class="req">*</span></label>
+          <input type="text" id="orgName">
+        </div>
+        <div class="field">
+          <label>Hub <span class="req">*</span></label>
+          <select id="hub">
+            <option value="">Select a hub</option>
+            <option>Wichita</option>
+            <option>Grand Rapids</option>
+            <option>Oklahoma City</option>
+            <option>Dallas</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Your name <span class="req">*</span></label>
+          <input type="text" id="contactName">
+        </div>
+        <div class="field">
+          <label>Your role or title</label>
+          <input type="text" id="contactRole">
+        </div>
+        <div class="field">
+          <label>Email <span class="req">*</span></label>
+          <input type="email" id="contactEmail">
+        </div>
+        <div class="field">
+          <label>Date <span class="req">*</span></label>
+          <input type="date" id="assessDate">
+        </div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <h3>How to answer</h3>
+      <div class="legend-row"><span class="chip g">GREEN</span><span>Yes, this is in place and working.</span></div>
+      <div class="legend-row"><span class="chip y">YELLOW</span><span>Partly. We have started, or it is still taking shape.</span></div>
+      <div class="legend-row"><span class="chip r">RED</span><span>Not yet. This has not been sorted out.</span></div>
+    </div>
+
+    <form id="form">
+
+      <!-- SECTION 1 -->
+      <div class="section">
+        <div class="sec-head">
+          <div class="sec-num">1</div>
+          <div>
+            <h2>Organizational commitment</h2>
+            <div class="sec-sub">Whether the organization behind the work is ready</div>
+          </div>
+        </div>
+        <div class="sec-body" data-qgroup="s1"></div>
+        <div class="notes">
+          <label>Anything you want to add about your organization's commitment</label>
+          <textarea name="notes_s1"></textarea>
+        </div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="section">
+        <div class="sec-head">
+          <div class="sec-num">2</div>
+          <div>
+            <h2>How assessments will happen</h2>
+            <div class="sec-sub">Organizations use Thrive Lights in different ways. None is more correct than another.</div>
+          </div>
+        </div>
+
+        <div class="sec-body">
+          <div class="q" style="border-bottom:none;padding-bottom:6px">
+            <div class="q-text"><span class="q-id">2.1</span><span>How will people complete assessments in your organization? <span class="req">*</span></span></div>
+            <div class="model-pick">
+              <div class="model-opt">
+                <input type="radio" name="model" id="m_fac" value="Facilitated one on one">
+                <label for="m_fac"><span class="mt">Facilitated, one on one</span><span class="md">A staff member sits with each person and works through it together.</span></label>
+              </div>
+              <div class="model-opt">
+                <input type="radio" name="model" id="m_grp" value="Group sessions">
+                <label for="m_grp"><span class="mt">Group sessions</span><span class="md">People complete it together in a room, with staff on hand.</span></label>
+              </div>
+              <div class="model-opt">
+                <input type="radio" name="model" id="m_self" value="Self directed link">
+                <label for="m_self"><span class="mt">Self directed link</span><span class="md">We send a link and people complete it on their own.</span></label>
+              </div>
+              <div class="model-opt">
+                <input type="radio" name="model" id="m_mix" value="A mix of approaches">
+                <label for="m_mix"><span class="mt">A mix</span><span class="md">Different approaches for different participants or programs.</span></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="branch" id="branch_fac">
+            <div class="subhead">Because you work with facilitators</div>
+            <div data-qgroup="s2fac"></div>
+          </div>
+
+          <div class="branch" id="branch_grp">
+            <div class="subhead">Because you run group sessions</div>
+            <div data-qgroup="s2grp"></div>
+          </div>
+
+          <div class="branch" id="branch_self">
+            <div class="subhead">Because people complete assessments on their own</div>
+            <div data-qgroup="s2self"></div>
+          </div>
+
+          <div class="branch" id="branch_all">
+            <div class="subhead">For every approach</div>
+            <div data-qgroup="s2all"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+      <div class="section">
+        <div class="sec-head">
+          <div class="sec-num">3</div>
+          <div>
+            <h2>Who you serve</h2>
+            <div class="sec-sub">Making sure Thrive Lights fits your program and the people in it</div>
+          </div>
+        </div>
+        <div class="sec-body" data-qgroup="s3"></div>
+        <div class="notes">
+          <label>Roughly how many people do you expect to reach in the first year?</label>
+          <textarea name="reach_estimate" style="min-height:50px"></textarea>
+        </div>
+      </div>
+
+      <!-- SECTION 4 -->
+      <div class="section">
+        <div class="sec-head">
+          <div class="sec-num">4</div>
+          <div>
+            <h2>Data, technology, and who runs this</h2>
+            <div class="sec-sub">What makes the data usable later</div>
+          </div>
+        </div>
+        <div class="sec-body" data-qgroup="s4"></div>
+        <div class="notes">
+          <label>How do you currently track participant outcomes?</label>
+          <textarea name="tracking_now" style="min-height:50px"></textarea>
+        </div>
+      </div>
+
+      <!-- SECTION 5 -->
+      <div class="section">
+        <div class="sec-head">
+          <div class="sec-num">5</div>
+          <div>
+            <h2>Planning and what comes next</h2>
+            <div class="sec-sub">The part that turns assessments into something useful for participants</div>
+          </div>
+        </div>
+        <div class="sec-body" data-qgroup="s5"></div>
+        <div class="notes">
+          <label>What do you most want to learn from this data?</label>
+          <textarea name="want_to_learn"></textarea>
+        </div>
+        <div class="notes">
+          <label>Anything coming up in the next six months we should know about? (funding cycles, staff changes, busy seasons)</label>
+          <textarea name="constraints"></textarea>
+        </div>
+      </div>
+
+      <!-- SECTION 6 -->
+      <div class="section">
+        <div class="sec-head">
+          <div class="sec-num">6</div>
+          <div>
+            <h2>Working with the network</h2>
+            <div class="sec-sub">How you connect with the rest of the hub</div>
+          </div>
+        </div>
+        <div class="sec-body" data-qgroup="s6"></div>
+        <div class="notes">
+          <label>Who should be our main contact for support, and how do they prefer to be reached?</label>
+          <textarea name="support_contact" style="min-height:50px"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="btnGen">See results and send</button>
+        <button type="button" class="btn btn-secondary" id="btnDoc" disabled>Download as document</button>
+        <button type="button" class="btn btn-secondary" id="btnReset">Start over</button>
+      </div>
+      <div class="status" id="status"></div>
+
+    </form>
+
+    <div class="results" id="results">
+      <div class="result-banner" id="banner">
+        <div class="rb-eyebrow">Readiness summary</div>
+        <h2 id="levelTitle"></h2>
+        <p id="levelDesc"></p>
+      </div>
+
+      <div class="rsec">
+        <h3>How each area looks</h3>
+        <div id="dims"></div>
+      </div>
+
+      <div class="rsec">
+        <h3>Suggested support plan</h3>
+        <div id="plan"></div>
+      </div>
+    </div>
+
+    <div class="footnote">Thrive Lights Partner Readiness Assessment</div>
+  </div>
+</div>
+
+<script>
+var FORMSPREE = "https://formspree.io/f/mjgejdoa";
+var ENDPOINT = "https://script.google.com/macros/s/AKfycbwbeQYzrCJh9O8UJ-0AWDAk6N8lyvm82dn7LTz4QQeijtsuj-_DZbWKkgAB4SHg51Nw/exec";
+
+var QUESTIONS = {
+  s1: [
+    {id:"1.1", t:"Our leadership has approved taking part and understands what it involves."},
+    {id:"1.2", t:"We have named someone to coordinate this work, and they have time protected for it."},
+    {id:"1.3", t:"We can explain in our own words why we are adopting Thrive Lights."},
+    {id:"1.4", t:"We expect to keep going through at least one full round of assessments and follow ups."}
+  ],
+  s2fac: [
+    {id:"2.2", t:"We have at least one person identified to be trained as a facilitator."},
+    {id:"2.3", t:"That person has realistic time available to sit with participants."},
+    {id:"2.4", t:"We understand the training commitment involved."},
+    {id:"2.5", t:"We have a plan for keeping this going if that person moves on."}
+  ],
+  s2grp: [
+    {id:"2.6", t:"We have a suitable space for running group sessions."},
+    {id:"2.7", t:"We have a plan for participants who need one on one attention during a group session."}
+  ],
+  s2self: [
+    {id:"2.8", t:"We know who sends the link and at what point in a participant's journey."},
+    {id:"2.9", t:"Someone can help a participant who gets stuck or confused partway through."},
+    {id:"2.10", t:"We have thought about what we will do if fewer people complete it than we hoped."}
+  ],
+  s2all: [
+    {id:"2.11", t:"We have thought about how to keep this feeling like a moment of reflection rather than a form to fill in.",
+     why:"This is the difference between an assessment and a survey. It matters most where people complete it alone, because collection is easy and the follow through is invisible."}
+  ],
+  s3: [
+    {id:"3.1", t:"We can describe clearly who we serve and roughly how many people."},
+    {id:"3.2", t:"There is a natural point in our program where an assessment fits."},
+    {id:"3.3", t:"We stay in contact with participants over time, rather than seeing them once."},
+    {id:"3.4", t:"We know what languages our participants will need."}
+  ],
+  s4: [
+    {id:"4.1", t:"We already track participant outcomes in some organized way."},
+    {id:"4.2", t:"Our team is comfortable using data to make decisions about our programs."},
+    {id:"4.3", t:"We have reliable devices and internet where assessments will happen."},
+    {id:"4.4", t:"Someone in our organization will actually look at this data once it exists."},
+    {id:"4.5", t:"We have someone who will own the day to day running of Thrive Lights, including keeping our participant records organized and up to date.",
+     critical:"No one is currently responsible for the day to day running of Thrive Lights, including keeping participant records organized."}
+  ],
+  s5: [
+    {id:"5.1", t:"We have a target number of participants for our first round."},
+    {id:"5.2", t:"We have a start date in mind."},
+    {id:"5.3", t:"We have an idea of when we would run follow up assessments.",
+     critical:"No follow up window identified, which is where much of the value of this work comes from."},
+    {id:"5.4", t:"We have a sense of what happens for a participant after they complete an assessment, such as connecting them to resources, making a plan together, or working on the priorities they choose."},
+    {id:"5.5", t:"Someone will talk with participants about what their results mean and what they want to do next.",
+     critical:"No plan for talking with participants about their results, which is where the reflection and action happen."}
+  ],
+  s6: [
+    {id:"6.1", t:"We are willing to take part in hub group meetings."},
+    {id:"6.2", t:"We have a main contact for support questions."},
+    {id:"6.3", t:"We are open to sharing what we learn with other organizations in the hub."}
+  ]
+};
+
+var DIM_LABELS = {
+  s1:"Organizational commitment",
+  s2:"Delivery capacity",
+  s3:"Participant fit",
+  s4:"Data, technology, and ownership",
+  s5:"Planning and follow through",
+  s6:"Network participation"
+};
+
+function optHTML(name, val, cls, big, small){
+  var id = name + "_" + val;
+  return '<div class="opt '+cls+'">'+
+    '<input type="radio" name="'+name+'" id="'+id+'" value="'+val+'">'+
+    '<label for="'+id+'"><span class="lbl">'+big+'</span>'+small+'</label></div>';
+}
+
+function renderQ(q){
+  var name = "q_" + q.id.replace(".","_");
+  var h = '<div class="q" data-qid="'+q.id+'">'+
+    '<div class="q-text"><span class="q-id">'+q.id+'</span><span>'+q.t+'</span></div>';
+  if(q.why){ h += '<div class="why">'+q.why+'</div>'; }
+  h += '<div class="opts">'+
+    optHTML(name,"green","g","GREEN","Yes, in place")+
+    optHTML(name,"yellow","y","YELLOW","Partly")+
+    optHTML(name,"red","r","RED","Not yet")+
+    optHTML(name,"na","na","N/A","Does not apply")+
+    '</div></div>';
+  return h;
+}
+
+function buildForm(){
+  Object.keys(QUESTIONS).forEach(function(g){
+    var host = document.querySelector('[data-qgroup="'+g+'"]');
+    if(!host) return;
+    host.innerHTML = QUESTIONS[g].map(renderQ).join("");
+  });
+  document.getElementById("assessDate").value = new Date().toISOString().slice(0,10);
+  document.addEventListener("change", onChange);
+  updateProgress();
+}
+
+function activeGroups(){
+  var m = document.querySelector('input[name="model"]:checked');
+  var groups = ["s1","s3","s4","s5","s6"];
+  if(!m) return groups;
+  var v = m.value;
+  if(v.indexOf("Facilitated")===0 || v.indexOf("A mix")===0) groups.push("s2fac");
+  if(v.indexOf("Group")===0 || v.indexOf("A mix")===0) groups.push("s2grp");
+  if(v.indexOf("Self")===0 || v.indexOf("A mix")===0) groups.push("s2self");
+  groups.push("s2all");
+  return groups;
+}
+
+function syncBranches(){
+  var m = document.querySelector('input[name="model"]:checked');
+  var show = {fac:false,grp:false,self:false,all:false};
+  if(m){
+    var v = m.value;
+    show.all = true;
+    if(v.indexOf("Facilitated")===0 || v.indexOf("A mix")===0) show.fac = true;
+    if(v.indexOf("Group")===0 || v.indexOf("A mix")===0) show.grp = true;
+    if(v.indexOf("Self")===0 || v.indexOf("A mix")===0) show.self = true;
+  }
+  ["fac","grp","self","all"].forEach(function(k){
+    document.getElementById("branch_"+k).classList.toggle("on", show[k]);
+  });
+}
+
+function onChange(e){
+  if(e.target.name === "model") syncBranches();
+  updateProgress();
+}
+
+function updateProgress(){
+  var groups = activeGroups();
+  var total = 0, done = 0;
+  groups.forEach(function(g){
+    (QUESTIONS[g]||[]).forEach(function(q){
+      total++;
+      var n = "q_" + q.id.replace(".","_");
+      if(document.querySelector('input[name="'+n+'"]:checked')) done++;
+    });
+  });
+  total += 1; // model question
+  if(document.querySelector('input[name="model"]:checked')) done += 1;
+  document.getElementById("answered").textContent = done;
+  document.getElementById("total").textContent = total;
+  document.getElementById("fill").style.width = (total? (done/total*100):0) + "%";
+}
+
+function scoreDim(groupKeys){
+  var pts = 0, max = 0, reds = [];
+  groupKeys.forEach(function(g){
+    (QUESTIONS[g]||[]).forEach(function(q){
+      var n = "q_" + q.id.replace(".","_");
+      var sel = document.querySelector('input[name="'+n+'"]:checked');
+      if(!sel) return;
+      if(sel.value === "na") return;
+      max += 2;
+      if(sel.value === "green") pts += 2;
+      else if(sel.value === "yellow") pts += 1;
+      else if(sel.value === "red" && q.critical) reds.push(q.critical);
+    });
+  });
+  return {pts:pts, max:max, pct: max? Math.round(pts/max*100) : null, reds:reds};
+}
+
+function collect(){
+  var groups = activeGroups();
+  var answers = [];
+  groups.forEach(function(g){
+    (QUESTIONS[g]||[]).forEach(function(q){
+      var n = "q_" + q.id.replace(".","_");
+      var sel = document.querySelector('input[name="'+n+'"]:checked');
+      answers.push({id:q.id, question:q.t, answer: sel? sel.value.toUpperCase() : "NOT ANSWERED"});
+    });
+  });
+  return answers;
+}
+
+function generate(){
+  var org = document.getElementById("orgName").value.trim();
+  var hub = document.getElementById("hub").value;
+  var who = document.getElementById("contactName").value.trim();
+  var email = document.getElementById("contactEmail").value.trim();
+  var model = document.querySelector('input[name="model"]:checked');
+
+  if(!org || !hub || !who || !email){
+    showStatus("Please fill in the organization name, hub, your name, and email before generating results.", false);
+    return;
+  }
+  if(!model){
+    showStatus("Please select how assessments will happen in question 2.1, since the rest of the assessment adapts to that answer.", false);
+    return;
+  }
+
+  var s2groups = activeGroups().filter(function(g){ return g.indexOf("s2")===0; });
+  var dims = {
+    s1: scoreDim(["s1"]),
+    s2: scoreDim(s2groups),
+    s3: scoreDim(["s3"]),
+    s4: scoreDim(["s4"]),
+    s5: scoreDim(["s5"]),
+    s6: scoreDim(["s6"])
+  };
+
+  var pts = 0, max = 0, flags = [];
+  Object.keys(dims).forEach(function(k){
+    pts += dims[k].pts; max += dims[k].max;
+    flags = flags.concat(dims[k].reds);
+  });
+  var pct = max ? Math.round(pts/max*100) : 0;
+
+  var level, cls, desc, plan;
+  // A few items matter more than the overall percentage. An organization that cannot
+  // connect follow ups to baseline, or has no plan to talk with participants about
+  // their results, is not ready regardless of how well it scores elsewhere.
+  var capped = flags.length > 0;
+
+  if(pct >= 75 && !capped){
+    level = "Strong readiness"; cls = "strong";
+    desc = "Your organization looks well positioned to start. We would move ahead with standard onboarding and may be able to move faster than usual.";
+    plan = ["Standard onboarding on a normal or accelerated timeline",
+            "Regular check in schedule once you are running",
+            "You may be a good peer mentor for other organizations in your hub"];
+  } else if(pct >= 75 && capped){
+    level = "Strong, with a few things to settle first"; cls = "moderate";
+    desc = "You scored well across most areas. There are one or two specific points below that are worth sorting out before launch, because they affect whether the data will be usable later.";
+    plan = ["Standard onboarding, with a short working session on the points flagged below",
+            "These are quick to resolve now and much harder to fix once you have started",
+            "Regular check in schedule once you are running"];
+  } else if(pct >= 50){
+    level = "Ready with focused support"; cls = "moderate";
+    desc = "You have a solid foundation with a few specific areas to work on. We would run standard onboarding and put extra attention on the areas below.";
+    plan = ["Standard onboarding with targeted help in the areas scoring lowest",
+            "Monthly check ins through your first 90 days",
+            "We will connect you with an organization in the network that has solved similar issues"];
+  } else {
+    level = "Worth strengthening first"; cls = "low";
+    desc = "There are some key pieces to put in place before launching. This is a short pause rather than a closed door, and we will write out exactly what would help.";
+    plan = ["A short written plan naming what needs to be in place, with a date to revisit",
+            "A working session with your coordinator to talk through the gaps",
+            "You stay in the pipeline throughout"];
+  }
+
+  document.getElementById("banner").className = "result-banner " + cls;
+  document.getElementById("levelTitle").textContent = level;
+  document.getElementById("levelDesc").textContent = desc;
+
+  var dimHTML = "";
+  Object.keys(DIM_LABELS).forEach(function(k){
+    var d = dims[k];
+    if(d.pct === null) return;
+    var color = d.pct >= 75 ? "var(--green)" : (d.pct >= 50 ? "var(--yellow)" : "var(--red)");
+    dimHTML += '<div class="dim-row"><div class="dim-name">'+DIM_LABELS[k]+'</div>'+
+      '<div class="dim-bar"><span style="width:'+d.pct+'%;background:'+color+'"></span></div>'+
+      '<div class="dim-pct">'+d.pct+'%</div></div>';
+  });
+  document.getElementById("dims").innerHTML = dimHTML;
+
+  var planHTML = plan.map(function(p){
+    return '<div class="plan-item"><span class="plan-icon">&rarr;</span><span>'+p+'</span></div>';
+  }).join("");
+  planHTML += flags.map(function(f){
+    return '<div class="plan-item flag"><span class="plan-icon">!</span><span>'+f+'</span></div>';
+  }).join("");
+  document.getElementById("plan").innerHTML = planHTML;
+
+  document.getElementById("results").classList.add("on");
+  document.getElementById("btnDoc").disabled = false;
+
+  window.__payload = {
+    organization: org, hub: hub, contact: who, role: document.getElementById("contactRole").value,
+    email: email, date: document.getElementById("assessDate").value,
+    delivery_model: model.value,
+    readiness_level: level, readiness_percent: pct,
+    dimensions: dims, flags: flags, answers: collect(),
+    reach_estimate: (document.getElementsByName("reach_estimate")[0]||{}).value || "",
+    tracking_now: (document.getElementsByName("tracking_now")[0]||{}).value || "",
+    want_to_learn: (document.getElementsByName("want_to_learn")[0]||{}).value || "",
+    constraints: (document.getElementsByName("constraints")[0]||{}).value || "",
+    support_contact: (document.getElementsByName("support_contact")[0]||{}).value || "",
+    notes_s1: (document.getElementsByName("notes_s1")[0]||{}).value || ""
+  };
+
+  send(window.__payload);
+  document.getElementById("results").scrollIntoView({behavior:"smooth"});
+}
+
+function send(payload){
+  var targets = [];
+  if(ENDPOINT) targets.push(fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}));
+  if(FORMSPREE){
+    var flat = {
+      _subject: "Readiness Assessment: " + payload.organization + " (" + payload.hub + ")",
+      Organization: payload.organization, Hub: payload.hub, Contact: payload.contact,
+      Email: payload.email, Date: payload.date, DeliveryModel: payload.delivery_model,
+      ReadinessLevel: payload.readiness_level, ReadinessPercent: payload.readiness_percent + "%",
+      Flags: payload.flags.join(" | ") || "None",
+      WantToLearn: payload.want_to_learn, Constraints: payload.constraints,
+      SupportContact: payload.support_contact,
+      Answers: payload.answers.map(function(a){ return a.id+" "+a.question+" >> "+a.answer; }).join("\n")
+    };
+    targets.push(fetch(FORMSPREE,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(flat)}));
+  }
+  if(!targets.length){ showStatus("Results generated. No delivery endpoint is configured yet.", true); return; }
+  Promise.allSettled(targets).then(function(){
+    showStatus("Results generated and sent to the Thrive Lights team. You can also download a copy below.", true);
+  });
+}
+
+function showStatus(msg, ok){
+  var s = document.getElementById("status");
+  s.textContent = msg;
+  s.className = "status on " + (ok ? "ok" : "err");
+}
+
+function downloadDoc(){
+  var p = window.__payload;
+  if(!p) return;
+  var rows = p.answers.map(function(a){
+    var color = a.answer==="GREEN" ? "#3C7A15" : a.answer==="YELLOW" ? "#8A6A00" : a.answer==="RED" ? "#BF080D" : "#6D6E70";
+    return '<tr><td style="padding:6px 10px;border:1px solid #DADADA;width:44px">'+a.id+'</td>'+
+      '<td style="padding:6px 10px;border:1px solid #DADADA">'+a.question+'</td>'+
+      '<td style="padding:6px 10px;border:1px solid #DADADA;color:'+color+';font-weight:bold;width:90px">'+a.answer+'</td></tr>';
+  }).join("");
+
+  var flagBlock = p.flags.length
+    ? '<h3 style="color:#BF080D">Points needing attention</h3><ul>'+p.flags.map(function(f){return '<li>'+f+'</li>';}).join("")+'</ul>'
+    : '';
+
+  var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"></head>'+
+    '<body style="font-family:Calibri,Arial,sans-serif;color:#1D1D1B">'+
+    '<h1 style="color:#1A2F4A">Partner Readiness Assessment</h1>'+
+    '<p style="color:#6D6E70;font-size:11pt">Thrive Lights</p><hr>'+
+    '<p><b>Organization:</b> '+p.organization+'<br><b>Hub:</b> '+p.hub+
+    '<br><b>Completed by:</b> '+p.contact+' ('+p.email+')<br><b>Date:</b> '+p.date+
+    '<br><b>Delivery model:</b> '+p.delivery_model+'</p>'+
+    '<h2 style="color:#1A2F4A">Result: '+p.readiness_level+' ('+p.readiness_percent+'%)</h2>'+
+    flagBlock+
+    '<h3 style="color:#1A2F4A">What the organization wants to learn</h3><p>'+(p.want_to_learn||"Not provided")+'</p>'+
+    '<h3 style="color:#1A2F4A">Known constraints</h3><p>'+(p.constraints||"None noted")+'</p>'+
+    '<h3 style="color:#1A2F4A">Support contact</h3><p>'+(p.support_contact||"Not provided")+'</p>'+
+    '<h3 style="color:#1A2F4A">Full responses</h3>'+
+    '<table style="border-collapse:collapse;width:100%;font-size:10pt">'+rows+'</table>'+
+    '</body></html>';
+
+  var blob = new Blob(['\ufeff', html], {type:"application/msword"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "Readiness_" + p.organization.replace(/[^a-z0-9]/gi,"_") + ".doc";
+  a.click();
+}
+
+document.getElementById("btnGen").addEventListener("click", generate);
+document.getElementById("btnDoc").addEventListener("click", downloadDoc);
+document.getElementById("btnReset").addEventListener("click", function(){
+  if(confirm("Clear all answers and start over?")) location.reload();
+});
+
+buildForm();
+</script>
+</body>
+</html>
